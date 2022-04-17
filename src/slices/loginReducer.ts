@@ -10,7 +10,8 @@ export const correctUser = {
   correctUserName : 'Tolik',
   userEmail: 'kulikov.tolik@gmail.com',
   password: '123',
-  err: 'some error'
+  err: 'some error',
+  isAuth: true
   }
 
 export const initialState = {
@@ -18,26 +19,33 @@ export const initialState = {
   password: '',
   userName: '',
   err: '',
+  isAuth: false,
 }
 
 const loginSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    loginToTasks: (state ,{payload}: PayloadAction<LoginToTasksProps> ) => { 
+    loginCheck: (state ,{payload}: PayloadAction<LoginToTasksProps> ) => { 
       if (correctUser.userEmail === payload.userEmail && correctUser.password === payload.password)  {
         state.userName = correctUser.correctUserName;
-        state.err = ''
+        state.err = '';
+        state.isAuth = correctUser.isAuth;
+        console.log(initialState.isAuth)
+
       } else {
         state.err = correctUser.err;
-        state.userName = ''
+        state.userName = '';
+        state.isAuth = initialState.isAuth;
       }  
     },
     signUp: (state, action) => {
-      state.userName = action.payload.userEmail;
+      state.userName = action.payload.userName;
+      state.userEmail = action.payload.userEmail;
+      state.password = action.payload.password;
     }
   }
 })
 
-export const {loginToTasks, signUp} = loginSlice.actions;
+export const {loginCheck, signUp} = loginSlice.actions;
 export default loginSlice.reducer;

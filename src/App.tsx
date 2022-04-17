@@ -6,19 +6,17 @@ import SignIn from './components/SignIn/SignIn';
 
 function App() {
   return (
-    <div> 
+    <div>
       <div>
-          <NavLink to="/login">Login</NavLink>
+        <NavLink to='/login'>Login</NavLink>
       </div>
-          
-      <Routes >
-         <Route path='/login' element={<Login /> } />
-         <Route path='/sign_in' element={ <SignIn />} />
+
+      <Routes>
+        <Route path='/login' element={<Login />} />
+        <Route path='/sign_in' element={<SignIn />} />
       </Routes>
     </div>
   );
 }
 
 export default App;
-
-

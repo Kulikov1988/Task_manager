@@ -1,21 +1,22 @@
-//@ts-nocheck
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Input } from '../../sharedStyles/sharedStyles.style';
 import { Button } from '../../sharedStyles/button.style';
 import * as S from './SignIn.style';
 import { handleInputChangeProps } from '../Login/Login';
-import { confirmPassword } from '../../slices/signInReducer';
+import { AppState } from '../../store';
+import { signUp } from '../../slices/loginReducer';
 
 const SignIn: React.FC = () => {
   const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
+  const [password1, setPassword1] = useState<string>('');
   const [password2, setPassword2] = useState<string>('');
+  const [name, setName] = useState<string>('');
 
   const dispatch = useDispatch();
-  const { userEmail, userPassword } = useSelector(
-    (state) => state
-  ).signInReducer;
+  const { userEmail, userName, password } = useSelector(
+    (state: AppState) => state.loginReducer
+  );
 
   const someErr = 'Check your password or email';
 
@@ -23,20 +24,23 @@ const SignIn: React.FC = () => {
     if (type === 'email') {
       setEmail(e.target.value);
     } else if (type === 'password') {
-      setPassword(e.target.value);
-    } else {
+      setPassword1(e.target.value);
+    } else if (type === 'confirmPassword') {
       setPassword2(e.target.value);
+    } else {
+      setName(e.target.value);
     }
   };
 
   const handlerClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    if (password === password2) {
+    if (password1 === password2 && name !== '') {
       dispatch(
-        confirmPassword({
+        signUp({
           userEmail: email,
-          userPassword: password,
-            })
+          password: password1,
+          userName: name,
+        })
       );
     } else {
       console.log(someErr);
@@ -46,13 +50,19 @@ const SignIn: React.FC = () => {
   return (
     <S.SignIn>
       <S.SignInForm>
-        <div></div>
+        <div>Hello {userName}!</div>
         <div>Your email is: {userEmail}</div>
-        <div>password: {userPassword}</div>
+        <div>password: {password}</div>
         <S.mainDiv>
           <h1>Sign In Page</h1>{' '}
         </S.mainDiv>
         <S.Div>Email</S.Div>
+        <Input
+          type='text'
+          placeholder='your name'
+          value={name}
+          onChange={(e) => handleInputChange({ e, type: 'name' })}
+        />
         <Input
           type='text'
           placeholder='email'
@@ -63,7 +73,7 @@ const SignIn: React.FC = () => {
         <Input
           type='password'
           placeholder='password'
-          value={password}
+          value={password1}
           onChange={(e) => handleInputChange({ e, type: 'password' })}
         />
         <S.Div>Confirm Password</S.Div>
