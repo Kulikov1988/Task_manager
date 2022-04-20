@@ -3,10 +3,11 @@ import * as S from './Login.style';
 import { Input } from '../../sharedStyles/sharedStyles.style';
 import { Button } from '../../sharedStyles/button.style';
 import { useDispatch, useSelector } from 'react-redux';
-import { loginCheck, signUp } from '../../slices/loginReducer';
+import { loginCheck} from '../../slices/loginReducer';
 import { NavLink } from 'react-router-dom';
 import { SignDiv } from '../../sharedStyles/sharedStyles.style';
 import { AppState } from '../../store';
+import { useNavigate } from 'react-router-dom';
 
 export type InputType = 'email' | 'password' | 'confirmPassword' | 'name';
 
@@ -20,9 +21,13 @@ const Login: React.FC = () => {
   const [password, setPassword] = useState<string>('');
 
   const dispatch = useDispatch();
-  const { userEmail, userName, err } = useSelector(
+  const { userName, err, isAuth } = useSelector(
     (state: AppState) => state.loginReducer
   );
+
+  const navigate = useNavigate();
+
+  console.log(isAuth);
 
   const handleInputChange = ({ e, type }: handleInputChangeProps) => {
     if (type === 'email') {
@@ -32,33 +37,23 @@ const Login: React.FC = () => {
     }
   };
 
+  const loginToTasks = () => {
+    navigate('/task');
+  };
+
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     dispatch(
       loginCheck({
         userEmail: email,
         password,
+        cb: loginToTasks,
       })
     );
-  };
-
-  const logoutOnClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    dispatch(
-      signUp({
-        userName : '',
-        password,
-        userEmail,
-      })
-    );
-  };
-
-  const loginToTasks = (e: React.MouseEvent<HTMLButtonElement>) => {
-
   };
 
   return (
     <>
-      <button onClick={logoutOnClick}>Log Out</button>
       <SignDiv>
         Don't have an account yet?
         <NavLink to='/sign_in'> Sign in</NavLink>
@@ -85,7 +80,6 @@ const Login: React.FC = () => {
             onChange={(e) => handleInputChange({ e, type: 'password' })}
           />
           <Button onClick={handleClick}>Login</Button>
-          {/* <button onClick={loginToTasks}>go to '/'</button> */}
         </S.loginForm>
       </S.Login>
     </>

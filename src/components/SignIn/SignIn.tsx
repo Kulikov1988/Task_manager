@@ -6,6 +6,7 @@ import * as S from './SignIn.style';
 import { handleInputChangeProps } from '../Login/Login';
 import { AppState } from '../../store';
 import { signUp } from '../../slices/loginReducer';
+import { useNavigate } from 'react-router-dom';
 
 const SignIn: React.FC = () => {
   const [email, setEmail] = useState<string>('');
@@ -14,9 +15,15 @@ const SignIn: React.FC = () => {
   const [name, setName] = useState<string>('');
 
   const dispatch = useDispatch();
-  const { userEmail, userName, password } = useSelector(
+  const { userEmail, userName } = useSelector(
     (state: AppState) => state.loginReducer
   );
+
+  const navigate = useNavigate();
+
+  const loginToTasks = () => {
+    navigate('/task');
+  };
 
   const someErr = 'Check your password or email';
 
@@ -40,6 +47,7 @@ const SignIn: React.FC = () => {
           userEmail: email,
           password: password1,
           userName: name,
+          cb: loginToTasks,
         })
       );
     } else {
@@ -52,17 +60,17 @@ const SignIn: React.FC = () => {
       <S.SignInForm>
         <div>Hello {userName}!</div>
         <div>Your email is: {userEmail}</div>
-        <div>password: {password}</div>
         <S.mainDiv>
           <h1>Sign In Page</h1>{' '}
         </S.mainDiv>
-        <S.Div>Email</S.Div>
+        <S.Div>Name</S.Div>
         <Input
           type='text'
           placeholder='your name'
           value={name}
           onChange={(e) => handleInputChange({ e, type: 'name' })}
         />
+        <S.Div>Email</S.Div>
         <Input
           type='text'
           placeholder='email'

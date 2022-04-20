@@ -1,9 +1,23 @@
 
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-interface LoginToTasksProps  {
+
+
+interface LoginToTasksProps {
   userEmail: string;
   password: string;
+  cb: () => void;
+}
+
+interface SignUpProps {
+  userEmail: string;
+  password: string;
+  userName: string;
+  cb: ()=> void;
+}
+
+interface LogoutProps {
+  cb: ()=> void;
 }
 
 export const correctUser = {
@@ -30,22 +44,30 @@ const loginSlice = createSlice({
       if (correctUser.userEmail === payload.userEmail && correctUser.password === payload.password)  {
         state.userName = correctUser.correctUserName;
         state.err = '';
-        state.isAuth = correctUser.isAuth;
-        console.log(initialState.isAuth)
-
+        state.isAuth = true; 
+        payload.cb()
       } else {
         state.err = correctUser.err;
         state.userName = '';
-        state.isAuth = initialState.isAuth;
-      }  
+        state.isAuth = false;
+      } 
+
     },
-    signUp: (state, action) => {
-      state.userName = action.payload.userName;
-      state.userEmail = action.payload.userEmail;
-      state.password = action.payload.password;
-    }
+    signUp: (state, {payload}: PayloadAction<SignUpProps>) => {
+      state.userName = payload.userName;
+      state.userEmail = payload.userEmail;
+      state.password = payload.password;
+      payload.cb()
+    },
+
+    logout: (state ,{payload}: PayloadAction<LogoutProps>) => {
+      state.userName = initialState.userName;
+      state.userEmail = initialState.userEmail;
+      state.password = initialState.password;
+      payload.cb()
+    } 
   }
 })
 
-export const {loginCheck, signUp} = loginSlice.actions;
+export const {loginCheck, signUp, logout} = loginSlice.actions;
 export default loginSlice.reducer;
