@@ -64,6 +64,8 @@ const loginSlice = createSlice({
       state.userName = initialState.userName;
       state.userEmail = initialState.userEmail;
       state.password = initialState.password;
+      // state = {...state, ...initialState}
+      console.log(state)
       payload.cb()
     } 
   }

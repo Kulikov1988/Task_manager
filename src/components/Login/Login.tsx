@@ -21,13 +21,11 @@ const Login: React.FC = () => {
   const [password, setPassword] = useState<string>('');
 
   const dispatch = useDispatch();
-  const { userName, err, isAuth } = useSelector(
+  const { userName, err } = useSelector(
     (state: AppState) => state.loginReducer
   );
 
   const navigate = useNavigate();
-
-  console.log(isAuth);
 
   const handleInputChange = ({ e, type }: handleInputChangeProps) => {
     if (type === 'email') {
