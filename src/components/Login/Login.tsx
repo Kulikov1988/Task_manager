@@ -3,7 +3,7 @@ import * as S from './Login.style';
 import { Input } from '../../sharedStyles/sharedStyles.style';
 import { Button } from '../../sharedStyles/button.style';
 import { useDispatch, useSelector } from 'react-redux';
-import { loginCheck} from '../../slices/loginReducer';
+import { loginCheck } from '../../slices/authReducer';
 import { NavLink } from 'react-router-dom';
 import { SignDiv } from '../../sharedStyles/sharedStyles.style';
 import { AppState } from '../../store';
@@ -21,9 +21,7 @@ const Login: React.FC = () => {
   const [password, setPassword] = useState<string>('');
 
   const dispatch = useDispatch();
-  const { userName, err } = useSelector(
-    (state: AppState) => state.loginReducer
-  );
+  const { userName, err } = useSelector((state: AppState) => state.authReducer);
 
   const navigate = useNavigate();
 

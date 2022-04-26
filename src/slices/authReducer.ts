@@ -1,8 +1,6 @@
 
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-
-
 interface LoginToTasksProps {
   userEmail: string;
   password: string;
@@ -13,10 +11,6 @@ interface SignUpProps {
   userEmail: string;
   password: string;
   userName: string;
-  cb: ()=> void;
-}
-
-interface LogoutProps {
   cb: ()=> void;
 }
 
@@ -60,13 +54,9 @@ const loginSlice = createSlice({
       payload.cb()
     },
 
-    logout: (state ,{payload}: PayloadAction<LogoutProps>) => {
-      state.userName = initialState.userName;
-      state.userEmail = initialState.userEmail;
-      state.password = initialState.password;
-      // state = {...state, ...initialState}
+    logout: (state ) => {
+      state.isAuth = false;
       console.log(state)
-      payload.cb()
     } 
   }
 })

@@ -1,11 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { combineReducers } from 'redux'
-import loginReducer from '../slices/loginReducer'
-import nameReducer from '../slices/nameReducer'
+import authReducer from '../slices/authReducer'
+import taskReducer from '../slices/tasksReducer'
 
 const reducer = combineReducers({
-  loginReducer,
-  nameReducer
+  authReducer,
+  taskReducer
+  
 })
 
 const store = configureStore({

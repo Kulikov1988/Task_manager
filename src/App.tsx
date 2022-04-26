@@ -1,22 +1,17 @@
 import React from 'react';
-import { NavLink, Route, Routes, useNavigate } from 'react-router-dom';
+import { NavLink, Route, Routes } from 'react-router-dom';
 import './App.css';
 import Login from './components/Login/Login';
-import Task from './components/Login/Task';
 import SignIn from './components/SignIn/SignIn';
 import { useDispatch } from 'react-redux';
-import { logout } from './slices/loginReducer';
+import { logout } from './slices/authReducer';
+import Task from './components/Task/component/Task';
 
 function App() {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const moveToLoginPage = () => {
-    navigate('/login');
-  };
-
-  const logoutOnClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    dispatch(logout({ cb: moveToLoginPage }));
+    const logoutOnClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    dispatch(logout());
   };
 
   return (

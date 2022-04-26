@@ -5,7 +5,7 @@ import { Button } from '../../sharedStyles/button.style';
 import * as S from './SignIn.style';
 import { handleInputChangeProps } from '../Login/Login';
 import { AppState } from '../../store';
-import { signUp } from '../../slices/loginReducer';
+import { signUp } from '../../slices/authReducer';
 import { useNavigate } from 'react-router-dom';
 
 const SignIn: React.FC = () => {
@@ -16,7 +16,7 @@ const SignIn: React.FC = () => {
 
   const dispatch = useDispatch();
   const { userEmail, userName } = useSelector(
-    (state: AppState) => state.loginReducer
+    (state: AppState) => state.authReducer
   );
 
   const navigate = useNavigate();
