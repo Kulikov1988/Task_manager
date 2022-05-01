@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+// import { tasks } from './../components/Task/Tasks';
 
 interface TaskProps {
   title: string,
@@ -6,9 +7,39 @@ interface TaskProps {
 }
 
 export const initialState = {
-  title: '',
-  date: new Date().toLocaleString(),
-  task: ''
+  tasks : [
+    {
+      title: 'Task1',
+      date: new Date().toLocaleString(),
+      task: 'do the first task today!',
+    },
+    {
+      title: 'Task2',
+      date: new Date().toLocaleString(),
+      task: 'second task',
+    },
+    {
+      title: 'Task3',
+      date: new Date().toLocaleString(),
+      task: 'third task',
+    },
+    {
+      title: 'Task4',
+      date: new Date().toLocaleString(),
+      task: 'one more task',
+    },
+    {
+      title: 'Task5',
+      date: new Date().toLocaleString(),
+      task: 'last task',
+    },
+    {
+      title: 'Task6',
+      date: new Date().toLocaleString(),
+      task: 'the last task',
+    },
+  ]
+  
 }
 
 const taskSlice = createSlice({
@@ -16,8 +47,7 @@ const taskSlice = createSlice({
   initialState,
   reducers: {
     createTask: (state, {payload}: PayloadAction<TaskProps> ) => {
-      state.title = payload.title;
-      state.task = payload.task;
+      state.tasks = initialState.tasks
     }
   }
 })

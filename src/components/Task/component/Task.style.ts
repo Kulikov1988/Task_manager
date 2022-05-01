@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 export const Task = styled.form`
 display: flex;
+/* width: 90vw; */
 height: 90vh;
   justify-content: center;
 `

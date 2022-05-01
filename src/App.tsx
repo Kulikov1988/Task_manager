@@ -5,12 +5,12 @@ import Login from './components/Login/Login';
 import SignIn from './components/SignIn/SignIn';
 import { useDispatch } from 'react-redux';
 import { logout } from './slices/authReducer';
-import Task from './components/Task/component/Task';
+import Tasks from './components/Task/Tasks';
 
 function App() {
   const dispatch = useDispatch();
 
-    const logoutOnClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const logoutOnClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     dispatch(logout());
   };
 
@@ -26,7 +26,7 @@ function App() {
       <Routes>
         <Route path='/login' element={<Login />} />
         <Route path='/sign_in' element={<SignIn />} />
-        <Route path='/task' element={<Task />} />
+        <Route path='/task' element={<Tasks />} />
       </Routes>
     </div>
   );
