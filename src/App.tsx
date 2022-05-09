@@ -1,25 +1,43 @@
 import React from 'react';
 import { NavLink, Route, Routes } from 'react-router-dom';
-import './App.css';
 import Login from './components/Login/Login';
 import SignIn from './components/SignIn/SignIn';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { logout } from './slices/authReducer';
-import Tasks from './components/Task/Tasks';
+import Tasks from './components/Tasks/Tasks';
+import { ButtonLogOut } from './sharedStyles/button.style';
+import { AppState } from './store';
+import { LoginDiv } from './AppStyles.style';
 
-function App() {
+function App(props) {
   const dispatch = useDispatch();
+  const { isAuth } = useSelector((state: AppState) => state.authReducer);
+
+  // useEffect(() => {
+  //   if (!isAuth) {
+  //     document.getElementById('logOutButton').style.display = 'none';
+  //     document.getElementById('loginLink').style.display = 'block';
+  //   } else {
+  //     document.getElementById('logOutButton').style.display = 'block';
+  //     document.getElementById('loginLink').style.display = 'none';
+  //   }
+  // });
 
   const logoutOnClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     dispatch(logout());
   };
 
   return (
-    <div>
+    <>
       <div>
+        <LoginDiv isHidden={isAuth} >
         <NavLink to='/login'>Login</NavLink>
+
+        </LoginDiv>
         <div>
-          <button onClick={logoutOnClick}>Log Out</button>
+          <ButtonLogOut isHidden={isAuth} onClick={logoutOnClick}>
+            Log Out
+          </ButtonLogOut>
         </div>
       </div>
 
@@ -28,7 +46,7 @@ function App() {
         <Route path='/sign_in' element={<SignIn />} />
         <Route path='/task' element={<Tasks />} />
       </Routes>
-    </div>
+    </>
   );
 }
 

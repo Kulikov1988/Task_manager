@@ -4,6 +4,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 interface LoginToTasksProps {
   userEmail: string;
   password: string;
+  isAuth: boolean;
   cb: () => void;
 }
 
@@ -11,6 +12,7 @@ interface SignUpProps {
   userEmail: string;
   password: string;
   userName: string;
+  isAuth: boolean;
   cb: ()=> void;
 }
 
@@ -56,7 +58,6 @@ const loginSlice = createSlice({
 
     logout: (state ) => {
       state.isAuth = false;
-      console.log(state)
     } 
   }
 })

@@ -15,9 +15,11 @@ const SignIn: React.FC = () => {
   const [name, setName] = useState<string>('');
 
   const dispatch = useDispatch();
-  const { userEmail, userName } = useSelector(
+  const { userEmail, userName, isAuth } = useSelector(
     (state: AppState) => state.authReducer
   );
+
+  console.log(isAuth);
 
   const navigate = useNavigate();
 
@@ -47,6 +49,7 @@ const SignIn: React.FC = () => {
           userEmail: email,
           password: password1,
           userName: name,
+          isAuth: true,
           cb: loginToTasks,
         })
       );
@@ -60,9 +63,9 @@ const SignIn: React.FC = () => {
       <S.SignInForm>
         <div>Hello {userName}!</div>
         <div>Your email is: {userEmail}</div>
-        <S.mainDiv>
+        <S.MainDiv>
           <h1>Sign In Page</h1>{' '}
-        </S.mainDiv>
+        </S.MainDiv>
         <S.Div>Name</S.Div>
         <Input
           type='text'

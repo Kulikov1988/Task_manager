@@ -21,7 +21,9 @@ const Login: React.FC = () => {
   const [password, setPassword] = useState<string>('');
 
   const dispatch = useDispatch();
-  const { userName, err } = useSelector((state: AppState) => state.authReducer);
+  const { userName, err, isAuth } = useSelector(
+    (state: AppState) => state.authReducer
+  );
 
   const navigate = useNavigate();
 
@@ -33,6 +35,8 @@ const Login: React.FC = () => {
     }
   };
 
+  console.log(isAuth);
+
   const loginToTasks = () => {
     navigate('/task');
   };
@@ -43,6 +47,7 @@ const Login: React.FC = () => {
       loginCheck({
         userEmail: email,
         password,
+        isAuth: true,
         cb: loginToTasks,
       })
     );

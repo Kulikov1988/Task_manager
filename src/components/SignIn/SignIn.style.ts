@@ -16,7 +16,7 @@ export const SignInForm = styled.form`
   box-shadow: .2em .2em;
 `
 
-export const mainDiv = styled.div`
+export const MainDiv = styled.div`
   margin: 10px;
   padding-left: 4rem ;
 `
