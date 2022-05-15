@@ -15,11 +15,9 @@ const SignIn: React.FC = () => {
   const [name, setName] = useState<string>('');
 
   const dispatch = useDispatch();
-  const { userEmail, userName, isAuth } = useSelector(
+  const { userEmail, userName } = useSelector(
     (state: AppState) => state.authReducer
   );
-
-  console.log(isAuth);
 
   const navigate = useNavigate();
 

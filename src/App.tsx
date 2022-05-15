@@ -8,31 +8,21 @@ import Tasks from './components/Tasks/Tasks';
 import { ButtonLogOut } from './sharedStyles/button.style';
 import { AppState } from './store';
 import { LoginDiv } from './AppStyles.style';
+import EditForm from './components/Tasks/component/components/EditForm';
 
 function App(props) {
   const dispatch = useDispatch();
   const { isAuth } = useSelector((state: AppState) => state.authReducer);
 
-  // useEffect(() => {
-  //   if (!isAuth) {
-  //     document.getElementById('logOutButton').style.display = 'none';
-  //     document.getElementById('loginLink').style.display = 'block';
-  //   } else {
-  //     document.getElementById('logOutButton').style.display = 'block';
-  //     document.getElementById('loginLink').style.display = 'none';
-  //   }
-  // });
-
-  const logoutOnClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+   const logoutOnClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     dispatch(logout());
   };
 
   return (
     <>
       <div>
-        <LoginDiv isHidden={isAuth} >
-        <NavLink to='/login'>Login</NavLink>
-
+        <LoginDiv isHidden={isAuth}>
+          <NavLink to='/login'>Login</NavLink>
         </LoginDiv>
         <div>
           <ButtonLogOut isHidden={isAuth} onClick={logoutOnClick}>
@@ -45,6 +35,7 @@ function App(props) {
         <Route path='/login' element={<Login />} />
         <Route path='/sign_in' element={<SignIn />} />
         <Route path='/task' element={<Tasks />} />
+        <Route path='/edit_task' element={<EditForm />} />
       </Routes>
     </>
   );

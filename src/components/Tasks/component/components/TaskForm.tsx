@@ -44,8 +44,7 @@ function TaskForm(props) {
         createTask({
           title: title,
           date: new Date(),
-          task: description,
-          checked: false,
+          description,
         })
       );
     } else {
@@ -53,9 +52,9 @@ function TaskForm(props) {
     }
   };
 
-  const deleteCheckedTask = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-  };
+  // const deleteCheckedTask = (e: React.MouseEvent<HTMLButtonElement>) => {
+  //   e.preventDefault();
+  // };
 
   return (
     <>
@@ -76,7 +75,6 @@ function TaskForm(props) {
       <ButtonTaskForm category='new_task' onClick={handleClick}>
         Create a new task
       </ButtonTaskForm>
-      <ButtonTaskForm category='edit_task'>edit task</ButtonTaskForm>
       <ButtonTaskForm category='delete_task'>delete task</ButtonTaskForm>
     </>
   );

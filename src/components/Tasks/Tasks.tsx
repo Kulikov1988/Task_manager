@@ -24,17 +24,14 @@ function Tasks() {
       <S.Task>
         <S.TaskForm>
           <TaskForm />
-          {tasks.map(({ title, task, date, checked }, index) => (
-            <>
-              
-               
-             
+          {tasks.map(({ title, description, date, id }, index) => (
+            <>            
               <Task
                 key={index}
                 title={title}
-                task={task}
+                description={description}
                 date={date}
-                checked={checked}
+                id={id}
               />
             </>
           ))}

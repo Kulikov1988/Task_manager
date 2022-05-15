@@ -13,20 +13,21 @@ border: 2px solid ;
 `
 
 export const ButtonTaskForm = styled.button<{category:string}>`
-border-radius: 10%;
+border-radius: 40%;
 font-size: 14px;
 font-weight: 540;
-color: white;
+color: darkblue;
 margin: .5rem;
 padding: .6em;
 background-color: ${props => props.category === 'new_task' ? 'green' 
 : props.category === 'delete_task' ? 'red' 
-: props.category === 'edit_task' ? 'blue' : 'orange'};
+: props.category === 'edit_task' ? 'orange' : 'black'};
 
 
 &:hover {
   background-color: yellow;
   color: blue;
+  opacity: .9;
 }
 `
 

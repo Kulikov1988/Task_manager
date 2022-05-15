@@ -21,7 +21,7 @@ const Login: React.FC = () => {
   const [password, setPassword] = useState<string>('');
 
   const dispatch = useDispatch();
-  const { userName, err, isAuth } = useSelector(
+  const { userName, err } = useSelector(
     (state: AppState) => state.authReducer
   );
 
@@ -34,8 +34,6 @@ const Login: React.FC = () => {
       setPassword(e.target.value);
     }
   };
-
-  console.log(isAuth);
 
   const loginToTasks = () => {
     navigate('/task');

@@ -2,9 +2,9 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface TaskProps {
   title: string;
-  task: string;
+  description: string;
   date: Date;
-  checked: boolean;
+  id?: number;
 }
 
 export const initialState = {
@@ -12,38 +12,38 @@ export const initialState = {
     {
       title: 'Task1',
       date: new Date(),
-      task: 'do the first task today!',
-      checked: false,
+      description: 'do the first task today!',
+      id: 1,
     },
     {
       title: 'Task2',
       date: new Date(),
-      task: 'second task',
-      checked: false,
+      description: 'second task',
+      id: 2,  
     },
     {
       title: 'Task3',
       date: new Date(),
-      task: 'third task',      
-      checked: false,
+      description: 'third task',      
+      id: 3,
     },
     {
       title: 'Task4',
       date: new Date(),
-      task: 'one more task',
-      checked: false,
+      description: 'one more task',
+      id: 4,
     },
     {
       title: 'Task5',
       date: new Date(),
-      task: 'last task',
-      checked: false,
+      description: 'last task',
+      id: 5,
     },
     {
       title: 'Task6',
       date: new Date(),
-      task: 'the last task',
-      checked: false,
+      description: 'the last task',
+      id: 6,
     },
   ]
   
@@ -54,16 +54,18 @@ const taskSlice = createSlice({
   initialState,
   reducers: {
     createTask: (state, {payload}: PayloadAction<TaskProps> ) => {
-      // state.tasks = initialState.tasks;
-      state.tasks = [...state.tasks, {...payload}];
+      state.tasks = [...state.tasks, {...payload, id: state.tasks.length + 1}];
       console.log(payload)
     },
     deleteTask: (state, {payload}: PayloadAction<TaskProps> ) => {
 
     },
-   
+    editDescription: (state, {payload} ) => {
+      console.log(payload);
+      
+    }
   }
 })
 
-export const {createTask} = taskSlice.actions;
+export const {createTask, editDescription, deleteTask} = taskSlice.actions;
   export default taskSlice.reducer;
