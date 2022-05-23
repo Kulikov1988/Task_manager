@@ -11,6 +11,7 @@ background-color: aliceblue;
 height: fit-content;
 border-radius: 3%;
 width: 50vw;
+text-align: center;
 `
 
 export const TaskDiv = styled.div`
@@ -21,16 +22,15 @@ padding-bottom: .3rem;
 font-size: 20px;
 border: .2rem solid green;
 align-items: center;
+background-color: antiquewhite;
 `
 
 export const TaskSpan = styled.span`
 /* display: flex;
 justify-content: space-around; */
-
 font-style: italic;
 font-weight: 400;
 color: rebeccapurple;
-align-items: center;
 `
 export const TaskItem = styled.span`
 color: green;

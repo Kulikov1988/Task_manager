@@ -13,7 +13,7 @@ interface SignUpProps {
   password: string;
   userName: string;
   isAuth: boolean;
-  cb: ()=> void;
+  cb: () => void;
 }
 
 export const correctUser = {
@@ -53,6 +53,7 @@ const loginSlice = createSlice({
       state.userName = payload.userName;
       state.userEmail = payload.userEmail;
       state.password = payload.password;
+      state.isAuth = true;
       payload.cb()
     },
 

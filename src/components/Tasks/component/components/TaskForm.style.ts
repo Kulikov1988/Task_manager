@@ -1,9 +1,14 @@
 import styled from "styled-components";
 
+export const EditFormStyle = styled.form`
+display: flex;
+justify-content: center;
+`
+
 export const DivTaskForm = styled.div`
 font-size: 18px;
 font-weight: 500;
-
+text-align: center;
 `
 
 export const InputTaskForm = styled.input`

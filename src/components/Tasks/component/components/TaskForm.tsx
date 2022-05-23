@@ -18,6 +18,7 @@ function TaskForm(props) {
 
   const [title, setTitle] = useState<string>('');
   const [description, setDescription] = useState<string>('');
+  const [errorMessage, setErrorMessage] = useState<string>('');
 
   const { userName, isAuth } = useSelector(
     (state: AppState) => state.authReducer
@@ -47,15 +48,19 @@ function TaskForm(props) {
           description,
         })
       );
+      setErrorMessage('')
     } else {
-      console.log('title and task inputs are reqiured');
+      return setErrorMessage('title and task inputs are reqiured');
     }
   };
 
   return (
     <>
-      <DivTaskForm>Hello {userName}, it is your tasks:</DivTaskForm>
+      <DivTaskForm>
+        <b>Hello {userName}, it is your tasks:</b>
+      </DivTaskForm>
       <DivTaskForm>Add new task:</DivTaskForm>
+      <DivTaskForm>{errorMessage}</DivTaskForm>
       <InputTaskForm
         type='text'
         value={title}

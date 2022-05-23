@@ -34,15 +34,18 @@ function Task(props) {
   return (
     <>
       <S.TaskDiv>
-        <S.TaskSpan>
+        {/* <S.TaskSpan>
           <S.TaskItem>
             <S.TaskInput type='checkbox' />
           </S.TaskItem>
-        </S.TaskSpan>
+        </S.TaskSpan> */}
         <ButtonTaskForm onClick={moveToEditForm} category='edit_task'>
           edit task
         </ButtonTaskForm>
-        <ButtonTaskForm onClick={(id) => deleteTaskOnClick(id)} category='delete_task' >
+        <ButtonTaskForm
+          onClick={(id) => deleteTaskOnClick(id)}
+          category='delete_task'
+        >
           delete task
         </ButtonTaskForm>
         <S.TaskSpan>
