@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Input } from '../../sharedStyles/sharedStyles.style';
 import { Button } from '../../sharedStyles/button.style';
 import * as S from './SignIn.style';
 import { handleInputChangeProps } from '../Login/Login';
-import { AppState } from '../../store';
 import { signUp } from '../../slices/authReducer';
 import { useNavigate } from 'react-router-dom';
 
@@ -13,19 +12,15 @@ const SignIn: React.FC = () => {
   const [password1, setPassword1] = useState<string>('');
   const [password2, setPassword2] = useState<string>('');
   const [name, setName] = useState<string>('');
+  const [errorMessage, setErrorMessage] = useState<string>('');
 
   const dispatch = useDispatch();
-  const { userEmail, userName } = useSelector(
-    (state: AppState) => state.authReducer
-  );
 
   const navigate = useNavigate();
 
   const loginToTasks = () => {
     navigate('/task');
   };
-
-  const someErr = 'Check your password or email';
 
   const handleInputChange = ({ e, type }: handleInputChangeProps) => {
     if (type === 'email') {
@@ -52,15 +47,17 @@ const SignIn: React.FC = () => {
         })
       );
     } else {
-      console.log(someErr);
+      return setErrorMessage(
+        'some error, check your password/ all inputs are required'
+      );
     }
   };
 
   return (
     <S.SignIn>
       <S.SignInForm>
-        <div>Hello {userName}!</div>
-        <div>Your email is: {userEmail}</div>
+        <div> {errorMessage}</div>
+
         <S.MainDiv>
           <h1>Sign In Page</h1>{' '}
         </S.MainDiv>

@@ -52,10 +52,6 @@ function TaskForm(props) {
     }
   };
 
-  // const deleteCheckedTask = (e: React.MouseEvent<HTMLButtonElement>) => {
-  //   e.preventDefault();
-  // };
-
   return (
     <>
       <DivTaskForm>Hello {userName}, it is your tasks:</DivTaskForm>
@@ -75,7 +71,6 @@ function TaskForm(props) {
       <ButtonTaskForm category='new_task' onClick={handleClick}>
         Create a new task
       </ButtonTaskForm>
-      <ButtonTaskForm category='delete_task'>delete task</ButtonTaskForm>
     </>
   );
 }

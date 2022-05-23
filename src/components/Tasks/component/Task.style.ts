@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const Task = styled.form`
-  height: 0vh;
+
 `
 
 export const TaskForm = styled.form`
@@ -24,12 +24,16 @@ align-items: center;
 `
 
 export const TaskSpan = styled.span`
+/* display: flex;
+justify-content: space-around; */
+
 font-style: italic;
 font-weight: 400;
 color: rebeccapurple;
+align-items: center;
 `
 export const TaskItem = styled.span`
-
+color: green;
 `
 
   export const TaskInput = styled.input`

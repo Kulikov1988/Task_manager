@@ -21,9 +21,7 @@ const Login: React.FC = () => {
   const [password, setPassword] = useState<string>('');
 
   const dispatch = useDispatch();
-  const { userName, err } = useSelector(
-    (state: AppState) => state.authReducer
-  );
+  const { err } = useSelector((state: AppState) => state.authReducer);
 
   const navigate = useNavigate();
 
@@ -54,12 +52,12 @@ const Login: React.FC = () => {
   return (
     <>
       <SignDiv>
+        <div>{err}</div>
         Don't have an account yet?
         <NavLink to='/sign_in'> Sign in</NavLink>
       </SignDiv>
       <S.Login>
         <S.loginForm>
-          <div>Hello {userName}!</div>
           <div>{err}</div>
           <S.mainDiv>
             <h1>Login Page</h1>{' '}
