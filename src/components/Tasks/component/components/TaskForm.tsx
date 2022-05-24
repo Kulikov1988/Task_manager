@@ -48,7 +48,7 @@ function TaskForm(props) {
           description,
         })
       );
-      setErrorMessage('')
+      setErrorMessage('');
     } else {
       return setErrorMessage('title and task inputs are reqiured');
     }
@@ -60,7 +60,7 @@ function TaskForm(props) {
         <b>Hello {userName}, it is your tasks:</b>
       </DivTaskForm>
       <DivTaskForm>Add new task:</DivTaskForm>
-      <DivTaskForm>{errorMessage}</DivTaskForm>
+
       <InputTaskForm
         type='text'
         value={title}
@@ -76,6 +76,7 @@ function TaskForm(props) {
       <ButtonTaskForm category='new_task' onClick={handleClick}>
         Create a new task
       </ButtonTaskForm>
+      <DivTaskForm>{errorMessage}</DivTaskForm>
     </>
   );
 }

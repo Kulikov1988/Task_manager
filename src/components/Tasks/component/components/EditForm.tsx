@@ -45,8 +45,6 @@ function EditTaskForm(props) {
 
   return (
     <>
-      <DivTaskForm>{errorMessage}</DivTaskForm>
-
       <EditFormStyle>
         <InputTaskForm
           value={title}
@@ -60,7 +58,11 @@ function EditTaskForm(props) {
         <ButtonTaskForm category='edit_task' onClick={handleClick}>
           edit
         </ButtonTaskForm>
+        
       </EditFormStyle>
+      <br />
+
+        <DivTaskForm>{errorMessage}</DivTaskForm>
     </>
   );
 }
