@@ -5,8 +5,10 @@ import { useNavigate } from 'react-router-dom';
 import { AppState } from '../../store';
 import * as S from './component/Task.style';
 import TaskForm from './component/components/TaskForm';
+import { DivTaskForm } from './component/components/TaskForm.style';
+import Search from './../SharedComponents/Search/SearchComponent';
 
-function Tasks() {
+function Tasks(props) {
   const navigate = useNavigate();
   const [search, setSearch] = useState('');
 
@@ -31,10 +33,13 @@ function Tasks() {
     <>
       <S.Task>
         <S.TaskForm>
-          <S.TaskInput
-            placeholder='search corrent task'
-            onChange={(e) => setSearch(e.target.value)}
-          />
+          <DivTaskForm>
+            <Search {...props} />
+            <S.TaskInput
+              placeholder='search corrent task'
+              onChange={(e) => setSearch(e.target.value)}
+            />
+          </DivTaskForm>
           <TaskForm />
           {filteredTasks.map(({ title, description, date, id }, index) => (
             <>

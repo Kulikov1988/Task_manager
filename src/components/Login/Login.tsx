@@ -52,13 +52,12 @@ const Login: React.FC = () => {
   return (
     <>
       <SignDiv>
-        <div>{err}</div>
         Don't have an account yet?
         <NavLink to='/sign_in'> Sign in</NavLink>
       </SignDiv>
       <S.Login>
         <S.loginForm>
-          <div>{err}</div>
+          <S.Div>{err}</S.Div>
           <S.mainDiv>
             <h1>Login Page</h1>{' '}
           </S.mainDiv>

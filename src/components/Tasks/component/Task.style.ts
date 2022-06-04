@@ -11,12 +11,10 @@ background-color: aliceblue;
 height: fit-content;
 border-radius: 3%;
 width: 50vw;
-text-align: center;
 `
 
 export const TaskDiv = styled.div`
 display: flex;
-justify-content: space-around;
 margin: 1rem;
 padding-bottom: .3rem;
 font-size: 20px;
@@ -26,16 +24,24 @@ background-color: antiquewhite;
 `
 
 export const TaskSpan = styled.span`
-/* display: flex;
-justify-content: space-around; */
 font-style: italic;
 font-weight: 400;
 color: rebeccapurple;
+padding-right: 20px;
+
 `
 export const TaskItem = styled.span`
 color: green;
+width: 70vw;
+
 `
 
-  export const TaskInput = styled.input`
+export const TaskItemButtons = styled.span`
+color: blue;
+width: 30vw;
+`
+
+
+export const TaskInput = styled.input`
 
 `

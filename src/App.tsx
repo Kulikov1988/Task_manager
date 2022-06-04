@@ -8,7 +8,7 @@ import Tasks from './components/Tasks/Tasks';
 import { ButtonLogOut } from './sharedStyles/button.style';
 import { AppState } from './store';
 import { LoginDiv } from './AppStyles.style';
-import EditForm from './components/Tasks/component/components/EditForm';
+import EditForm from './components/Tasks/component/components/editForm/EditForm';
 
 function App(props) {
   const dispatch = useDispatch();

@@ -60,22 +60,24 @@ function TaskForm(props) {
         <b>Hello {userName}, it is your tasks:</b>
       </DivTaskForm>
       <DivTaskForm>Add new task:</DivTaskForm>
+      <DivTaskForm>
+        <InputTaskForm
+          type='text'
+          value={title}
+          placeholder={'title'}
+          onChange={(e) => handleInputChange({ e, type: 'title' })}
+        />
+        <InputTaskForm
+          type='text'
+          value={description}
+          placeholder={'your task'}
+          onChange={(e) => handleInputChange({ e, type: 'description' })}
+        />
+        <ButtonTaskForm category='new_task' onClick={handleClick}>
+          Create a new task
+        </ButtonTaskForm>
+      </DivTaskForm>
 
-      <InputTaskForm
-        type='text'
-        value={title}
-        placeholder={'title'}
-        onChange={(e) => handleInputChange({ e, type: 'title' })}
-      />
-      <InputTaskForm
-        type='text'
-        value={description}
-        placeholder={'your task'}
-        onChange={(e) => handleInputChange({ e, type: 'description' })}
-      />
-      <ButtonTaskForm category='new_task' onClick={handleClick}>
-        Create a new task
-      </ButtonTaskForm>
       <DivTaskForm>{errorMessage}</DivTaskForm>
     </>
   );

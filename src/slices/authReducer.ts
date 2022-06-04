@@ -20,7 +20,7 @@ export const correctUser = {
   correctUserName : 'Tolik',
   userEmail: 'kulikov.tolik@gmail.com',
   password: '123',
-  err: 'some error',
+  err: 'Email or password are discorrect',
   isAuth: true
   }
 

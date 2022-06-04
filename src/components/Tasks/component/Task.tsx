@@ -34,33 +34,26 @@ function Task(props) {
   return (
     <>
       <S.TaskDiv>
-        {/* <S.TaskSpan>
-          <S.TaskItem>
-            <S.TaskInput type='checkbox' />
-          </S.TaskItem>
-        </S.TaskSpan> */}
-        <ButtonTaskForm onClick={moveToEditForm} category='edit_task'>
-          edit task
-        </ButtonTaskForm>
-        <ButtonTaskForm
-          onClick={(id) => deleteTaskOnClick(id)}
-          category='delete_task'
-        >
-          delete task
-        </ButtonTaskForm>
-        <S.TaskSpan>
-          <S.TaskItem>
+        <S.TaskItem>
+          <S.TaskSpan>
             {props.title} <> </>
-          </S.TaskItem>
-        </S.TaskSpan>
-        <S.TaskSpan>
-          <S.TaskItem>
+          </S.TaskSpan>
+          <S.TaskSpan>
             {props.description} <> </>
-          </S.TaskItem>
-        </S.TaskSpan>
-        <S.TaskSpan>
-          <S.TaskItem>{props.date.toLocaleString()}</S.TaskItem>
-        </S.TaskSpan>
+          </S.TaskSpan>
+          <S.TaskSpan>{props.date.toLocaleString()}</S.TaskSpan>
+        </S.TaskItem>
+        <S.TaskItemButtons>
+          <ButtonTaskForm onClick={moveToEditForm} category='edit_task'>
+            edit task
+          </ButtonTaskForm>
+          <ButtonTaskForm
+            onClick={(id) => deleteTaskOnClick(id)}
+            category='delete_task'
+          >
+            delete task
+          </ButtonTaskForm>
+        </S.TaskItemButtons>
       </S.TaskDiv>
     </>
   );

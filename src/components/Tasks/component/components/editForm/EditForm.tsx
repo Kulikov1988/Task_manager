@@ -1,14 +1,14 @@
 import { useLocation, useNavigate } from 'react-router-dom';
-import { handleInputChangeProps } from './TaskForm';
+import { handleInputChangeProps } from '../TaskForm';
 import React, { useState } from 'react';
 import {
   InputTaskForm,
   ButtonTaskForm,
   EditFormStyle,
   DivTaskForm,
-} from './TaskForm.style';
+} from '../TaskForm.style';
 import { useDispatch } from 'react-redux';
-import { editDescription } from '../../../../slices/tasksReducer';
+import { editDescription } from '../../../../../slices/tasksReducer';
 
 function EditTaskForm(props) {
   const location = useLocation();
