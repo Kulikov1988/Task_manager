@@ -6,11 +6,13 @@ import { AppState } from '../../store';
 import * as S from './component/Task.style';
 import TaskForm from './component/components/TaskForm';
 import { DivTaskForm } from './component/components/TaskForm.style';
-import Search from './../SharedComponents/Search/SearchComponent';
+import Search from '../SharedComponents/Search/Search';
+import Modal from './component/components/modal/Modal';
 
 function Tasks(props) {
   const navigate = useNavigate();
   const [search, setSearch] = useState('');
+  const [isOpen, setIsOpen] = useState(false);
 
   const { isAuth } = useSelector((state: AppState) => state.authReducer);
 
@@ -29,18 +31,18 @@ function Tasks(props) {
     );
   });
 
+  
+
   return (
     <>
       <S.Task>
         <S.TaskForm>
           <DivTaskForm>
-            <Search {...props} />
-            <S.TaskInput
-              placeholder='search corrent task'
-              onChange={(e) => setSearch(e.target.value)}
-            />
+            <Search setSearch={setSearch} />
           </DivTaskForm>
           <TaskForm />
+<button onClick={(e)=> {e.preventDefault(); 
+              setIsOpen(true);}}>Open</button>
           {filteredTasks.map(({ title, description, date, id }, index) => (
             <>
               <Task
@@ -52,6 +54,11 @@ function Tasks(props) {
               />
             </>
           ))}
+        </S.TaskForm>
+        <S.TaskForm>
+          <DivTaskForm>
+            <Modal setIsOpen={setIsOpen} isOpen={isOpen} />
+          </DivTaskForm>
         </S.TaskForm>
       </S.Task>
     </>

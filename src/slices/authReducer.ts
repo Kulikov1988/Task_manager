@@ -18,7 +18,7 @@ interface SignUpProps {
 
 export const correctUser = {
   correctUserName : 'Tolik',
-  userEmail: 'kulikov.tolik@gmail.com',
+  userEmail: 'a@a.com',
   password: '123',
   err: 'Email or password are discorrect',
   isAuth: true
