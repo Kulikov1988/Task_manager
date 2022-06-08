@@ -1,0 +1,75 @@
+import styled from "styled-components";
+
+export const Overlay = styled.div`
+width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, .7);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10;
+`
+export const ModalDiv = styled.div`
+position: fixed;
+  z-index: 20;
+  background: #fff;
+  width: 500px;
+
+  /* Center the modal */
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+`
+export const ModalHeader = styled.header`
+border: 1px solid black;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  text-align: center;
+`
+
+export const ModalHeaderDiv = styled.div`
+padding: 20px;
+position: relative;
+left: 140px;
+font-size: 22px;
+font-weight: 700;
+`
+
+export const ModalButtonX = styled.button`
+position: absolute;
+  top: 25%;
+  left: 99%;
+  transform: translate(-90%, -90%);
+`
+
+export const ModalMain = styled.main`
+padding: 20px;
+border: 1px solid black;
+
+`
+
+export const ModalButtonsDiv = styled.div`
+border: 1px solid black;
+background-color: aliceblue;
+color: antiquewhite;
+padding: 20px;
+
+`
+
+export const ModalButton = styled.button<{category:string}>`
+position: relative;
+font-weight: 600;
+font-size: 16px;
+left: 41vh;
+border-radius: 6px;
+padding: 6px;
+margin-left: 13px;
+color: ${props => props.category === 'cancel' ? 'rgba(174, 193, 46, 0.9)' 
+: props.category === 'delete' ? 'rgba(255, 255, 255, 0.78)' 
+: props.category === 'edit_task' ? 'orange' : 'black'};
+background-color: ${props => props.category === 'cancel' ? 'rgba(243, 229, 229, 0.48)' 
+: props.category === 'delete' ? 'rgba(24, 56, 226, 0.78)' 
+: props.category === 'edit_task' ? 'orange' : 'black'};
+`

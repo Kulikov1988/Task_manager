@@ -1,20 +1,27 @@
-import React from 'react';
+import React, { useState } from 'react';
 import * as S from './Task.style';
 import { ButtonTaskForm } from './components/TaskForm.style';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { deleteTask } from '../../../slices/tasksReducer';
+import Modal from '../../SharedComponents/Search/modal/Modal';
 
 export type InputType = 'title' | 'task';
 
 export interface handleInputChangeProps {
   e: React.ChangeEvent<HTMLInputElement>;
   type: InputType;
+  title: string;
+  description: string;
+  id: number;
+  key: number;
+  date: Date;
 }
 
 function Task(props) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [isOpen, setIsOpen] = useState(false);
 
   const moveToEditForm = () => {
     navigate('/edit_task', {
@@ -26,9 +33,18 @@ function Task(props) {
     });
   };
 
-  const deleteTaskOnClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const openModal = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    setIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsOpen(false);
+  };
+
+  const deleteTaskOnClick = () => {
     dispatch(deleteTask({ id: props.id }));
+    setIsOpen(false);
   };
 
   return (
@@ -48,12 +64,21 @@ function Task(props) {
             edit task
           </ButtonTaskForm>
           <ButtonTaskForm
-            onClick={(id) => deleteTaskOnClick(id)}
+            onClick={openModal}
             category='delete_task'
           >
             delete task
           </ButtonTaskForm>
         </S.TaskItemButtons>
+        <Modal
+          setIsOpen={setIsOpen}
+          isOpen={isOpen}
+          onCancel={closeModal}
+          onSubmit={deleteTaskOnClick}
+          title={props.title}
+        >
+          Are you sure?
+        </Modal>
       </S.TaskDiv>
     </>
   );

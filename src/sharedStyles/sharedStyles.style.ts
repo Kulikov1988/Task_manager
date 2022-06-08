@@ -1,8 +1,6 @@
 import styled from "styled-components";
 
-export const Input = styled.input`
-/* margin: 3rem 4rem; */
-  
+export const Input = styled.input`  
   font-size: 18px;
   padding: .5rem 2rem;
   margin: .5rem 1rem;

@@ -49,6 +49,8 @@ function TaskForm(props) {
         })
       );
       setErrorMessage('');
+      setTitle('');
+      setDescription('');
     } else {
       return setErrorMessage('title and task inputs are reqiured');
     }
