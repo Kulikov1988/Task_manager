@@ -67,9 +67,9 @@ border-radius: 6px;
 padding: 6px;
 margin-left: 13px;
 color: ${props => props.category === 'cancel' ? 'rgba(174, 193, 46, 0.9)' 
-: props.category === 'delete' ? 'rgba(255, 255, 255, 0.78)' 
+: props.category === 'submit' ? 'rgba(255, 255, 255, 0.78)' 
 : props.category === 'edit_task' ? 'orange' : 'black'};
 background-color: ${props => props.category === 'cancel' ? 'rgba(243, 229, 229, 0.48)' 
-: props.category === 'delete' ? 'rgba(24, 56, 226, 0.78)' 
+: props.category === 'submit' ? 'rgba(24, 56, 226, 0.78)' 
 : props.category === 'edit_task' ? 'orange' : 'black'};
 `

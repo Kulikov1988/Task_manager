@@ -22,13 +22,16 @@ interface ModalProps {
   setErrorMessage?: React.Dispatch<React.SetStateAction<string>>;
 }
 
-function Modal({
+function EditModal({
   setIsOpen,
   isOpen,
   onCancel,
   onSubmit,
   children,
   title,
+  description,
+  id,
+  setErrorMessage,
 }: ModalProps) {
   const closeModal = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -64,4 +67,4 @@ function Modal({
   );
 }
 
-export default Modal;
+export default EditModal;
