@@ -5,7 +5,7 @@ export const Button = styled.button`
   
   margin: 2rem 6rem;
   background: #FBCA1F;
-  font-family: inherit;
+  /* font-family: inherit; */
   padding: .6em 1.3em;
   font-size: 18px;
   font-weight: 900;

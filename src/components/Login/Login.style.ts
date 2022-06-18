@@ -24,4 +24,5 @@ export const mainDiv = styled.div`
 export const Div = styled.div`
   margin: 1px;
   padding-left: 1rem ;
+  font-size: 20px;
 `

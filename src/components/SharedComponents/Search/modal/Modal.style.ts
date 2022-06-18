@@ -21,7 +21,7 @@ position: fixed;
   transform: translateX(-50%) translateY(-50%);
 `
 export const ModalHeader = styled.header`
-border: 1px solid black;
+background-color: #61c7e7;
   padding: 10px 20px;
   display: flex;
   justify-content: space-between;
@@ -46,12 +46,10 @@ position: absolute;
 
 export const ModalMain = styled.main`
 padding: 20px;
-border: 1px solid black;
 
 `
 
 export const ModalButtonsDiv = styled.div`
-border: 1px solid black;
 background-color: aliceblue;
 color: antiquewhite;
 padding: 20px;

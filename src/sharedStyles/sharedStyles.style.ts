@@ -14,8 +14,6 @@ export const Input = styled.input`
 `
 
 export const SignDiv = styled.div`
-  font-size: 20px;
-  font-family: 'Courier New', Courier, monospace;
   margin-top: 3rem;
   display: flex;
   justify-content: center;

@@ -51,7 +51,7 @@ function Modal({
                 category='submit'
                 onClick={onSubmit}
               >
-                Delete
+                Submit
               </ModalButton>
               <ModalButton category='cancel' onClick={onCancel}>
                 Cancel
