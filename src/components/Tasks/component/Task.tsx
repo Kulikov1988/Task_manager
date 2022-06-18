@@ -9,8 +9,6 @@ import EditTaskForm from './components/editForm/EditTaskForm';
 export type InputType = 'title' | 'description';
 
 export interface handleInputChangeProps {
-  e: React.ChangeEvent<HTMLInputElement>;
-  type: InputType;
   title: string;
   description: string;
   id: number;
@@ -18,21 +16,12 @@ export interface handleInputChangeProps {
   date: Date;
 }
 
-export interface HandleClickProps {
-  e: React.MouseEvent<HTMLButtonElement, MouseEvent>;
-  title: string;
-  description: string;
-  id: number;
-  setErrorMessage: React.Dispatch<React.SetStateAction<string>>;
-}
 
-function Task(props) {
+function Task({ title,description,id, key,date}: handleInputChangeProps) {
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
-  // const [title, setTitle] = useState<string>(props.title);
-  // const [description, setDescription] = useState<string>(props.description);
-  // const [errorMessage, setErrorMessage] = useState<string>('');
+  
 
   const openModal = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -52,7 +41,7 @@ function Task(props) {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault();
-    dispatch(deleteTask({ id: props.id }));
+    dispatch(deleteTask({ id }));
     setIsOpen(false);
   };
 
@@ -61,12 +50,12 @@ function Task(props) {
       <S.TaskDiv>
         <S.TaskItem>
           <S.TaskSpan>
-            {props.title} <> </>
+            {title} <> </>
           </S.TaskSpan>
           <S.TaskSpan>
-            {props.description} <> </>
+            {description} <> </>
           </S.TaskSpan>
-          <S.TaskSpan>{props.date.toLocaleString()}</S.TaskSpan>
+          <S.TaskSpan>{date.toLocaleString()}</S.TaskSpan>
         </S.TaskItem>
         <S.TaskItemButtons>
           <ButtonTaskForm onClick={openEditModal} category='edit_task'>
@@ -81,16 +70,16 @@ function Task(props) {
           isOpen={isOpen}
           onCancel={closeModal}
           onSubmit={deleteTaskOnClick}
-          title={props.title}
+          title={title}
         >
           Are you sure?
         </Modal>
         <EditTaskForm
           setIsEditOpen={setIsEditOpen}
           isEditOpen={isEditOpen}
-          title={props.title}
-          description={props.description}
-          id={props.id}
+          title={title}
+          description={description}
+          id={id}
         />
       </S.TaskDiv>
     </>

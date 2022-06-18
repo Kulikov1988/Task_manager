@@ -8,7 +8,6 @@ import Tasks from './components/Tasks/Tasks';
 import { ButtonLogOut } from './sharedStyles/button.style';
 import { AppState } from './store';
 import { LoginDiv } from './AppStyles.style';
-import EditForm from './components/Tasks/component/components/editForm/EditTaskForm';
 
 function App(props) {
   const dispatch = useDispatch();
@@ -35,7 +34,6 @@ function App(props) {
         <Route path='/login' element={<Login />} />
         <Route path='/sign_in' element={<SignIn />} />
         <Route path='/task' element={<Tasks />} />
-        <Route path='/edit_task' element={<EditForm />} />
       </Routes>
     </>
   );

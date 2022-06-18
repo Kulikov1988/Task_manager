@@ -1,46 +1,57 @@
 import { handleInputChangeProps } from '../TaskForm';
 import React, { useState } from 'react';
-import {
-  InputTaskForm,
-  EditFormStyle,
-  DivTaskForm,
-} from '../TaskForm.style';
+import { InputTaskForm, EditFormStyle, DivTaskForm } from '../TaskForm.style';
 import { useDispatch } from 'react-redux';
 import { editDescription } from '../../../../../slices/tasksReducer';
-import { HandleClickProps } from '../../Task';
 import Modal from '../../../../SharedComponents/Search/modal/Modal';
 
-function EditTaskForm(props) {
+interface EditTaskFormProps {
+  setIsEditOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  isEditOpen: boolean;
+  title: string;
+  description: string;
+  id: number;
+}
+
+function EditTaskForm({
+  setIsEditOpen,
+  isEditOpen,
+  title,
+  description,
+  id,
+}: EditTaskFormProps) {
   const dispatch = useDispatch();
 
-  const [title, setTitle] = useState<string>(props.title);
-  const [description, setDescription] = useState<string>(props.description);
+  const [editTitle, setEditTitle] = useState<string>(title);
+  const [editDescriptionLocal, setEditDescriptionLocal] =
+    useState<string>(description);
   const [errorMessage, setErrorMessage] = useState<string>('');
 
   const handleInputChange = ({ e, type }: handleInputChangeProps) => {
     if (type === 'title') {
-      setTitle(e.target.value);
+      setEditTitle(e.target.value);
     } else {
-      setDescription(e.target.value);
+      setEditDescriptionLocal(e.target.value);
     }
   };
 
   const closeEditModal = () => {
-    props.setIsEditOpen(false);
+    setIsEditOpen(false);
   };
 
-  const editTaskOnclick = ({
-    description,
-    e,
-    id,
-    setErrorMessage,
-    title,
-    
-  }: HandleClickProps) => {
+  const editTaskOnclick = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     e.preventDefault();
-    if (props.title !== '' && props.description !== '') {
-      dispatch(editDescription({ title, description, id }));
-      props.setIsEditOpen(false);
+    if (editTitle !== '' && editDescriptionLocal !== '') {
+      dispatch(
+        editDescription({
+          title: editTitle,
+          description: editDescriptionLocal,
+          id,
+        })
+      );
+      setIsEditOpen(false);
     } else {
       setErrorMessage('task and description field are required');
     }
@@ -49,20 +60,20 @@ function EditTaskForm(props) {
   return (
     <>
       <Modal
-        isOpen={props.isEditOpen}
-        setIsOpen={props.setIsEditOpen}
-        title={props.title}
+        isOpen={isEditOpen}
+        setIsOpen={setIsEditOpen}
+        title={title}
         onCancel={closeEditModal}
-        onSubmit={(e)=> editTaskOnclick({ description, e, id: props.id, setErrorMessage, title, })}
+        onSubmit={editTaskOnclick}
       >
         <EditFormStyle>
           <InputTaskForm
-            value={title}
+            value={editTitle}
             onChange={(e) => handleInputChange({ e, type: 'title' })}
           ></InputTaskForm>
           <InputTaskForm
             onChange={(e) => handleInputChange({ e, type: 'description' })}
-            value={description}
+            value={editDescriptionLocal}
           ></InputTaskForm>
         </EditFormStyle>
         <br />

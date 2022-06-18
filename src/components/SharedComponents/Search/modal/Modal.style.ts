@@ -50,6 +50,8 @@ padding: 20px;
 `
 
 export const ModalButtonsDiv = styled.div`
+display: flex;
+justify-content: end;
 background-color: aliceblue;
 color: antiquewhite;
 padding: 20px;
@@ -57,10 +59,8 @@ padding: 20px;
 `
 
 export const ModalButton = styled.button<{category:string}>`
-position: relative;
 font-weight: 600;
 font-size: 16px;
-left: 41vh;
 border-radius: 6px;
 padding: 6px;
 margin-left: 13px;

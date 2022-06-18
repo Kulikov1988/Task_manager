@@ -17,9 +17,6 @@ interface ModalProps {
   onSubmit?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   children: React.ReactNode;
   title?: string;
-  description?: string;
-  id?: number;
-  setErrorMessage?: React.Dispatch<React.SetStateAction<string>>;
 }
 
 function Modal({
