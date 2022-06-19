@@ -1,9 +1,10 @@
 import { handleInputChangeProps } from '../TaskForm';
 import React, { useState } from 'react';
-import { InputTaskForm, EditFormStyle, DivTaskForm } from '../TaskForm.style';
+import { InputTaskForm, EditFormStyle } from '../TaskForm.style';
 import { useDispatch } from 'react-redux';
 import { editDescription } from '../../../../../slices/tasksReducer';
 import Modal from '../../../../SharedComponents/Search/modal/Modal';
+import { ErrorDivForm } from './../TaskForm.style';
 
 interface EditTaskFormProps {
   setIsEditOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -53,7 +54,7 @@ function EditTaskForm({
       );
       setIsEditOpen(false);
     } else {
-      setErrorMessage('task and description field are required');
+      setErrorMessage('Task and description field are required');
     }
   };
 
@@ -78,7 +79,7 @@ function EditTaskForm({
         </EditFormStyle>
         <br />
 
-        <DivTaskForm>{errorMessage}</DivTaskForm>
+        <ErrorDivForm>{errorMessage}</ErrorDivForm>
       </Modal>
     </>
   );

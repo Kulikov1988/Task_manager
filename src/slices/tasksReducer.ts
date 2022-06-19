@@ -64,7 +64,7 @@ const taskSlice = createSlice({
   initialState,
   reducers: {
     createTask: (state, {payload}: PayloadAction<TaskProps> ) => {
-      state.tasks = [...state.tasks, {...payload, id: state.tasks.length + 1, date: new Date()}];
+      state.tasks = [...state.tasks, {...payload, id: state.tasks.length + 1, date: payload.date}];
       console.log(payload)
     },
     deleteTask: (state, {payload}: PayloadAction<TaskIdProps> ) => {

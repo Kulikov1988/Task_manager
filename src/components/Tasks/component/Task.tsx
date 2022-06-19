@@ -16,12 +16,10 @@ export interface handleInputChangeProps {
   date: Date;
 }
 
-
-function Task({ title,description,id, key,date}: handleInputChangeProps) {
+function Task({ title, description, id, key, date }: handleInputChangeProps) {
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
-  
 
   const openModal = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -55,7 +53,10 @@ function Task({ title,description,id, key,date}: handleInputChangeProps) {
           <S.TaskSpan>
             {description} <> </>
           </S.TaskSpan>
-          <S.TaskSpan>{date.toLocaleString()}</S.TaskSpan>
+          <S.TaskSpan>
+            {date.toLocaleString()}
+            
+          </S.TaskSpan>
         </S.TaskItem>
         <S.TaskItemButtons>
           <ButtonTaskForm onClick={openEditModal} category='edit_task'>

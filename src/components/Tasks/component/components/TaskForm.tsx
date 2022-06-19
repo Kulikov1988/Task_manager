@@ -3,7 +3,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { createTask } from '../../../../slices/tasksReducer';
 import { AppState } from '../../../../store';
 import { useNavigate } from 'react-router-dom';
-import { ButtonTaskForm, InputTaskForm, DivTaskForm } from './TaskForm.style';
+import {
+  ButtonTaskForm,
+  InputTaskForm,
+  DivTaskForm,
+  ErrorDivForm,
+} from './TaskForm.style';
+import DatePicker from 'react-datepicker';
+
+import 'react-datepicker/dist/react-datepicker.css';
 
 export type InputType = 'title' | 'description';
 
@@ -19,6 +27,7 @@ function TaskForm(props) {
   const [title, setTitle] = useState<string>('');
   const [description, setDescription] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState<string>('');
+  const [startDate, setStartDate] = useState(new Date());
 
   const { userName, isAuth } = useSelector(
     (state: AppState) => state.authReducer
@@ -44,7 +53,7 @@ function TaskForm(props) {
       dispatch(
         createTask({
           title: title,
-          date: new Date(),
+          date: startDate,
           description,
         })
       );
@@ -52,7 +61,7 @@ function TaskForm(props) {
       setTitle('');
       setDescription('');
     } else {
-      return setErrorMessage('title and task inputs are reqiured');
+      return setErrorMessage('Title and task inputs are reqiured');
     }
   };
 
@@ -75,12 +84,21 @@ function TaskForm(props) {
           placeholder={'your task'}
           onChange={(e) => handleInputChange({ e, type: 'description' })}
         />
+        <DivTaskForm>
+          {' '}
+          Choose a date to end your task
+          <DatePicker
+            selected={startDate}
+            locale='es'
+            onChange={(date: Date) => setStartDate(date)}
+          />
+        </DivTaskForm>
         <ButtonTaskForm category='new_task' onClick={handleClick}>
           Create a new task
         </ButtonTaskForm>
       </DivTaskForm>
 
-      <DivTaskForm>{errorMessage}</DivTaskForm>
+      <ErrorDivForm>{errorMessage}</ErrorDivForm>
     </>
   );
 }

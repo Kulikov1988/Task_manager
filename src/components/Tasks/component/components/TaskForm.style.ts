@@ -11,6 +11,13 @@ font-weight: 500;
 text-align: center;
 `
 
+export const ErrorDivForm = styled.div`
+color: red;
+font-size: 20px;
+font-weight: 500;
+text-align: center;
+`
+
 export const InputTaskForm = styled.input`
 padding: .7em;
 margin: .5em;
