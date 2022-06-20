@@ -81,6 +81,7 @@ function Task({ title, description, id, key, date }: handleInputChangeProps) {
           title={title}
           description={description}
           id={id}
+          date={date}
         />
       </S.TaskDiv>
     </>

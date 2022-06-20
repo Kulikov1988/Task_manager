@@ -85,7 +85,6 @@ function TaskForm(props) {
           onChange={(e) => handleInputChange({ e, type: 'description' })}
         />
         <DivTaskForm>
-          {' '}
           Choose a date to end your task
           <DatePicker
             selected={startDate}

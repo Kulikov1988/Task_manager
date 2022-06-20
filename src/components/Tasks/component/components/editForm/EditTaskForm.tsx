@@ -5,6 +5,9 @@ import { useDispatch } from 'react-redux';
 import { editDescription } from '../../../../../slices/tasksReducer';
 import Modal from '../../../../SharedComponents/Search/modal/Modal';
 import { ErrorDivForm } from './../TaskForm.style';
+import DatePicker from 'react-datepicker';
+
+import 'react-datepicker/dist/react-datepicker.css';
 
 interface EditTaskFormProps {
   setIsEditOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -12,6 +15,7 @@ interface EditTaskFormProps {
   title: string;
   description: string;
   id: number;
+  date: Date;
 }
 
 function EditTaskForm({
@@ -20,6 +24,7 @@ function EditTaskForm({
   title,
   description,
   id,
+  date,
 }: EditTaskFormProps) {
   const dispatch = useDispatch();
 
@@ -27,6 +32,7 @@ function EditTaskForm({
   const [editDescriptionLocal, setEditDescriptionLocal] =
     useState<string>(description);
   const [errorMessage, setErrorMessage] = useState<string>('');
+  const [startDate, setStartDate] = useState(date);
 
   const handleInputChange = ({ e, type }: handleInputChangeProps) => {
     if (type === 'title') {
@@ -50,6 +56,7 @@ function EditTaskForm({
           title: editTitle,
           description: editDescriptionLocal,
           id,
+          date: startDate,
         })
       );
       setIsEditOpen(false);
@@ -78,6 +85,11 @@ function EditTaskForm({
           ></InputTaskForm>
         </EditFormStyle>
         <br />
+        <DatePicker
+          selected={startDate}
+          locale='es'
+          onChange={(date: Date) => setStartDate(date)}
+        />
 
         <ErrorDivForm>{errorMessage}</ErrorDivForm>
       </Modal>

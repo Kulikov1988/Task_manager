@@ -78,6 +78,7 @@ const taskSlice = createSlice({
            ...task,
            description: payload.description,
            title: payload.title,
+           date: payload.date
          };
        } return {...task}
      })
