@@ -2,7 +2,7 @@ import { handleInputChangeProps } from '../TaskForm';
 import React, { useState } from 'react';
 import { InputTaskForm, EditFormStyle } from '../TaskForm.style';
 import { useDispatch } from 'react-redux';
-import { editDescription } from '../../../../../slices/tasksReducer';
+import { editDescription, createTask } from '../../../../../slices/tasksReducer';
 import Modal from '../../../../SharedComponents/Search/modal/Modal';
 import { ErrorDivForm } from './../TaskForm.style';
 import DatePicker from 'react-datepicker';
@@ -12,10 +12,10 @@ import 'react-datepicker/dist/react-datepicker.css';
 interface EditTaskFormProps {
   setIsEditOpen: React.Dispatch<React.SetStateAction<boolean>>;
   isEditOpen: boolean;
-  title: string;
-  description: string;
-  id: number;
-  date: Date;
+  title?: string;
+  description?: string;
+  id?: number;
+  date?: Date;
 }
 
 function EditTaskForm({
@@ -28,7 +28,7 @@ function EditTaskForm({
 }: EditTaskFormProps) {
   const dispatch = useDispatch();
 
-  const [editTitle, setEditTitle] = useState<string>(title);
+  const [localTitle, setLocalTitle] = useState<string>(title);
   const [editDescriptionLocal, setEditDescriptionLocal] =
     useState<string>(description);
   const [errorMessage, setErrorMessage] = useState<string>('');
@@ -36,7 +36,7 @@ function EditTaskForm({
 
   const handleInputChange = ({ e, type }: handleInputChangeProps) => {
     if (type === 'title') {
-      setEditTitle(e.target.value);
+      setLocalTitle(e.target.value);
     } else {
       setEditDescriptionLocal(e.target.value);
     }
@@ -46,20 +46,37 @@ function EditTaskForm({
     setIsEditOpen(false);
   };
 
-  const editTaskOnclick = (
+  const handleSubmit = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault();
-    if (editTitle !== '' && editDescriptionLocal !== '') {
+    if (
+      localTitle !== undefined &&
+      editDescriptionLocal !== undefined &&
+      id !== null
+    ) {
       dispatch(
         editDescription({
-          title: editTitle,
+          title: localTitle,
           description: editDescriptionLocal,
           id,
           date: startDate,
         })
       );
       setIsEditOpen(false);
+      setErrorMessage('');
+      } else if (localTitle !== undefined &&
+        editDescriptionLocal !== undefined &&
+        id === null) {
+          dispatch(
+            createTask({
+              title: localTitle,
+              date: startDate,
+              description : editDescriptionLocal,
+            })
+          );
+          setIsEditOpen(false);
+          setErrorMessage('');
     } else {
       setErrorMessage('Task and description field are required');
     }
@@ -72,19 +89,22 @@ function EditTaskForm({
         setIsOpen={setIsEditOpen}
         title={title}
         onCancel={closeEditModal}
-        onSubmit={editTaskOnclick}
+        onSubmit={handleSubmit}
+        id={id}
       >
         <EditFormStyle>
           <InputTaskForm
-            value={editTitle}
+            placeholder='Task name'
+            value={localTitle}
             onChange={(e) => handleInputChange({ e, type: 'title' })}
           ></InputTaskForm>
           <InputTaskForm
+          placeholder='Description'
             onChange={(e) => handleInputChange({ e, type: 'description' })}
             value={editDescriptionLocal}
           ></InputTaskForm>
         </EditFormStyle>
-        <br />
+        <br /> Choose a date
         <DatePicker
           selected={startDate}
           locale='es'

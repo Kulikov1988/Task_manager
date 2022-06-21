@@ -53,10 +53,7 @@ function Task({ title, description, id, key, date }: handleInputChangeProps) {
           <S.TaskSpan>
             {description} <> </>
           </S.TaskSpan>
-          <S.TaskSpan>
-            {date.toLocaleString()}
-            
-          </S.TaskSpan>
+          <S.TaskSpan>{date.toLocaleString()}</S.TaskSpan>
         </S.TaskItem>
         <S.TaskItemButtons>
           <ButtonTaskForm onClick={openEditModal} category='edit_task'>

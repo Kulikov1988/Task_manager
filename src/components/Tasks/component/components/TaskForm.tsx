@@ -12,6 +12,7 @@ import {
 import DatePicker from 'react-datepicker';
 
 import 'react-datepicker/dist/react-datepicker.css';
+import EditTaskForm from './editForm/EditTaskForm';
 
 export type InputType = 'title' | 'description';
 
@@ -28,6 +29,7 @@ function TaskForm(props) {
   const [description, setDescription] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [startDate, setStartDate] = useState(new Date());
+  const [isEditOpen, setIsEditOpen] = useState(false);
 
   const { userName, isAuth } = useSelector(
     (state: AppState) => state.authReducer
@@ -65,14 +67,19 @@ function TaskForm(props) {
     }
   };
 
+  const openEditModal = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    setIsEditOpen(true);
+  };
+
   return (
     <>
       <DivTaskForm>
         <b>Hello {userName}, it is your tasks:</b>
       </DivTaskForm>
-      <DivTaskForm>Add new task:</DivTaskForm>
+      {/* <DivTaskForm>Add new task:</DivTaskForm> */}
       <DivTaskForm>
-        <InputTaskForm
+        {/* <InputTaskForm
           type='text'
           value={title}
           placeholder={'title'}
@@ -83,20 +90,24 @@ function TaskForm(props) {
           value={description}
           placeholder={'your task'}
           onChange={(e) => handleInputChange({ e, type: 'description' })}
-        />
-        <DivTaskForm>
+        /> */}
+        {/* <DivTaskForm>
           Choose a date to end your task
           <DatePicker
             selected={startDate}
             locale='es'
             onChange={(date: Date) => setStartDate(date)}
           />
-        </DivTaskForm>
-        <ButtonTaskForm category='new_task' onClick={handleClick}>
+        </DivTaskForm> */}
+        <ButtonTaskForm category='new_task' onClick={openEditModal}>
           Create a new task
         </ButtonTaskForm>
       </DivTaskForm>
-
+      <EditTaskForm
+        setIsEditOpen={setIsEditOpen}
+        isEditOpen={isEditOpen}
+        date={startDate}
+      />
       <ErrorDivForm>{errorMessage}</ErrorDivForm>
     </>
   );

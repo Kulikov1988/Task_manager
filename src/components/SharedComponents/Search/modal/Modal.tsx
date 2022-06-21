@@ -17,6 +17,7 @@ interface ModalProps {
   onSubmit?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   children: React.ReactNode;
   title?: string;
+  id?: number;
 }
 
 function Modal({
