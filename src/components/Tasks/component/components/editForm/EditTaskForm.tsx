@@ -2,7 +2,10 @@ import { handleInputChangeProps } from '../TaskForm';
 import React, { useState } from 'react';
 import { InputTaskForm, EditFormStyle } from '../TaskForm.style';
 import { useDispatch } from 'react-redux';
-import { editDescription, createTask } from '../../../../../slices/tasksReducer';
+import {
+  editDescription,
+  createTask,
+} from '../../../../../slices/tasksReducer';
 import Modal from '../../../../SharedComponents/Search/modal/Modal';
 import { ErrorDivForm } from './../TaskForm.style';
 import DatePicker from 'react-datepicker';
@@ -28,17 +31,16 @@ function EditTaskForm({
 }: EditTaskFormProps) {
   const dispatch = useDispatch();
 
-  const [localTitle, setLocalTitle] = useState<string>(title);
-  const [editDescriptionLocal, setEditDescriptionLocal] =
-    useState<string>(description);
-  const [errorMessage, setErrorMessage] = useState<string>('');
+  const [localTitle, setLocalTitle] = useState(title || '');
+  const [localDescription, setlocalDescription] = useState(description || '');
+  const [errorMessage, setErrorMessage] = useState('');
   const [startDate, setStartDate] = useState(date);
 
   const handleInputChange = ({ e, type }: handleInputChangeProps) => {
     if (type === 'title') {
       setLocalTitle(e.target.value);
     } else {
-      setEditDescriptionLocal(e.target.value);
+      setlocalDescription(e.target.value);
     }
   };
 
@@ -46,40 +48,60 @@ function EditTaskForm({
     setIsEditOpen(false);
   };
 
-  const handleSubmit = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
+  const isValidate = localTitle !== '' && localDescription !== '';
+
+  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
-    if (
-      localTitle !== undefined &&
-      editDescriptionLocal !== undefined &&
-      id !== null
-    ) {
+    if (isValidate) {
       dispatch(
-        editDescription({
-          title: localTitle,
-          description: editDescriptionLocal,
-          id,
-          date: startDate,
-        })
+        id
+          ? editDescription({
+              title: localTitle,
+              description: localDescription,
+              id,
+              date: startDate,
+            })
+          : createTask({
+              title: localTitle,
+              date: startDate,
+              description: localDescription,
+            })
       );
       setIsEditOpen(false);
       setErrorMessage('');
-      } else if (localTitle !== undefined &&
-        editDescriptionLocal !== undefined &&
-        id === null) {
-          dispatch(
-            createTask({
-              title: localTitle,
-              date: startDate,
-              description : editDescriptionLocal,
-            })
-          );
-          setIsEditOpen(false);
-          setErrorMessage('');
     } else {
       setErrorMessage('Task and description field are required');
     }
+    // if (
+    //   localTitle !== undefined &&
+    //   localDescription !== undefined &&
+    //   id !== null
+    // ) {
+    //   dispatch(
+    //     editDescription({
+    //       title: localTitle,
+    //       description: localDescription,
+    //       id,
+    //       date: startDate,
+    //     })
+    //   );
+    //   setIsEditOpen(false);
+    //   setErrorMessage('');
+    //   } else if (localTitle !== undefined &&
+    //     localDescription !== undefined &&
+    //     id === null) {
+    //       dispatch(
+    //         createTask({
+    //           title: localTitle,
+    //           date: startDate,
+    //           description : localDescription,
+    //         })
+    //       );
+    //       setIsEditOpen(false);
+    //       setErrorMessage('');
+    // } else {
+    //   setErrorMessage('Task and description field are required');
+    // }
   };
 
   return (
@@ -99,9 +121,9 @@ function EditTaskForm({
             onChange={(e) => handleInputChange({ e, type: 'title' })}
           ></InputTaskForm>
           <InputTaskForm
-          placeholder='Description'
+            placeholder='Description'
             onChange={(e) => handleInputChange({ e, type: 'description' })}
-            value={editDescriptionLocal}
+            value={localDescription}
           ></InputTaskForm>
         </EditFormStyle>
         <br /> Choose a date
@@ -110,7 +132,6 @@ function EditTaskForm({
           locale='es'
           onChange={(date: Date) => setStartDate(date)}
         />
-
         <ErrorDivForm>{errorMessage}</ErrorDivForm>
       </Modal>
     </>
