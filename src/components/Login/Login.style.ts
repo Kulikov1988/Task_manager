@@ -9,6 +9,7 @@ export const Login = styled.form`
 export const loginForm = styled.form`
   height: fit-content;
   width: fit-content;
+
   margin: 5rem 40rem;
   color: gray;
   background-color: white;

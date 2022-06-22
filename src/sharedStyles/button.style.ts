@@ -5,7 +5,7 @@ export const Button = styled.button`
   
   margin: 2rem 6rem;
   background: #FBCA1F;
-  /* font-family: inherit; */
+  font-family: 'Indie Flower', cursive;
   padding: .6em 1.3em;
   font-size: 18px;
   font-weight: 900;
@@ -26,7 +26,7 @@ export const ButtonLogOut = styled.button<{isHidden:boolean}>`
   
   margin: 1rem 2rem;
   background-color: seagreen;
-  font-family: inherit;
+  font-family: 'Indie Flower', cursive;
   padding: .5em 1.3em;
   font-size: 18px;
   font-weight: 900;

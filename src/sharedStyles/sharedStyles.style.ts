@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
-export const Input = styled.input`  
+export const Input = styled.input` 
+  font-family: 'Indie Flower', cursive;
   font-size: 18px;
   padding: .5rem 2rem;
   margin: .5rem 1rem;

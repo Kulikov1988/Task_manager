@@ -71,38 +71,7 @@ function EditTaskForm({
       setErrorMessage('');
     } else {
       setErrorMessage('Task and description field are required');
-    }
-    // if (
-    //   localTitle !== undefined &&
-    //   localDescription !== undefined &&
-    //   id !== null
-    // ) {
-    //   dispatch(
-    //     editDescription({
-    //       title: localTitle,
-    //       description: localDescription,
-    //       id,
-    //       date: startDate,
-    //     })
-    //   );
-    //   setIsEditOpen(false);
-    //   setErrorMessage('');
-    //   } else if (localTitle !== undefined &&
-    //     localDescription !== undefined &&
-    //     id === null) {
-    //       dispatch(
-    //         createTask({
-    //           title: localTitle,
-    //           date: startDate,
-    //           description : localDescription,
-    //         })
-    //       );
-    //       setIsEditOpen(false);
-    //       setErrorMessage('');
-    // } else {
-    //   setErrorMessage('Task and description field are required');
-    // }
-  };
+    }};
 
   return (
     <>

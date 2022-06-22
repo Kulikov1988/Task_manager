@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const EditFormStyle = styled.form`
 display: flex;
-justify-content: center;
+justify-content: space-between;
 `
 
 export const DivTaskForm = styled.div`
@@ -25,13 +25,15 @@ border: 2px solid ;
 `
 
 export const ButtonTaskForm = styled.button<{category:string}>`
+font-family: 'Indie Flower', cursive;
 border-radius: 3px;
 border: 2px solid palevioletred;
-font-size: 1rem;
-font-weight: 540;
+font-size: 17px;
+width: 120px;
+height: 50px;
+font-weight: 600;
 color: white;
 margin: .1em;
-padding: .25em 1em;
 background-color: ${props => props.category === 'new_task' ? 'green' 
 : props.category === 'delete_task' ? 'red' 
 : props.category === 'edit_task' ? 'orange' : 'black'};

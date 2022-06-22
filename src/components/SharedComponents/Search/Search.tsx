@@ -17,9 +17,9 @@ function Search({ setSearch, search, ...rest }: SearchProps) {
         {...rest}
         value={search}
         onChange={(e) => setSearch(e.target.value)}
-        placeholder='Search Component'
+        placeholder='Search'
       />
-      <span onClick={clearInput}> x</span>
+      <S.SearchX onClick={clearInput}> x</S.SearchX>
     </>
   );
 }

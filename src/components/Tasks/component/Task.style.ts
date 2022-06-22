@@ -38,7 +38,7 @@ width: 70vw;
 
 export const TaskItemButtons = styled.span`
 color: blue;
-width: 30vw;
+/* width: 30vw; */
 `
 
 

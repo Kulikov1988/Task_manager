@@ -3,8 +3,7 @@
 body {
   background-image: url(/src/assets/images/background.jpg);
   margin: 0;
-  font-family: 'Dancing Script', cursive;
-  font-family: 'Fascinate Inline', cursive;
+ 
   font-family: 'Indie Flower', cursive;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

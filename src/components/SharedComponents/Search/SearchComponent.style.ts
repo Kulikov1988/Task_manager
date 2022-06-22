@@ -1,5 +1,13 @@
 import styled from "styled-components";
 
 export const SearchInput = styled.input`
-color: red;
+font-family: 'Indie Flower', cursive;
+font-size: 22px;
+font-weight: 600;
+border: 2px solid ;
+
+`
+
+export const SearchX = styled.span`
+cursor: pointer;
 `
