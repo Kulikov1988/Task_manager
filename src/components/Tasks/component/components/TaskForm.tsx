@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { AppState } from '../../../../store';
 import { useNavigate } from 'react-router-dom';
-import { ButtonTaskForm, DivTaskForm, EditFormStyle } from './TaskForm.style';
+import { ButtonTaskForm, DivTaskForm } from './TaskForm.style';
 import EditTaskForm from './editForm/EditTaskForm';
 
 export type InputType = 'title' | 'description';
@@ -27,24 +27,26 @@ function TaskForm() {
     }
   });
 
-  const openEditModal = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
+  const openEditModal = () => {
     setIsEditOpen(true);
   };
 
   return (
     <>
-      <EditFormStyle>
-        <DivTaskForm>
-          <b>Hello {userName}, it is your tasks:</b>
-        </DivTaskForm>
-        <DivTaskForm>
-          <ButtonTaskForm category='new_task' onClick={openEditModal}>
-            Create a new task
-          </ButtonTaskForm>
-        </DivTaskForm>
-        <EditTaskForm setIsEditOpen={setIsEditOpen} isEditOpen={isEditOpen} />
-      </EditFormStyle>
+      <DivTaskForm>
+        <b>Hello {userName}, it is your tasks:</b>
+      </DivTaskForm>
+
+      <DivTaskForm>
+        <ButtonTaskForm
+          type='button'
+          category='new_task'
+          onClick={openEditModal}
+        >
+          Create a new task
+        </ButtonTaskForm>
+      </DivTaskForm>
+      <EditTaskForm setIsEditOpen={setIsEditOpen} isEditOpen={isEditOpen} />
     </>
   );
 }

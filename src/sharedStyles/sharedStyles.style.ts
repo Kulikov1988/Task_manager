@@ -16,6 +16,7 @@ export const Input = styled.input`
 
 export const SignDiv = styled.div`
   margin-top: 3rem;
-  display: flex;
+  font-size: 20px;
+  display: -webkit-box;
   justify-content: center;
 `

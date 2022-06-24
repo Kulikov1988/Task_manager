@@ -82,6 +82,7 @@ function EditTaskForm({
         onCancel={closeEditModal}
         onSubmit={handleSubmit}
         id={id}
+        isValidate = {isValidate}
       >
         <EditFormStyle>
           <InputTaskForm

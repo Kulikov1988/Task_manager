@@ -17,11 +17,13 @@ export const SignInForm = styled.form`
 `
 
 export const MainDiv = styled.div`
-  margin: 10px;
-  padding-left: 4rem ;
+  display: flex;
+  justify-content: center;
 `
 
 export const Div = styled.div`
+  font-size: 20px;
+  color: black;
   margin: 1px;
   padding-left: 1rem ;
 `

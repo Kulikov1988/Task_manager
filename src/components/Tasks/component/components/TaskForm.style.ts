@@ -2,10 +2,11 @@ import styled from "styled-components";
 
 export const EditFormStyle = styled.form`
 display: flex;
-justify-content: space-between;
+justify-content: end;
 `
 
 export const DivTaskForm = styled.div`
+display: flex;
 font-size: 20px;
 font-weight: 500;
 text-align: center;
@@ -19,6 +20,9 @@ text-align: center;
 `
 
 export const InputTaskForm = styled.input`
+font-family: 'Indie Flower', cursive;
+font-size: 16px;
+font-weight: 600;
 padding: .7em;
 margin: .5em;
 border: 2px solid ;
@@ -29,7 +33,7 @@ font-family: 'Indie Flower', cursive;
 border-radius: 3px;
 border: 2px solid palevioletred;
 font-size: 17px;
-width: 120px;
+width: 90px;
 height: 50px;
 font-weight: 600;
 color: white;

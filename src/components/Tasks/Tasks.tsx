@@ -51,7 +51,6 @@ function Tasks(props) {
             </>
           ))}
         </S.TaskForm>
-       
       </S.Task>
     </>
   );

@@ -34,8 +34,7 @@ const SignIn: React.FC = () => {
     }
   };
 
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
+  const handleClick = () => {
     if (password1 === password2 && name !== '') {
       dispatch(
         signUp({
@@ -48,7 +47,7 @@ const SignIn: React.FC = () => {
       );
     } else {
       return setErrorMessage(
-        'some error, check your password/ all inputs are required'
+        'Some error, check your password/ All inputs are required'
       );
     }
   };
@@ -90,7 +89,7 @@ const SignIn: React.FC = () => {
           onChange={(e) => handleInputChange({ e, type: 'confirmPassword' })}
         />
         <div>
-          <Button onClick={handleClick}>Sign in</Button>
+          <Button type='button' onClick={handleClick}>Sign in</Button>
         </div>
       </S.SignInForm>
     </S.SignIn>

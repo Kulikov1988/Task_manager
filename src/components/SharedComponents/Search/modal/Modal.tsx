@@ -18,9 +18,11 @@ interface ModalProps {
   children: React.ReactNode;
   title?: string;
   id?: number;
+  isValidate?: boolean;
 }
 
 function Modal({
+  isValidate,
   setIsOpen,
   isOpen,
   onCancel,
@@ -28,8 +30,7 @@ function Modal({
   children,
   title,
 }: ModalProps) {
-  const closeModal = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
+  const closeModal = () => {
     setIsOpen(false);
   };
 
@@ -45,13 +46,15 @@ function Modal({
             </ModalHeader>
             <ModalMain>{children}</ModalMain>
             <ModalButtonsDiv>
-              <ModalButton
-                category='submit'
-                onClick={onSubmit}
-              >
+              <ModalButton type='button' category='submit' onClick={onSubmit}  disabled={!isValidate} >
                 Submit
               </ModalButton>
-              <ModalButton category='cancel' onClick={onCancel}>
+              <ModalButton
+                type='button'
+                category='cancel'
+                onClick={onCancel}
+               
+              >
                 Cancel
               </ModalButton>
             </ModalButtonsDiv>

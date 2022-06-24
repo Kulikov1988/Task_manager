@@ -37,8 +37,7 @@ const Login: React.FC = () => {
     navigate('/task');
   };
 
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
+  const handleClick = () => {
     dispatch(
       loginCheck({
         userEmail: email,
@@ -75,7 +74,9 @@ const Login: React.FC = () => {
             value={password}
             onChange={(e) => handleInputChange({ e, type: 'password' })}
           />
-          <Button onClick={handleClick}>Login</Button>
+          <Button type='button' onClick={handleClick}>
+            Login
+          </Button>
         </S.loginForm>
       </S.Login>
     </>

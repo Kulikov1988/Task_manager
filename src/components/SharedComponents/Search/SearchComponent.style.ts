@@ -10,4 +10,6 @@ border: 2px solid ;
 
 export const SearchX = styled.span`
 cursor: pointer;
+font-size: 30px;
+padding-left: 5px;
 `

@@ -24,7 +24,7 @@ export const ModalHeader = styled.header`
 background-color: #61c7e7;
   padding: 10px 20px;
   display: flex;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   position: relative;
   text-align: center;
 `
@@ -38,6 +38,7 @@ font-weight: 700;
 `
 
 export const ModalButtonX = styled.button`
+
 position: absolute;
   top: 25%;
   left: 99%;
@@ -45,6 +46,7 @@ position: absolute;
 `
 
 export const ModalMain = styled.main`
+display: inline-block;
 padding: 20px;
 
 `
@@ -64,6 +66,7 @@ font-size: 16px;
 border-radius: 6px;
 padding: 6px;
 margin-left: 13px;
+
 color: ${props => props.category === 'cancel' ? 'rgba(174, 193, 46, 0.9)' 
 : props.category === 'submit' ? 'rgba(255, 255, 255, 0.78)' 
 : props.category === 'edit_task' ? 'orange' : 'black'};

@@ -21,13 +21,11 @@ function Task({ title, description, id, key, date }: handleInputChangeProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
 
-  const openModal = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
+  const openModal = () => {
     setIsOpen(true);
   };
 
-  const openEditModal = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
+  const openEditModal = () => {
     setIsEditOpen(true);
   };
 
@@ -35,10 +33,7 @@ function Task({ title, description, id, key, date }: handleInputChangeProps) {
     setIsOpen(false);
   };
 
-  const deleteTaskOnClick = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
-    e.preventDefault();
+  const deleteTaskOnClick = () => {
     dispatch(deleteTask({ id }));
     setIsOpen(false);
   };
@@ -56,10 +51,18 @@ function Task({ title, description, id, key, date }: handleInputChangeProps) {
           <S.TaskSpan>{date.toLocaleString()}</S.TaskSpan>
         </S.TaskItem>
         <S.TaskItemButtons>
-          <ButtonTaskForm onClick={openEditModal} category='edit_task'>
+          <ButtonTaskForm
+            type='button'
+            onClick={openEditModal}
+            category='edit_task'
+          >
             Edit task
           </ButtonTaskForm>
-          <ButtonTaskForm onClick={openModal} category='delete_task'>
+          <ButtonTaskForm
+            type='button'
+            onClick={openModal}
+            category='delete_task'
+          >
             Delete task
           </ButtonTaskForm>
         </S.TaskItemButtons>
