@@ -11,12 +11,11 @@ export type InputType = 'title' | 'description';
 export interface handleInputChangeProps {
   title: string;
   description: string;
-  id: number;
-  key: number;
+  id: any;
   date: Date;
 }
 
-function Task({ title, description, id, key, date }: handleInputChangeProps) {
+function Task({ title, description, id, date }: handleInputChangeProps) {
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
@@ -39,52 +38,51 @@ function Task({ title, description, id, key, date }: handleInputChangeProps) {
   };
 
   return (
-    <>
-      <S.TaskDiv>
-        <S.TaskItem>
-          <S.TaskSpan>
-            {title} <> </>
-          </S.TaskSpan>
-          <S.TaskSpan>
-            {description} <> </>
-          </S.TaskSpan>
-          <S.TaskSpan>{date.toLocaleString()}</S.TaskSpan>
-        </S.TaskItem>
-        <S.TaskItemButtons>
-          <ButtonTaskForm
-            type='button'
-            onClick={openEditModal}
-            category='edit_task'
-          >
-            Edit task
-          </ButtonTaskForm>
-          <ButtonTaskForm
-            type='button'
-            onClick={openModal}
-            category='delete_task'
-          >
-            Delete task
-          </ButtonTaskForm>
-        </S.TaskItemButtons>
-        <Modal
-          setIsOpen={setIsOpen}
-          isOpen={isOpen}
-          onCancel={closeModal}
-          onSubmit={deleteTaskOnClick}
-          title={title}
+    <S.TaskDiv>
+      <S.TaskItem>
+        <S.TaskSpan>
+          {title} <> </>
+        </S.TaskSpan>
+        <S.TaskSpan>
+          {description} <> </>
+        </S.TaskSpan>
+        <S.TaskSpan>{date.toLocaleString()}</S.TaskSpan>
+      </S.TaskItem>
+      <S.TaskItemButtons>
+        <ButtonTaskForm
+          type='button'
+          onClick={openEditModal}
+          category='edit_task'
         >
-          Are you sure?
-        </Modal>
-        <EditTaskForm
-          setIsEditOpen={setIsEditOpen}
-          isEditOpen={isEditOpen}
-          title={title}
-          description={description}
-          id={id}
-          date={date}
-        />
-      </S.TaskDiv>
-    </>
+          Edit task
+        </ButtonTaskForm>
+        <ButtonTaskForm
+          type='button'
+          onClick={openModal}
+          category='delete_task'
+        >
+          Delete task
+        </ButtonTaskForm>
+      </S.TaskItemButtons>
+      <Modal
+        id={id}
+        setIsOpen={setIsOpen}
+        isOpen={isOpen}
+        onCancel={closeModal}
+        onSubmit={deleteTaskOnClick}
+        headerTitle='Delete Task'
+      >
+        Are you sure?
+      </Modal>
+      <EditTaskForm
+        setIsEditOpen={setIsEditOpen}
+        isEditOpen={isEditOpen}
+        title={title}
+        description={description}
+        id={id}
+        date={date}
+      />
+    </S.TaskDiv>
   );
 }
 

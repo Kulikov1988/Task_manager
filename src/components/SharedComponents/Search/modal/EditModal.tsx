@@ -16,24 +16,19 @@ interface ModalProps {
   onCancel?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   onSubmit?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   children: React.ReactNode;
-  headerTitle?: string;
-  headerTitle1?: string;
-  id?: number;
-  isDisable?: boolean;
+  title?: string;
 }
 
-function Modal({
-  id,
-  isDisable,
+function EditModal({
   setIsOpen,
   isOpen,
   onCancel,
   onSubmit,
   children,
-  headerTitle,
-  headerTitle1,
+  title
 }: ModalProps) {
-  const closeModal = () => {
+  const closeModal = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
     setIsOpen(false);
   };
 
@@ -44,21 +39,18 @@ function Modal({
           <Overlay></Overlay>
           <ModalDiv>
             <ModalHeader>
-              <ModalHeaderDiv hidden={!id}>{headerTitle}</ModalHeaderDiv>
-              <ModalHeaderDiv hidden={!!id}>{headerTitle1}</ModalHeaderDiv>
+              <ModalHeaderDiv> {title} </ModalHeaderDiv>
               <ModalButtonX onClick={closeModal}>X</ModalButtonX>
             </ModalHeader>
             <ModalMain>{children}</ModalMain>
             <ModalButtonsDiv>
               <ModalButton
-                type='button'
                 category='submit'
                 onClick={onSubmit}
-                disabled={isDisable}
               >
-                Submit
+                Delete
               </ModalButton>
-              <ModalButton type='button' category='cancel' onClick={onCancel}>
+              <ModalButton category='cancel' onClick={onCancel}>
                 Cancel
               </ModalButton>
             </ModalButtonsDiv>
@@ -69,4 +61,4 @@ function Modal({
   );
 }
 
-export default Modal;
+export default EditModal;

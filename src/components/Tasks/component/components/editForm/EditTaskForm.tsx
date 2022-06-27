@@ -1,4 +1,4 @@
-import { handleInputChangeProps } from '../TaskForm';
+import { handleInputChangeProps } from '../CreateTaskForm';
 import React, { useState } from 'react';
 import { InputTaskForm, EditFormStyle } from '../TaskForm.style';
 import { useDispatch } from 'react-redux';
@@ -7,7 +7,6 @@ import {
   createTask,
 } from '../../../../../slices/tasksReducer';
 import Modal from '../../../../SharedComponents/Search/modal/Modal';
-import { ErrorDivForm } from './../TaskForm.style';
 import DatePicker from 'react-datepicker';
 
 import 'react-datepicker/dist/react-datepicker.css';
@@ -17,7 +16,7 @@ interface EditTaskFormProps {
   isEditOpen: boolean;
   title?: string;
   description?: string;
-  id?: number;
+  id?: any;
   date?: Date;
 }
 
@@ -33,7 +32,6 @@ function EditTaskForm({
 
   const [localTitle, setLocalTitle] = useState(title || '');
   const [localDescription, setlocalDescription] = useState(description || '');
-  const [errorMessage, setErrorMessage] = useState('');
   const [startDate, setStartDate] = useState(date);
 
   const handleInputChange = ({ e, type }: handleInputChangeProps) => {
@@ -68,21 +66,20 @@ function EditTaskForm({
             })
       );
       setIsEditOpen(false);
-      setErrorMessage('');
-    } else {
-      setErrorMessage('Task and description field are required');
-    }};
+    }
+  };
 
   return (
     <>
       <Modal
         isOpen={isEditOpen}
         setIsOpen={setIsEditOpen}
-        title={title}
+        headerTitle='Edit Task'
+        headerTitle1='Create Task'
         onCancel={closeEditModal}
         onSubmit={handleSubmit}
         id={id}
-        isValidate = {isValidate}
+        isDisable={!isValidate}
       >
         <EditFormStyle>
           <InputTaskForm
@@ -102,7 +99,6 @@ function EditTaskForm({
           locale='es'
           onChange={(date: Date) => setStartDate(date)}
         />
-        <ErrorDivForm>{errorMessage}</ErrorDivForm>
       </Modal>
     </>
   );

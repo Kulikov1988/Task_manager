@@ -57,9 +57,7 @@ const loginSlice = createSlice({
       payload.cb()
     },
 
-    logout: (state ) => {
-      state.isAuth = false;
-    } 
+    logout: () => initialState
   }
 })
 

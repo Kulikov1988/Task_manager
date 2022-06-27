@@ -34,7 +34,7 @@ const Login: React.FC = () => {
   };
 
   const loginToTasks = () => {
-    navigate('/task');
+    navigate('/tasks');
   };
 
   const handleClick = () => {

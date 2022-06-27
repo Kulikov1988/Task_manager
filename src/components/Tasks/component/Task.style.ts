@@ -1,9 +1,5 @@
 import styled from "styled-components";
 
-export const Task = styled.form`
-
-`
-
 export const TaskForm = styled.form`
 margin: 2rem 20rem;
 padding: 1rem;

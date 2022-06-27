@@ -13,7 +13,7 @@ function App(props) {
   const dispatch = useDispatch();
   const { isAuth } = useSelector((state: AppState) => state.authReducer);
 
-   const logoutOnClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const logoutOnClick = () => {
     dispatch(logout());
   };
 
@@ -33,7 +33,7 @@ function App(props) {
       <Routes>
         <Route path='/login' element={<Login />} />
         <Route path='/sign_in' element={<SignIn />} />
-        <Route path='/task' element={<Tasks />} />
+        <Route path='/tasks' element={<Tasks />} />
       </Routes>
     </>
   );

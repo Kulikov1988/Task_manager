@@ -1,55 +1,56 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { v4 as uuid } from 'uuid';
 
 interface TaskProps {
   title: string;
   description: string;
   date?: Date;
-  id?: number;
+  id?: any;
 }
 
 interface TaskIdProps {
-  id: number;
+  id: any;
 }
 
 export const initialState = {
   tasks : [
     {
-      id: 1,
+      id: uuid(),
       title: 'Task1',
       date: new Date(),
       description: 'do the first task today!',
       
     },
     {
-      id: 2,
+      id: uuid(),
       title: 'Task2',
       date: new Date(),
       description: 'second task',
         
     },
     {
-      id: 3,
+      id: uuid(),
       title: 'Task3',
       date: new Date(),
       description: 'third task',      
       
     },
     {
-      id: 4,
+      id: uuid(),
       title: 'Task4',
       date: new Date(),
       description: 'one more task',
      
     },
     {
-      id: 5,
+      id: uuid(),
       title: 'Task5',
       date: new Date(),
       description: 'last task',
       
     },
     {
-      id: 6,
+      id: uuid(),
       title: 'Task6',
       date: new Date(),
       description: 'the last task',
@@ -59,13 +60,13 @@ export const initialState = {
   
 }
 
+
 const taskSlice = createSlice({
   name: 'task',
   initialState,
   reducers: {
     createTask: (state, {payload}: PayloadAction<TaskProps> ) => {
-      state.tasks = [...state.tasks, {...payload, id: state.tasks.length + 1, date: payload.date}];
-      console.log(payload)
+      state.tasks = [...state.tasks, {...payload, id: uuid(), date: payload.date}];
     },
     deleteTask: (state, {payload}: PayloadAction<TaskIdProps> ) => {
       const newState = state.tasks.filter(task => task.id !== payload.id)
@@ -80,10 +81,9 @@ const taskSlice = createSlice({
            title: payload.title,
            date: payload.date
          };
-       } return {...task}
+       } return {...task} 
      })
-      
-      state.tasks = editedState;
+           state.tasks = editedState;
     }
   }
 })

@@ -18,22 +18,22 @@ const persistConfig = {
   key: 'root',
   storage,
 }
- 
+const persistedReducer = persistReducer(persistConfig, authReducer)
 
 
 const reducer = combineReducers({
-  authReducer,
+  authReducer: persistedReducer,
   taskReducer
 })
 
-const persistedReducer = persistReducer(persistConfig, reducer)
+
 
 const store = configureStore({
-  reducer: persistedReducer,
+  reducer,
   middleware: (getDefaultMiddleware) => getDefaultMiddleware({
-    serializableCheck: { 
+    serializableCheck: false, 
       ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-    }
+    
   })
 })
 

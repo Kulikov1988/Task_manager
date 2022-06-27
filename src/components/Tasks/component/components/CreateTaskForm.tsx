@@ -4,6 +4,7 @@ import { AppState } from '../../../../store';
 import { useNavigate } from 'react-router-dom';
 import { ButtonTaskForm, DivTaskForm } from './TaskForm.style';
 import EditTaskForm from './editForm/EditTaskForm';
+import { ModalButtonsDiv } from '../../../SharedComponents/Search/modal/Modal.style';
 
 export type InputType = 'title' | 'description';
 
@@ -12,7 +13,7 @@ export interface handleInputChangeProps {
   type: InputType;
 }
 
-function TaskForm() {
+function CreateTaskForm() {
   const navigate = useNavigate();
 
   const [isEditOpen, setIsEditOpen] = useState(false);
@@ -35,20 +36,20 @@ function TaskForm() {
     <>
       <DivTaskForm>
         <b>Hello {userName}, it is your tasks:</b>
+        <ModalButtonsDiv>
+          <ButtonTaskForm
+            type='button'
+            category='new_task'
+            onClick={openEditModal}
+          >
+            Create a new task
+          </ButtonTaskForm>
+        </ModalButtonsDiv>
       </DivTaskForm>
 
-      <DivTaskForm>
-        <ButtonTaskForm
-          type='button'
-          category='new_task'
-          onClick={openEditModal}
-        >
-          Create a new task
-        </ButtonTaskForm>
-      </DivTaskForm>
       <EditTaskForm setIsEditOpen={setIsEditOpen} isEditOpen={isEditOpen} />
     </>
   );
 }
 
-export default TaskForm;
+export default CreateTaskForm;

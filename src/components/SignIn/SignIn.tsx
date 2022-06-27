@@ -19,7 +19,7 @@ const SignIn: React.FC = () => {
   const navigate = useNavigate();
 
   const loginToTasks = () => {
-    navigate('/task');
+    navigate('/tasks');
   };
 
   const handleInputChange = ({ e, type }: handleInputChangeProps) => {
@@ -47,7 +47,7 @@ const SignIn: React.FC = () => {
       );
     } else {
       return setErrorMessage(
-        'Some error, check your password/ All inputs are required'
+        'Some error, check your password / All inputs are required'
       );
     }
   };
@@ -89,7 +89,9 @@ const SignIn: React.FC = () => {
           onChange={(e) => handleInputChange({ e, type: 'confirmPassword' })}
         />
         <div>
-          <Button type='button' onClick={handleClick}>Sign in</Button>
+          <Button type='button' onClick={handleClick}>
+            Sign in
+          </Button>
         </div>
       </S.SignInForm>
     </S.SignIn>
