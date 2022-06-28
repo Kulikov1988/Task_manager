@@ -26,7 +26,7 @@ function Tasks(props) {
     return (
       task.title.toLowerCase().includes(search.toLowerCase()) ||
       task.description.toLowerCase().includes(search.toLowerCase())
-      );
+    );
   });
 
   return (
@@ -36,16 +36,14 @@ function Tasks(props) {
         <Search setSearch={setSearch} search={search} />
       </DivTaskForm>
       {filteredTasks.map(({ title, description, date, id }, index) => (
-        <>
-          <Task
+         <Task
             key={index}
             title={title}
             description={description}
             date={date}
             id={id}
           />
-        </>
-      ))}
+              ))}
     </S.TaskForm>
   );
 }

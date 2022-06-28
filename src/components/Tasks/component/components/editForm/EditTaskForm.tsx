@@ -69,13 +69,14 @@ function EditTaskForm({
     }
   };
 
+  console.log(id);
+
   return (
-    <>
+    
       <Modal
         isOpen={isEditOpen}
         setIsOpen={setIsEditOpen}
-        headerTitle='Edit Task'
-        headerTitle1='Create Task'
+        headerTitle={id ? 'Edit Task' : 'Create Task'}
         onCancel={closeEditModal}
         onSubmit={handleSubmit}
         id={id}
@@ -100,7 +101,7 @@ function EditTaskForm({
           onChange={(date: Date) => setStartDate(date)}
         />
       </Modal>
-    </>
+    
   );
 }
 

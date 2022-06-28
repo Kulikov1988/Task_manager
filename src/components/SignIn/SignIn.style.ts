@@ -6,7 +6,7 @@ export const SignIn = styled.form`
   justify-content: center;
   
 `
-export const SignInForm = styled.form`
+export const SignInDiv = styled.div`
   height: fit-content;
   width: fit-content;
   margin: 5rem 40rem;

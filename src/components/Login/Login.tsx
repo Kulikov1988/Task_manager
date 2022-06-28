@@ -55,7 +55,7 @@ const Login: React.FC = () => {
         <NavLink to='/sign_in'> Sign in</NavLink>
       </SignDiv>
       <S.Login>
-        <S.loginForm>
+        <S.loginDiv>
           <S.Div>{err}</S.Div>
           <S.mainDiv>
             <h1>Login Page</h1>{' '}
@@ -77,7 +77,7 @@ const Login: React.FC = () => {
           <Button type='button' onClick={handleClick}>
             Login
           </Button>
-        </S.loginForm>
+        </S.loginDiv>
       </S.Login>
     </>
   );

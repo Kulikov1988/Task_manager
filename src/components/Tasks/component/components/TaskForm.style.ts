@@ -1,13 +1,11 @@
 import styled from "styled-components";
 
-export const EditFormStyle = styled.form`
+export const EditFormStyle = styled.div`
 display: flex;
 justify-content: end;
 `
 
 export const DivTaskForm = styled.div`
-/* display: flex; */
-
 font-size: 20px;
 font-weight: 500;
 text-align: center;

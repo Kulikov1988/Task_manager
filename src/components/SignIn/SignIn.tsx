@@ -54,7 +54,7 @@ const SignIn: React.FC = () => {
 
   return (
     <S.SignIn>
-      <S.SignInForm>
+      <S.SignInDiv>
         <div> {errorMessage}</div>
 
         <S.MainDiv>
@@ -93,7 +93,7 @@ const SignIn: React.FC = () => {
             Sign in
           </Button>
         </div>
-      </S.SignInForm>
+      </S.SignInDiv>
     </S.SignIn>
   );
 };

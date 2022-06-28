@@ -44,8 +44,7 @@ function Modal({
           <Overlay></Overlay>
           <ModalDiv>
             <ModalHeader>
-              <ModalHeaderDiv hidden={!id}>{headerTitle}</ModalHeaderDiv>
-              <ModalHeaderDiv hidden={!!id}>{headerTitle1}</ModalHeaderDiv>
+              <ModalHeaderDiv>{headerTitle}</ModalHeaderDiv>
               <ModalButtonX onClick={closeModal}>X</ModalButtonX>
             </ModalHeader>
             <ModalMain>{children}</ModalMain>

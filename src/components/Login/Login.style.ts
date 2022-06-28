@@ -6,7 +6,7 @@ export const Login = styled.form`
   justify-content: center;
   
 `
-export const loginForm = styled.form`
+export const loginDiv = styled.div`
   height: fit-content;
   width: fit-content;
 
