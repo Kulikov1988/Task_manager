@@ -22,6 +22,9 @@ function Tasks(props) {
     }
   });
 
+  console.log(tasks, isAuth)
+  
+
   const filteredTasks = tasks.filter((task) => {
     return (
       task.title.toLowerCase().includes(search.toLowerCase()) ||

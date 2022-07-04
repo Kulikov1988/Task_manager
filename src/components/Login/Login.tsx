@@ -8,6 +8,7 @@ import { NavLink } from 'react-router-dom';
 import { SignDiv } from '../../sharedStyles/sharedStyles.style';
 import { AppState } from '../../store';
 import { useNavigate } from 'react-router-dom';
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 
 export type InputType = 'email' | 'password' | 'confirmPassword' | 'name';
 
@@ -16,8 +17,19 @@ export interface handleInputChangeProps {
   type: InputType;
 }
 
+interface LoginUserResponse {
+  displayName: string;
+  email: string;
+  expiresIn: string;
+  idToken: string;
+  kind: string;
+  localId: string;
+  refreshToken: string;
+  registered: boolean;
+}
+
 const Login: React.FC = () => {
-  const [email, setEmail] = useState<string>('');
+  const [localEmail, setLocalEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
   const dispatch = useDispatch();
@@ -27,7 +39,7 @@ const Login: React.FC = () => {
 
   const handleInputChange = ({ e, type }: handleInputChangeProps) => {
     if (type === 'email') {
-      setEmail(e.target.value);
+      setLocalEmail(e.target.value);
     } else {
       setPassword(e.target.value);
     }
@@ -38,14 +50,31 @@ const Login: React.FC = () => {
   };
 
   const handleClick = () => {
-    dispatch(
-      loginCheck({
-        userEmail: email,
-        password,
-        isAuth: true,
-        cb: loginToTasks,
+    console.log('handle Click');
+    const auth = getAuth();
+    signInWithEmailAndPassword(auth, localEmail, password)
+      .then(({ user }) => {
+        console.log(user);
+        // console.log(auth);
+        dispatch(
+          loginCheck({
+            userEmail: user.email,
+            // @ts-ignore
+            userId: user.uid,
+            // @ts-ignore
+            tokenId: user.accessToken,
+            userName: user.displayName,
+            // isAuth: true,
+            cb: loginToTasks,
+          })
+        );
       })
-    );
+      .catch((error) => {
+        console.log('error');
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // ..
+      });
   };
 
   return (
@@ -64,7 +93,7 @@ const Login: React.FC = () => {
           <Input
             type='text'
             placeholder='email'
-            value={email}
+            value={localEmail}
             onChange={(e) => handleInputChange({ e, type: 'email' })}
           />
           <S.Div>Password</S.Div>

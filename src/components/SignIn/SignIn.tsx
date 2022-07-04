@@ -6,6 +6,7 @@ import * as S from './SignIn.style';
 import { handleInputChangeProps } from '../Login/Login';
 import { signUp } from '../../slices/authReducer';
 import { useNavigate } from 'react-router-dom';
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 
 const SignIn: React.FC = () => {
   const [email, setEmail] = useState<string>('');
@@ -36,6 +37,19 @@ const SignIn: React.FC = () => {
 
   const handleClick = () => {
     if (password1 === password2 && name !== '') {
+      const auth = getAuth();
+      createUserWithEmailAndPassword(auth, email, password1)
+      .then((userCredential) => {
+        // Signed in 
+        const user = userCredential.user;
+        // ...
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          // ..
+        });
+
       dispatch(
         signUp({
           userEmail: email,
