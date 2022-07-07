@@ -69,8 +69,6 @@ function EditTaskForm({
     }
   };
 
-  console.log(id);
-
   return (
     
       <Modal

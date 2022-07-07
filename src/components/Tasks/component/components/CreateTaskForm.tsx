@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { AppState } from '../../../../store';
-import { useNavigate } from 'react-router-dom';
 import { ButtonTaskForm, DivTaskForm } from './TaskForm.style';
 import EditTaskForm from './editForm/EditTaskForm';
 import { ModalButtonsDiv } from '../../../SharedComponents/Search/modal/Modal.style';
+import { auth, onAuthStateChanged } from '../../../../firebase';
+import { login, logout } from '../../../../slices/authReducer';
+import { useNavigate } from 'react-router-dom';
 
 export type InputType = 'title' | 'description';
 
@@ -14,19 +16,34 @@ export interface handleInputChangeProps {
 }
 
 function CreateTaskForm() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const [isEditOpen, setIsEditOpen] = useState(false);
 
-  const { userName, isAuth } = useSelector(
+  const { userName } = useSelector(
     (state: AppState) => state.authReducer
   );
 
   useEffect(() => {
-    if (!isAuth) {
-      navigate('/login');
-    }
-  });
+    onAuthStateChanged(auth, (userAuth) => {
+      if (userAuth) {
+        // user is logged in, send the user's details to redux, store the current user in the state
+        dispatch(
+          login({
+            userEmail: userAuth.email,
+            // @ts-ignore
+            userId: userAuth.uid,
+            // @ts-ignore
+            tokenId: userAuth.accessToken,
+            userName: userAuth.displayName,
+          })
+        );
+      } else {
+        dispatch(logout());
+        navigate('/login');
+      }
+    });
+  }, []);
 
   const openEditModal = () => {
     setIsEditOpen(true);
@@ -35,7 +52,7 @@ function CreateTaskForm() {
   return (
     <>
       <DivTaskForm>
-        <b>Hello {userName}, it is your tasks:</b>
+        <b>Hellow {userName}, it is your tasks:</b>
         <ModalButtonsDiv>
           <ButtonTaskForm
             type='button'

@@ -1,29 +1,42 @@
 import { useEffect, useState } from 'react';
 import Task from './component/Task';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { AppState } from '../../store';
 import * as S from './component/Task.style';
 import CreateTaskForm from './component/components/CreateTaskForm';
 import { DivTaskForm } from './component/components/TaskForm.style';
 import Search from '../SharedComponents/Search/Search';
+import { onAuthStateChanged, auth } from '../../firebase';
+import { login, logout } from '../../slices/authReducer';
 
 function Tasks(props) {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [search, setSearch] = useState('');
-
-  const { isAuth } = useSelector((state: AppState) => state.authReducer);
 
   const { tasks } = useSelector((state: AppState) => state.taskReducer);
 
   useEffect(() => {
-    if (!isAuth) {
-      navigate('/login');
-    }
-  });
-
-  console.log(tasks, isAuth)
-  
+    onAuthStateChanged(auth, (userAuth) => {
+      if (userAuth) {
+        // user is logged in, send the user's details to redux, store the current user in the state
+        dispatch(
+          login({
+            userEmail: userAuth.email,
+            // @ts-ignore
+            userId: userAuth.uid,
+            // @ts-ignore
+            tokenId: userAuth.accessToken,
+            userName: userAuth.displayName,
+          })
+        )
+      } else {
+        dispatch(logout());
+        navigate('/login');
+      }
+    });
+  }, []);
 
   const filteredTasks = tasks.filter((task) => {
     return (

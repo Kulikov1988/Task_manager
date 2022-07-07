@@ -1,6 +1,13 @@
 import { initializeApp } from 'firebase/app';
 import { getAnalytics } from 'firebase/analytics';
-import { getAuth } from 'firebase/auth';
+import { 
+  getAuth, 
+  createUserWithEmailAndPassword, 
+  updateProfile, 
+  onAuthStateChanged, 
+  signInWithEmailAndPassword, 
+  signOut 
+  } from 'firebase/auth';
 
 console.log(process.env)
 
@@ -15,6 +22,18 @@ const firebaseConfig = {
   measurementId: "G-3Z08MYD81F"
 };
 
+initializeApp(firebaseConfig);
+
+
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const analytics = getAnalytics(app);
+
+export {
+  auth,
+  createUserWithEmailAndPassword,
+  updateProfile,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  signOut
+  }

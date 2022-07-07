@@ -3,12 +3,12 @@ import * as S from './Login.style';
 import { Input } from '../../sharedStyles/sharedStyles.style';
 import { Button } from '../../sharedStyles/button.style';
 import { useDispatch, useSelector } from 'react-redux';
-import { loginCheck } from '../../slices/authReducer';
+import { login, loginToUserTasks, logout} from '../../slices/authReducer';
 import { NavLink } from 'react-router-dom';
 import { SignDiv } from '../../sharedStyles/sharedStyles.style';
 import { AppState } from '../../store';
 import { useNavigate } from 'react-router-dom';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { getAuth, signInWithEmailAndPassword} from 'firebase/auth';
 
 export type InputType = 'email' | 'password' | 'confirmPassword' | 'name';
 
@@ -33,7 +33,8 @@ const Login: React.FC = () => {
   const [password, setPassword] = useState<string>('');
 
   const dispatch = useDispatch();
-  const { err } = useSelector((state: AppState) => state.authReducer);
+
+  // const { err } = useSelector((state: AppState) => state.authReducer);
 
   const navigate = useNavigate();
 
@@ -55,26 +56,30 @@ const Login: React.FC = () => {
     signInWithEmailAndPassword(auth, localEmail, password)
       .then(({ user }) => {
         console.log(user);
-        // console.log(auth);
         dispatch(
-          loginCheck({
+          login({
             userEmail: user.email,
             // @ts-ignore
             userId: user.uid,
             // @ts-ignore
             tokenId: user.accessToken,
             userName: user.displayName,
-            // isAuth: true,
-            cb: loginToTasks,
+            
           })
         );
       })
       .catch((error) => {
         console.log('error');
+        dispatch(logout())
         const errorCode = error.code;
         const errorMessage = error.message;
         // ..
       });
+      dispatch(
+        loginToUserTasks({
+          cb: loginToTasks,
+        })
+      );
   };
 
   return (
@@ -85,7 +90,7 @@ const Login: React.FC = () => {
       </SignDiv>
       <S.Login>
         <S.loginDiv>
-          <S.Div>{err}</S.Div>
+          {/* <S.Div>{err}</S.Div> */}
           <S.mainDiv>
             <h1>Login Page</h1>{' '}
           </S.mainDiv>

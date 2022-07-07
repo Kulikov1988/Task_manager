@@ -1,30 +1,54 @@
-import React from 'react';
-import { NavLink, Route, Routes } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { NavLink, Route, Routes, useNavigate } from 'react-router-dom';
 import Login from './components/Login/Login';
 import SignIn from './components/SignIn/SignIn';
 import { useDispatch, useSelector } from 'react-redux';
-import { logout } from './slices/authReducer';
+import { login, logout } from './slices/authReducer';
 import Tasks from './components/Tasks/Tasks';
 import { ButtonLogOut } from './sharedStyles/button.style';
 import { AppState } from './store';
 import { LoginDiv } from './AppStyles.style';
+import { onAuthStateChanged, auth } from './firebase';
 
 function App(props) {
   const dispatch = useDispatch();
-  const { isAuth } = useSelector((state: AppState) => state.authReducer);
+  const navigate = useNavigate();
+  const { userName } = useSelector((state: AppState) => state.authReducer);
 
   const logoutOnClick = () => {
     dispatch(logout());
+    navigate('/login');
   };
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (userAuth) => {
+      if (userAuth) {
+        // user is logged in, send the user's details to redux, store the current user in the state
+        dispatch(
+          login({
+            userEmail: userAuth.email,
+            // @ts-ignore
+            userId: userAuth.uid,
+            // @ts-ignore
+            tokenId: userAuth.accessToken,
+            userName: userAuth.displayName,
+          })
+        );
+      } else {
+        dispatch(logout());
+        navigate('/login');
+      }
+    });
+  }, []);
 
   return (
     <>
       <div>
-        <LoginDiv isHidden={isAuth}>
+        <LoginDiv isHidden={!!userName}>
           <NavLink to='/login'>Login</NavLink>
         </LoginDiv>
         <div>
-          <ButtonLogOut isHidden={isAuth} onClick={logoutOnClick}>
+          <ButtonLogOut isHidden={!!userName} onClick={logoutOnClick}>
             Log Out
           </ButtonLogOut>
         </div>

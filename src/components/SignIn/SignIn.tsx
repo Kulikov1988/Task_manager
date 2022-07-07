@@ -4,9 +4,13 @@ import { Input } from '../../sharedStyles/sharedStyles.style';
 import { Button } from '../../sharedStyles/button.style';
 import * as S from './SignIn.style';
 import { handleInputChangeProps } from '../Login/Login';
-import { signUp } from '../../slices/authReducer';
+import { signUp, loginToUserTasks } from '../../slices/authReducer';
 import { useNavigate } from 'react-router-dom';
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  updateProfile,
+} from 'firebase/auth';
 
 const SignIn: React.FC = () => {
   const [email, setEmail] = useState<string>('');
@@ -39,23 +43,23 @@ const SignIn: React.FC = () => {
     if (password1 === password2 && name !== '') {
       const auth = getAuth();
       createUserWithEmailAndPassword(auth, email, password1)
-      .then((userCredential) => {
-        // Signed in 
-        const user = userCredential.user;
-        // ...
+        .then(({ user }) => {
+          updateProfile(user, { displayName: name });
+          console.log(user);
+          dispatch(
+            signUp({
+              userName: name,
+            })
+          );
+          // ...
         })
         .catch((error) => {
           const errorCode = error.code;
           const errorMessage = error.message;
           // ..
         });
-
       dispatch(
-        signUp({
-          userEmail: email,
-          password: password1,
-          userName: name,
-          isAuth: true,
+        loginToUserTasks({
           cb: loginToTasks,
         })
       );
@@ -70,7 +74,6 @@ const SignIn: React.FC = () => {
     <S.SignIn>
       <S.SignInDiv>
         <div> {errorMessage}</div>
-
         <S.MainDiv>
           <h1>Sign In Page</h1>{' '}
         </S.MainDiv>
