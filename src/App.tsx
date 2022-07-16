@@ -7,8 +7,10 @@ import { login, logout } from './slices/authReducer';
 import Tasks from './components/Tasks/Tasks';
 import { ButtonLogOut } from './sharedStyles/button.style';
 import { AppState } from './store';
-import { LoginDiv } from './AppStyles.style';
+import { HeaderForm, LoginDiv } from './AppStyles.style';
 import { onAuthStateChanged, auth } from './firebase';
+import MyLogo from './assets/images/logo1.png';
+import { LogoDiv } from './sharedStyles/sharedStyles.style';
 
 function App(props) {
   const dispatch = useDispatch();
@@ -39,20 +41,22 @@ function App(props) {
         navigate('/login');
       }
     });
-  }, []);
+  });
 
   return (
     <>
-      <div>
-        <LoginDiv isHidden={!!userName}>
-          <NavLink to='/login'>Login</NavLink>
-        </LoginDiv>
+      <HeaderForm>
+        <LogoDiv src={MyLogo} alt='' />
         <div>
+          <LoginDiv isHidden={!!userName}>
+            <NavLink to='/login'>Login</NavLink>
+          </LoginDiv>
+
           <ButtonLogOut isHidden={!!userName} onClick={logoutOnClick}>
             Log Out
           </ButtonLogOut>
         </div>
-      </div>
+      </HeaderForm>
 
       <Routes>
         <Route path='/login' element={<Login />} />

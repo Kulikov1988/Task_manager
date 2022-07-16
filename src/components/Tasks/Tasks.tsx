@@ -30,13 +30,13 @@ function Tasks(props) {
             tokenId: userAuth.accessToken,
             userName: userAuth.displayName,
           })
-        )
+        );
       } else {
         dispatch(logout());
         navigate('/login');
       }
     });
-  }, []);
+  }, );
 
   const filteredTasks = tasks.filter((task) => {
     return (
@@ -52,14 +52,14 @@ function Tasks(props) {
         <Search setSearch={setSearch} search={search} />
       </DivTaskForm>
       {filteredTasks.map(({ title, description, date, id }, index) => (
-         <Task
-            key={index}
-            title={title}
-            description={description}
-            date={date}
-            id={id}
-          />
-              ))}
+        <Task
+          key={index}
+          title={title}
+          description={description}
+          date={date}
+          id={id}
+        />
+      ))}
     </S.TaskForm>
   );
 }

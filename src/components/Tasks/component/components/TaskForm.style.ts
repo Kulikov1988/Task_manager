@@ -36,6 +36,7 @@ width: 90px;
 height: 50px;
 font-weight: 600;
 color: white;
+transition-duration: 0.4s;
 margin: .1em;
 background-color: ${props => props.category === 'new_task' ? 'green' 
 : props.category === 'delete_task' ? 'red' 
@@ -43,8 +44,10 @@ background-color: ${props => props.category === 'new_task' ? 'green'
 
 
 &:hover {
-  background-color: yellow;
-  color: blue;
+  background-color: ${props => props.category === 'new_task' ? 'white' 
+: props.category === 'delete_task' ? 'yellow' 
+: props.category === 'edit_task' ? 'olive' : 'black'};
+  color: black;
   opacity: .9;
 }
 `

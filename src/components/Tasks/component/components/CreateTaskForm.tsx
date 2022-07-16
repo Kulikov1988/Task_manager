@@ -27,7 +27,6 @@ function CreateTaskForm() {
   useEffect(() => {
     onAuthStateChanged(auth, (userAuth) => {
       if (userAuth) {
-        // user is logged in, send the user's details to redux, store the current user in the state
         dispatch(
           login({
             userEmail: userAuth.email,
@@ -43,7 +42,7 @@ function CreateTaskForm() {
         navigate('/login');
       }
     });
-  }, []);
+  }, );
 
   const openEditModal = () => {
     setIsEditOpen(true);

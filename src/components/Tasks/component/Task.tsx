@@ -39,6 +39,9 @@ function Task({ title, description, id, date }: handleInputChangeProps) {
 
   return (
     <S.TaskDiv>
+      <div>
+        <img src='/src/assets/images/logo1.png' alt='' />
+      </div>
       <S.TaskItem>
         <S.TaskSpan>
           {title} <> </>
@@ -62,7 +65,7 @@ function Task({ title, description, id, date }: handleInputChangeProps) {
           category='delete_task'
         >
           Delete task
-        </ButtonTaskForm>
+        </ButtonTaskForm>{' '}
       </S.TaskItemButtons>
       <Modal
         id={id}

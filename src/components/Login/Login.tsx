@@ -2,13 +2,12 @@ import React, { useState } from 'react';
 import * as S from './Login.style';
 import { Input } from '../../sharedStyles/sharedStyles.style';
 import { Button } from '../../sharedStyles/button.style';
-import { useDispatch, useSelector } from 'react-redux';
-import { login, loginToUserTasks, logout} from '../../slices/authReducer';
+import { useDispatch } from 'react-redux';
+import { login, logout } from '../../slices/authReducer';
 import { NavLink } from 'react-router-dom';
 import { SignDiv } from '../../sharedStyles/sharedStyles.style';
-import { AppState } from '../../store';
 import { useNavigate } from 'react-router-dom';
-import { getAuth, signInWithEmailAndPassword} from 'firebase/auth';
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 
 export type InputType = 'email' | 'password' | 'confirmPassword' | 'name';
 
@@ -46,10 +45,6 @@ const Login: React.FC = () => {
     }
   };
 
-  const loginToTasks = () => {
-    navigate('/tasks');
-  };
-
   const handleClick = () => {
     console.log('handle Click');
     const auth = getAuth();
@@ -64,22 +59,15 @@ const Login: React.FC = () => {
             // @ts-ignore
             tokenId: user.accessToken,
             userName: user.displayName,
-            
           })
         );
+        navigate('/tasks');
       })
       .catch((error) => {
-        console.log('error');
-        dispatch(logout())
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        // ..
+        console.log(error);
+        dispatch(logout());
+        navigate('/login');
       });
-      dispatch(
-        loginToUserTasks({
-          cb: loginToTasks,
-        })
-      );
   };
 
   return (

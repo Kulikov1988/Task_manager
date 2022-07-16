@@ -7,3 +7,8 @@ padding: 1rem;
 font-family: 'Indie Flower', cursive;
 display: ${({isHidden}) => isHidden ? 'none' : 'block'};
 `
+
+export const HeaderForm = styled.form`
+display: flex;
+justify-content: space-between;
+`

@@ -73,4 +73,9 @@ color: ${props => props.category === 'cancel' ? 'rgba(174, 193, 46, 0.9)'
 background-color: ${props => props.category === 'cancel' ? 'rgba(243, 229, 229, 0.48)' 
 : props.category === 'submit' ? 'rgba(24, 56, 226, 0.78)' 
 : props.category === 'edit_task' ? 'orange' : 'black'};
+
+&:disabled {
+  cursor: not-allowed;
+
+}
 `

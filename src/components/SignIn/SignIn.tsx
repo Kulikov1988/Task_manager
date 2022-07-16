@@ -4,7 +4,7 @@ import { Input } from '../../sharedStyles/sharedStyles.style';
 import { Button } from '../../sharedStyles/button.style';
 import * as S from './SignIn.style';
 import { handleInputChangeProps } from '../Login/Login';
-import { signUp, loginToUserTasks } from '../../slices/authReducer';
+import { signUp } from '../../slices/authReducer';
 import { useNavigate } from 'react-router-dom';
 import {
   getAuth,
@@ -22,10 +22,6 @@ const SignIn: React.FC = () => {
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
-
-  const loginToTasks = () => {
-    navigate('/tasks');
-  };
 
   const handleInputChange = ({ e, type }: handleInputChangeProps) => {
     if (type === 'email') {
@@ -51,18 +47,8 @@ const SignIn: React.FC = () => {
               userName: name,
             })
           );
-          // ...
+          navigate('/tasks');
         })
-        .catch((error) => {
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          // ..
-        });
-      dispatch(
-        loginToUserTasks({
-          cb: loginToTasks,
-        })
-      );
     } else {
       return setErrorMessage(
         'Some error, check your password / All inputs are required'

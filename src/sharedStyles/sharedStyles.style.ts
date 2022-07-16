@@ -20,3 +20,12 @@ export const SignDiv = styled.div`
   display: -webkit-box;
   justify-content: center;
 `
+
+export const LogoDiv = styled.img`
+height: 75px;
+padding: 10px;
+margin-left: 25px;
+border-radius: 50%;
+
+`
+
