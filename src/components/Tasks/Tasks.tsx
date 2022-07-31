@@ -9,6 +9,7 @@ import { DivTaskForm } from './component/components/TaskForm.style';
 import Search from '../SharedComponents/Search/Search';
 import { onAuthStateChanged, auth } from '../../firebase';
 import { login, logout } from '../../slices/authReducer';
+import Avatar from '@mui/material/Avatar';
 
 function Tasks(props) {
   const dispatch = useDispatch();
@@ -44,6 +45,8 @@ function Tasks(props) {
       task.description.toLowerCase().includes(search.toLowerCase())
     );
   });
+
+  
 
   return (
     <S.TaskForm>

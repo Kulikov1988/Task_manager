@@ -7,6 +7,7 @@ import { ModalButtonsDiv } from '../../../SharedComponents/Search/modal/Modal.st
 import { auth, onAuthStateChanged } from '../../../../firebase';
 import { login, logout } from '../../../../slices/authReducer';
 import { useNavigate } from 'react-router-dom';
+import Avatar from '@mui/material/Avatar';
 
 export type InputType = 'title' | 'description';
 
@@ -20,9 +21,7 @@ function CreateTaskForm() {
   const navigate = useNavigate();
   const [isEditOpen, setIsEditOpen] = useState(false);
 
-  const { userName } = useSelector(
-    (state: AppState) => state.authReducer
-  );
+  const { userName } = useSelector((state: AppState) => state.authReducer);
 
   useEffect(() => {
     onAuthStateChanged(auth, (userAuth) => {
@@ -42,16 +41,30 @@ function CreateTaskForm() {
         navigate('/login');
       }
     });
-  }, );
+  });
 
   const openEditModal = () => {
     setIsEditOpen(true);
   };
 
+  function stringAvatar(name: string) {
+    const nameLenght = name.split(' ').length;
+    if (nameLenght === 2) {
+      return {
+        children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`
+      };
+    } 
+    return {
+      children: name.split(' ')[0][0]
+    };
+    
+  }
+
   return (
     <>
       <DivTaskForm>
         <b>Hellow {userName}, it is your tasks:</b>
+        <Avatar {...stringAvatar(userName)} />
         <ModalButtonsDiv>
           <ButtonTaskForm
             type='button'
