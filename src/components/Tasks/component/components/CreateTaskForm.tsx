@@ -8,6 +8,7 @@ import { auth, onAuthStateChanged } from '../../../../firebase';
 import { login, logout } from '../../../../slices/authReducer';
 import { useNavigate } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
+import Button from '../../../../sharedStyles/Button';
 
 export type InputType = 'title' | 'description';
 
@@ -47,17 +48,42 @@ function CreateTaskForm() {
     setIsEditOpen(true);
   };
 
+  function stringToColor(string: string) {
+    let hash = 0;
+    let i;
+
+    /* eslint-disable no-bitwise */
+    for (i = 0; i < string.length; i += 1) {
+      hash = string.charCodeAt(i) + ((hash << 5) - hash);
+    }
+
+    let color = '#';
+
+    for (i = 0; i < 3; i += 1) {
+      const value = (hash >> (i * 8)) & 0xff;
+      color += `00${value.toString(16)}`.slice(-2);
+    }
+    /* eslint-enable no-bitwise */
+
+    return color;
+  }
+
   function stringAvatar(name: string) {
     const nameLenght = name.split(' ').length;
     if (nameLenght === 2) {
       return {
-        children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`
+        sx: {
+          bgcolor: stringToColor(name),
+        },
+        children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
       };
-    } 
+    }
     return {
-      children: name.split(' ')[0][0]
+      sx: {
+        bgcolor: stringToColor(name),
+      },
+      children: name.split(' ')[0][0],
     };
-    
   }
 
   return (
@@ -74,6 +100,7 @@ function CreateTaskForm() {
             Create a new task
           </ButtonTaskForm>
         </ModalButtonsDiv>
+        <Button variant='edit' children='edit' />
       </DivTaskForm>
 
       <EditTaskForm setIsEditOpen={setIsEditOpen} isEditOpen={isEditOpen} />

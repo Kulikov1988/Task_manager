@@ -5,7 +5,7 @@ import SignIn from './components/SignIn/SignIn';
 import { useDispatch, useSelector } from 'react-redux';
 import { login, logout } from './slices/authReducer';
 import Tasks from './components/Tasks/Tasks';
-import { ButtonLogOut } from './sharedStyles/button.style';
+import { ButtonLogOut } from './sharedStyles/buttons.style';
 import { AppState } from './store';
 import { HeaderForm, LoginDiv } from './AppStyles.style';
 import { onAuthStateChanged, auth } from './firebase';

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Input } from '../../sharedStyles/sharedStyles.style';
-import { Button } from '../../sharedStyles/button.style';
+import { Button } from '../../sharedStyles/buttons.style';
 import * as S from './SignIn.style';
 import { handleInputChangeProps } from '../Login/Login';
 import { signUp } from '../../slices/authReducer';

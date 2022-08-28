@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import * as S from './Login.style';
 import { Input } from '../../sharedStyles/sharedStyles.style';
-import { Button } from '../../sharedStyles/button.style';
+import { Button } from '../../sharedStyles/buttons.style';
 import { useDispatch } from 'react-redux';
 import { login, logout } from '../../slices/authReducer';
 import { NavLink } from 'react-router-dom';
