@@ -6,11 +6,8 @@ import * as S from './SignIn.style';
 import { handleInputChangeProps } from '../Login/Login';
 import { signUp } from '../../slices/authReducer';
 import { useNavigate } from 'react-router-dom';
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  updateProfile,
-} from 'firebase/auth';
+import { registerUser } from '../../slices/authReducer';
+import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit';
 
 const SignIn: React.FC = () => {
   const [email, setEmail] = useState<string>('');
@@ -19,7 +16,7 @@ const SignIn: React.FC = () => {
   const [name, setName] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState<string>('');
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<ThunkDispatch<{},void, AnyAction>>();
 
   const navigate = useNavigate();
 
@@ -37,15 +34,13 @@ const SignIn: React.FC = () => {
 
   const handleClick = () => {
     if (password1 === password2 && name !== '') {
-      const auth = getAuth();
-      
-          dispatch(
-            signUp({
-              userName: name,
-            })
-          );
-          navigate('/tasks');
-       
+      dispatch(
+        registerUser({
+          email,
+          name,
+        })
+      );
+      navigate('/tasks');
     } else {
       return setErrorMessage(
         'Some error, check your password / All inputs are required'

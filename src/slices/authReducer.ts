@@ -10,6 +10,8 @@ interface LoginProps {
 
 interface SignUpProps {
   userName: string;
+  name: string;
+  email:string;
 }
 
 export const axiosApi = axios.create({
@@ -26,10 +28,16 @@ export const initialState = {
   error: null,
 }
 
-const registerUser = createAsyncThunk('users/registerUser', async () => {
-  const response = await axiosApi.post('users/register')
-  return response.data;
-})
+export const registerUser = createAsyncThunk('users/registerUser', 
+  async ({ email, name }: {email:string, name:string} ) => {
+    const response = await axiosApi.post(`users/register`, {
+      email,
+      name,
+    });
+    console.log(response.data);
+    return response.data;
+  }
+)
 
 const loginSlice = createSlice({
   name: "user",
@@ -57,7 +65,7 @@ const loginSlice = createSlice({
         return action.payload;
       })
       .addCase(registerUser.rejected, (state, action) => {
-        state.status = 'reject';
+        state.status = 'failed';
         state.status = action.error.message;
       })
   }
