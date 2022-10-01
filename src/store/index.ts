@@ -23,7 +23,8 @@ const persistedReducer = persistReducer(persistConfig, authReducer)
 
 const reducer = combineReducers({
   authReducer: persistedReducer,
-  taskReducer
+  taskReducer,
+  
 })
 
 

@@ -1,4 +1,5 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import axios from 'axios';
 
 interface LoginProps {
   userEmail: string;
@@ -11,12 +12,24 @@ interface SignUpProps {
   userName: string;
 }
 
+export const axiosApi = axios.create({
+  baseURL: "http://142.93.224.186:3000/",
+  withCredentials: true,
+});
+
 export const initialState = {
   userEmail: '',
   userId: '',
   tokenId: '',
-  userName: '',
+  userName: '', 
+  status: 'idle', 
+  error: null,
 }
+
+const registerUser = createAsyncThunk('users/registerUser', async () => {
+  const response = await axiosApi.post('users/register')
+  return response.data;
+})
 
 const loginSlice = createSlice({
   name: "user",
@@ -33,6 +46,20 @@ const loginSlice = createSlice({
       console.log(payload.userName)
     },
     logout: (state) => initialState
+  }, 
+  extraReducers(builder) {
+    builder
+      .addCase(registerUser.pending, (state, action) => {
+        state.status = 'loading';
+      })
+      .addCase(registerUser.fulfilled, (state, action) => {
+        state.status = 'success';
+        return action.payload;
+      })
+      .addCase(registerUser.rejected, (state, action) => {
+        state.status = 'reject';
+        state.status = action.error.message;
+      })
   }
 })
 

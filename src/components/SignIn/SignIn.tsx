@@ -38,17 +38,14 @@ const SignIn: React.FC = () => {
   const handleClick = () => {
     if (password1 === password2 && name !== '') {
       const auth = getAuth();
-      createUserWithEmailAndPassword(auth, email, password1)
-        .then(({ user }) => {
-          updateProfile(user, { displayName: name });
-          console.log(user);
+      
           dispatch(
             signUp({
               userName: name,
             })
           );
           navigate('/tasks');
-        })
+       
     } else {
       return setErrorMessage(
         'Some error, check your password / All inputs are required'
