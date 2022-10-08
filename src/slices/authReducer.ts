@@ -5,13 +5,29 @@ interface LoginProps {
   userEmail: string;
   userName: string;
   userId: string;
-  tokenId: string;
   }
 
-interface SignUpProps {
-  userName: string;
+interface RegisterProps {
+  email: string;
   name: string;
-  email:string;
+  password: string;
+}
+
+interface initialState {
+  user: {
+    userEmail: string,
+    userId: number,
+    userName: string
+  },
+  register: {
+    status: "idle" | "loading" | "reject" | "successe",
+    error: null | string,
+  },
+  login: {
+    status: "idle" | "loading" | "reject" | "successe",
+    error: null | string,
+  },
+
 }
 
 export const axiosApi = axios.create({
@@ -20,58 +36,99 @@ export const axiosApi = axios.create({
 });
 
 export const initialState = {
-  userEmail: '',
-  userId: '',
-  tokenId: '',
-  userName: '', 
-  status: 'idle', 
-  error: null,
+  user: {
+    userEmail: '',
+    userId: '',
+    userName: '', 
+  },
+  register: {
+    status: "idle",
+    error: null
+  },
+  login: {
+    staus: 'idle',
+    error: null,
+  }
 }
 
 export const registerUser = createAsyncThunk('users/registerUser', 
-  async ({ email, name }: {email:string, name:string} ) => {
-    const response = await axiosApi.post(`users/register`, {
-      email,
-      name,
-    });
-    console.log(response.data);
-    return response.data;
+  async ({ email, name, password }: RegisterProps, thunkApi ) => {
+    try {
+      const response = await axiosApi.post(`users/register`, {
+        email,
+        name,
+        password
+      });
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      return thunkApi.rejectWithValue(error.response.data)
+    }
+    
   }
 )
+
+export const loginUser = createAsyncThunk('users/loginUser',
+async ({name}: {name: string}, thunkApi) => {
+  try {
+    const response = await axiosApi.post(`users/login`, {
+      name
+    }); 
+    return response.data
+  } catch (error) {
+    return thunkApi.rejectWithValue(error.response.data)
+  }
+})
 
 const loginSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
     login: (state ,{payload}: PayloadAction<LoginProps> ) => { 
-      state.tokenId = payload.tokenId;
-      state.userEmail = payload.userEmail;
-      state.userId = payload.userId;
-      state.userName = payload.userName;
+      state.user.userEmail = payload.userEmail;
+      state.user.userId = payload.userId;
+      state.user.userName = payload.userName;
     },
-    signUp: (state, {payload}: PayloadAction<SignUpProps>) => {
-      state.userName = payload.userName;
-      console.log(payload.userName)
-    },
+    // signUp: (state, {payload}: PayloadAction<SignUpProps>) => {
+    //   state.user.userName = payload.userName;
+    //   console.log(payload.userName)
+    // },
     logout: (state) => initialState
   }, 
   extraReducers(builder) {
     builder
       .addCase(registerUser.pending, (state, action) => {
-        state.status = 'loading';
+        console.log('loading')
+        state.register.status = 'loading';
       })
       .addCase(registerUser.fulfilled, (state, action) => {
-        state.status = 'success';
-        return action.payload;
+        console.log('success')
+        state.register.status = 'success';
+        state.user.userEmail = action.payload;
+        state.user.userName = action.payload;
+        return console.log(state.user.userName)
       })
       .addCase(registerUser.rejected, (state, action) => {
-        state.status = 'failed';
-        state.status = action.error.message;
+        console.log(action.payload)
+        state.register.status = 'failed';
+        state.register.error = action.error.message;
+      })
+      .addCase(loginUser.pending, (state, action) => {
+        console.log('login loading');
+        state.login.staus = 'loading';
+      })
+      .addCase(loginUser.fulfilled, (state, action) => {
+        console.log('login success');
+        state.login.staus = 'success';
+      })
+      .addCase(loginUser.rejected, (state, action) => {
+        console.log('login error');
+        state.login.error = action.error.message.replace;
       })
   }
 })
 
-export const {login, signUp, logout} = loginSlice.actions;
+export const {login, logout} = loginSlice.actions;
 export const selectUser = (state) => state.user.user;
 
 export default loginSlice.reducer;

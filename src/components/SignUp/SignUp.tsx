@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Input } from '../../sharedStyles/sharedStyles.style';
 import { Button } from '../../sharedStyles/buttons.style';
-import * as S from './SignIn.style';
+import * as S from './SignUp.style';
 import { handleInputChangeProps } from '../Login/Login';
-import { signUp } from '../../slices/authReducer';
 import { useNavigate } from 'react-router-dom';
 import { registerUser } from '../../slices/authReducer';
 import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit';
+import { AppState } from '../../store';
 
 const SignIn: React.FC = () => {
   const [email, setEmail] = useState<string>('');
@@ -16,9 +16,12 @@ const SignIn: React.FC = () => {
   const [name, setName] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState<string>('');
 
+  const navigate = useNavigate();
   const dispatch = useDispatch<ThunkDispatch<{},void, AnyAction>>();
 
-  const navigate = useNavigate();
+  const { status } = useSelector((state: AppState)=> state.authReducer.register)
+
+  useEffect(()=> {if(status === "success") {navigate('/login')}}, [status])
 
   const handleInputChange = ({ e, type }: handleInputChangeProps) => {
     if (type === 'email') {
@@ -38,13 +41,12 @@ const SignIn: React.FC = () => {
         registerUser({
           email,
           name,
+          password: password1
         })
       );
-      navigate('/tasks');
+    
     } else {
-      return setErrorMessage(
-        'Some error, check your password / All inputs are required'
-      );
+      return console.log('error')
     }
   };
 
