@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { NavLink, Route, Routes, useNavigate } from 'react-router-dom';
 import Login from './components/Login/Login';
-import SignIn from './components/SignUp/SignUp';
+import SignUp from './components/SignUp/SignUp';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from './slices/authReducer';
 import Tasks from './components/Tasks/Tasks';
@@ -39,7 +39,7 @@ function App(props) {
       <Routes>
         <Route path='/' element={<Login />} />
         <Route path='/login' element={<Login />} />
-        <Route path='/sign_in' element={<SignIn />} />
+        <Route path='/sign_in' element={<SignUp />} />
         <Route path='/tasks' element={<Tasks />} />
       </Routes>
     </>

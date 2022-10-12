@@ -13,18 +13,23 @@ interface RegisterProps {
   password: string;
 }
 
-interface initialState {
+interface RegisterError {
+  field: string ;
+  message: string ;
+}
+
+interface InitialState {
   user: {
     userEmail: string,
-    userId: number,
+    userId: string,
     userName: string
   },
   register: {
-    status: "idle" | "loading" | "reject" | "successe",
-    error: null | string,
+    status: "idle" | "loading" | "reject" | "success",
+    error: RegisterError[] | null,
   },
   login: {
-    status: "idle" | "loading" | "reject" | "successe",
+    status: "idle" | "loading" | "reject" | "success",
     error: null | string,
   },
 
@@ -35,7 +40,7 @@ export const axiosApi = axios.create({
   withCredentials: true,
 });
 
-export const initialState = {
+export const initialState: InitialState = {
   user: {
     userEmail: '',
     userId: '',
@@ -46,7 +51,7 @@ export const initialState = {
     error: null
   },
   login: {
-    staus: 'idle',
+    status: 'idle',
     error: null,
   }
 }
@@ -93,6 +98,10 @@ const loginSlice = createSlice({
     //   state.user.userName = payload.userName;
     //   console.log(payload.userName)
     // },
+    resetRegister: (state ) => {
+      state.register.status = 'idle';
+      state.register.error = null;
+    },
     logout: (state) => initialState
   }, 
   extraReducers(builder) {
@@ -109,26 +118,26 @@ const loginSlice = createSlice({
         return console.log(state.user.userName)
       })
       .addCase(registerUser.rejected, (state, action) => {
-        console.log(action.payload)
-        state.register.status = 'failed';
-        state.register.error = action.error.message;
+        // console.log(action.payload)
+        state.register.status = 'reject';
+        state.register.error = action.payload as RegisterError[]
       })
       .addCase(loginUser.pending, (state, action) => {
         console.log('login loading');
-        state.login.staus = 'loading';
+        state.login.status = 'loading';
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         console.log('login success');
-        state.login.staus = 'success';
+        state.login.status = 'success';
       })
       .addCase(loginUser.rejected, (state, action) => {
         console.log('login error');
-        state.login.error = action.error.message.replace;
+        state.login.error = action.error.message;
       })
   }
 })
 
-export const {login, logout} = loginSlice.actions;
+export const {login, logout, resetRegister} = loginSlice.actions;
 export const selectUser = (state) => state.user.user;
 
 export default loginSlice.reducer;
