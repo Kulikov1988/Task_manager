@@ -14,13 +14,9 @@ import { Formik, Form, Field } from 'formik';
 export const SignUpSchema = Yup.lazy((values) =>
   Yup.object().shape({
     name: Yup.string().max(25, 'Too Long').required('required'),
-    email: Yup.string().when('name', {
-      is: (input) => {
-        // console.log({ values });
-        return input.lenght > 2;
-      },
-      then: Yup.string().email('Valid email required').required('reqiured'),
-    }),
+    email: Yup.string()
+      .required('Valid email required')
+      .email('Valid email required'),
     password: Yup.string()
       .min(3, 'minimum 3 symbols reqiured')
       .required('required'),
@@ -31,11 +27,6 @@ export const SignUpSchema = Yup.lazy((values) =>
 );
 
 const SignUp: React.FC = () => {
-  // const [email, setEmail] = useState<string>('');
-  // const [password1, setPassword1] = useState<string>('');
-  // const [password2, setPassword2] = useState<string>('');
-  // const [name, setName] = useState<string>('');
-
   const navigate = useNavigate();
   const dispatch = useDispatch<ThunkDispatch<{}, void, AnyAction>>();
 
@@ -51,8 +42,8 @@ const SignUp: React.FC = () => {
   }, [status]);
 
   const handleClick = (values) => {
-    dispatch(
-      registerUser({
+      dispatch(
+        registerUser({
         email: values.email,
         name: values.name,
         password: values.password,
@@ -63,19 +54,16 @@ const SignUp: React.FC = () => {
     <div>
       <Formik
         initialValues={{
-          email: '',
-          name: '',
-          password: '',
-          confirmPassword: '',
+          email: 'www@we.com',
+          name: 'rr',
+          password: '123456',
+          confirmPassword: '123456',
         }}
         validationSchema={SignUpSchema}
-        onSubmit={(values) => {
-          handleClick({ values });
-          console.log(values.name);
-        }}
+        onSubmit={handleClick}
       >
-        {({ errors, touched }) => {
-          console.log(errors);
+        {({ errors, touched, submitForm }) => {
+          // console.log(errors);
 
           return (
             <Form>
@@ -84,6 +72,17 @@ const SignUp: React.FC = () => {
                   <S.MainDiv>
                     <h1>Sign Up</h1>
                   </S.MainDiv>
+                  <div>
+                    {' '}
+                    {error &&
+                      error.map((err) => {
+                        return (
+                          <div>
+                            {err.field} field : {err.message}
+                          </div>
+                        );
+                      })}
+                  </div>
                   <S.Div>Name</S.Div>
                   <Field name='name' placeholder='Name' />
                   {errors.name && touched.name ? (
@@ -112,7 +111,7 @@ const SignUp: React.FC = () => {
                   {errors.confirmPassword && touched.confirmPassword ? (
                     <div>{errors.confirmPassword}</div>
                   ) : null}
-                  <Button type='button'> Submit </Button>
+                  <Button type='button' onClick={() => submitForm()} > Submit </Button>
                 </S.SignInDiv>
               </S.SignIn>
             </Form>
