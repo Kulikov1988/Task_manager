@@ -1,20 +1,27 @@
-import React, { useEffect } from 'react';
 import { NavLink, Route, Routes, useNavigate } from 'react-router-dom';
 import Login from './components/Login/Login';
 import SignUp from './components/SignUp/SignUp';
 import { useDispatch, useSelector } from 'react-redux';
-import { logout } from './slices/authReducer';
+import { logout, resetLogin } from './slices/authReducer';
 import Tasks from './components/Tasks/Tasks';
 import { ButtonLogOut } from './sharedStyles/buttons.style';
 import { AppState } from './store';
 import { HeaderForm, LoginDiv } from './AppStyles.style';
 import MyLogo from './assets/images/logo1.png';
 import { LogoDiv } from './sharedStyles/sharedStyles.style';
+import { useEffect } from 'react';
 
 function App(props) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { userName } = useSelector((state: AppState) => state.authReducer.user);
+  const { isAuth } = useSelector((state: AppState) => state.authReducer);
+
+  useEffect(() => {
+    if (!isAuth) {
+      navigate('/login');
+      dispatch(resetLogin());
+    }
+  }, [isAuth, navigate, dispatch]);
 
   const logoutOnClick = () => {
     dispatch(logout());
@@ -26,11 +33,11 @@ function App(props) {
       <HeaderForm>
         <LogoDiv src={MyLogo} alt='' />
         <div>
-          <LoginDiv isHidden={!!userName}>
+          <LoginDiv isHidden={isAuth}>
             <NavLink to='/login'>Login</NavLink>
           </LoginDiv>
 
-          <ButtonLogOut isHidden={!!userName} onClick={logoutOnClick}>
+          <ButtonLogOut isHidden={isAuth} onClick={logoutOnClick}>
             Log Out
           </ButtonLogOut>
         </div>

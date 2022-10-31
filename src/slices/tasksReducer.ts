@@ -1,92 +1,63 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { v4 as uuid } from 'uuid';
+import { axiosApi } from './authReducer';
 
 interface TaskProps {
   title: string;
   description: string;
-  date?: Date;
+  createdAt?: Date;
   id?: any;
+}
+
+interface TaskState {
+  tasks:{title: 'string', description: 'string', createdAt: Date, id?: any}[] ;
+  status: 'idle' | 'loading' | 'reject' | 'success'
 }
 
 interface TaskIdProps {
   id: any;
 }
 
-export const initialState = {
-  tasks : [
-    {
-      id: uuid(),
-      title: 'Task1',
-      date: new Date(),
-      description: 'do the first task today!',
-      
-    },
-    {
-      id: uuid(),
-      title: 'Task2',
-      date: new Date(),
-      description: 'second task',
-        
-    },
-    {
-      id: uuid(),
-      title: 'Task3',
-      date: new Date(),
-      description: 'third task',      
-      
-    },
-    {
-      id: uuid(),
-      title: 'Task4',
-      date: new Date(),
-      description: 'one more task',
-     
-    },
-    {
-      id: uuid(),
-      title: 'Task5',
-      date: new Date(),
-      description: 'last task',
-      
-    },
-    {
-      id: uuid(),
-      title: 'Task6',
-      date: new Date(),
-      description: 'the last task',
-      
-    },
-  ]
-  
+export const initialState: TaskState = {
+  tasks: [],
+  status : 'idle'
 }
+
+export const fetchTasks = createAsyncThunk('tasks/get',
+ async (thunkApi) => {
+  try {
+    const response = await axiosApi.get('/tasks')
+    return response.data
+  }
+  catch (error) {
+    return console.log(error.response.data)
+  }
+ }
+)
 
 
 const taskSlice = createSlice({
   name: 'task',
   initialState,
   reducers: {
-    createTask: (state, {payload}: PayloadAction<TaskProps> ) => {
-      state.tasks = [...state.tasks, {...payload, id: uuid(), date: payload.date}];
-    },
-    deleteTask: (state, {payload}: PayloadAction<TaskIdProps> ) => {
-      const newState = state.tasks.filter(task => task.id !== payload.id)
-      state.tasks = newState;
-    },
-    editDescription: (state, {payload}: PayloadAction<TaskProps> ) => {
-     const editedState = state.tasks.map( task => {
-       if (task.id === payload.id) {
-         return {
-           ...task,
-           description: payload.description,
-           title: payload.title,
-           date: payload.date
-         };
-       } return {...task} 
-     })
-           state.tasks = editedState;
-    }
+  },
+  extraReducers(builder) {
+    builder
+    .addCase(fetchTasks.pending, (state) => {
+      state.status ='loading';
+      console.log('loading tasks')
+    })
+    .addCase(fetchTasks.fulfilled, (state, action) => {
+      state.status = 'success';
+      console.log('fetch tasks');
+      state.tasks = action.payload.tasks;
+    })
+    .addCase(fetchTasks.rejected, (state) => {
+      state.status = 'reject';
+      console.log('tasks error')
+    })
   }
 })
 
-export const {createTask, editDescription, deleteTask} = taskSlice.actions;
+// export const {createTask, editDescription, deleteTask} = taskSlice.actions;
   export default taskSlice.reducer;

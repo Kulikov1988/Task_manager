@@ -1,106 +1,109 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import * as S from './Login.style';
-import { Input } from '../../sharedStyles/sharedStyles.style';
 import { Button } from '../../sharedStyles/buttons.style';
-import { useDispatch } from 'react-redux';
-import { login, logout } from '../../slices/authReducer';
+import { useDispatch, useSelector } from 'react-redux';
+import { loginUser, resetLogin } from '../../slices/authReducer';
 import { NavLink } from 'react-router-dom';
 import { SignDiv } from '../../sharedStyles/sharedStyles.style';
 import { useNavigate } from 'react-router-dom';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import * as Yup from 'yup';
+import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit';
+import { AppState } from '../../store';
+import { Form, Formik } from 'formik';
+import CustomInput from '../../sharedStyles/CustomInput/CustomInput';
 
-export type InputType = 'email' | 'password' | 'confirmPassword' | 'name';
-
-export interface handleInputChangeProps {
-  e: React.ChangeEvent<HTMLInputElement>;
-  type: InputType;
-}
-
-interface LoginUserResponse {
-  displayName: string;
-  email: string;
-  expiresIn: string;
-  idToken: string;
-  kind: string;
-  localId: string;
-  refreshToken: string;
-  registered: boolean;
-}
+export const LoginSchema = Yup.object().shape({
+  email: Yup.string()
+    .required('Valid email required')
+    .email('Valid email required'),
+  password: Yup.string().min(3, 'minimum 3 symbols').required('required'),
+});
 
 const Login: React.FC = () => {
-  const [localEmail, setLocalEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-
-  const dispatch = useDispatch();
-
-  // const { err } = useSelector((state: AppState) => state.authReducer);
-
   const navigate = useNavigate();
+  const dispatch = useDispatch<ThunkDispatch<void, {}, AnyAction>>();
 
-  const handleInputChange = ({ e, type }: handleInputChangeProps) => {
-    if (type === 'email') {
-      setLocalEmail(e.target.value);
-    } else {
-      setPassword(e.target.value);
-    }
-  };
+  const {
+    isAuth,
+    login: { error },
+    user: { userEmail },
+  } = useSelector((state: AppState) => state.authReducer);
 
-  const handleClick = () => {
-    console.log('handle Click');
-    const auth = getAuth();
-    signInWithEmailAndPassword(auth, localEmail, password)
-      .then(({ user }) => {
-        console.log(user);
-        dispatch(
-          login({
-            userEmail: user.email,
-            // @ts-ignore
-            userId: user.uid,
-            // @ts-ignore
-            tokenId: user.accessToken,
-            userName: user.displayName,
-          })
-        );
-        navigate('/tasks');
+  useEffect(() => {
+    if (isAuth) {
+      navigate('/tasks');
+      dispatch(resetLogin());
+    } 
+  }, [isAuth, navigate, dispatch]);
+
+  console.log(isAuth)
+
+  const handleClick = (values) => {
+    dispatch(
+      loginUser({
+        email: values.email,
+        password: values.password,
       })
-      .catch((error) => {
-        console.log(error);
-        dispatch(logout());
-        navigate('/login');
-      });
+    );
   };
 
   return (
     <>
-      <SignDiv>
-        Don't have an account yet?
-        <NavLink to='/sign_in'> Sign in</NavLink>
-      </SignDiv>
-      <S.Login>
-        <S.loginDiv>
-          {/* <S.Div>{err}</S.Div> */}
-          <S.mainDiv>
-            <h1>Login Page</h1>{' '}
-          </S.mainDiv>
-          <S.Div>Email</S.Div>
-          <Input
-            type='text'
-            placeholder='email'
-            value={localEmail}
-            onChange={(e) => handleInputChange({ e, type: 'email' })}
-          />
-          <S.Div>Password</S.Div>
-          <Input
-            type='password'
-            placeholder='password'
-            value={password}
-            onChange={(e) => handleInputChange({ e, type: 'password' })}
-          />
-          <Button type='button' onClick={handleClick}>
-            Login
-          </Button>
-        </S.loginDiv>
-      </S.Login>
+      <Formik
+        initialValues={{
+          email: userEmail,
+          password: '123456',
+        }}
+        validationSchema={LoginSchema}
+        onSubmit={handleClick}
+      >
+        {({ errors, submitForm, handleChange }) => {
+          return (
+            <Form>
+              <SignDiv>
+                Don't have an account yet?
+                <NavLink to='/sign_in'> Sign up</NavLink>
+              </SignDiv>
+              <S.Login>
+                <S.loginDiv>
+                  <S.Div>
+                    {error &&
+                      error.map((err) => {
+                        return (
+                          <div>
+                            {err.field} Field: {err.message}
+                          </div>
+                        );
+                      })}
+                  </S.Div>
+                  <S.mainDiv>
+                    <h1>Login Page</h1>
+                    <CustomInput
+                      type='text'
+                      name='email'
+                      label='Email'
+                      placeholder='Email'
+                      error={errors.email}
+                      onChange={handleChange}
+                    />
+                    <CustomInput
+                      label='Password'
+                      type='password'
+                      name='password'
+                      placeholder='Password'
+                      error={errors.password}
+                      onChange={handleChange}
+                    />
+                    <Button type='button' onClick={() => submitForm()}>
+                      Submit
+                    </Button>
+                  </S.mainDiv>
+                </S.loginDiv>
+              </S.Login>
+            </Form>
+          );
+        }}
+      </Formik>
     </>
   );
 };

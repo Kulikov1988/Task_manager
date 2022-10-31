@@ -1,19 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Input } from '../../sharedStyles/sharedStyles.style';
 import { Button } from '../../sharedStyles/buttons.style';
 import * as S from './SignUp.style';
-import { handleInputChangeProps } from '../Login/Login';
 import { useNavigate } from 'react-router-dom';
 import { registerUser, resetRegister } from '../../slices/authReducer';
 import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit';
 import { AppState } from '../../store';
 import * as Yup from 'yup';
-import { Formik, Form, Field } from 'formik';
+import { Formik, Form } from 'formik';
+import CustomInput from '../../sharedStyles/CustomInput/CustomInput';
 
-export const SignUpSchema = Yup.lazy((values) =>
-  Yup.object().shape({
-    name: Yup.string().max(25, 'Too Long').required('required'),
+export const SignUpSchema = Yup.object().shape({
+    name: Yup.string()
+      .min(3, 'To short')
+      .max(25, 'Too Long')
+      .required('required'),
     email: Yup.string()
       .required('Valid email required')
       .email('Valid email required'),
@@ -24,7 +25,7 @@ export const SignUpSchema = Yup.lazy((values) =>
       .required('Please confirm your password')
       .oneOf([Yup.ref('password')], 'Passwords do not match'),
   })
-);
+
 
 const SignUp: React.FC = () => {
   const navigate = useNavigate();
@@ -39,11 +40,11 @@ const SignUp: React.FC = () => {
       navigate('/login');
       dispatch(resetRegister());
     }
-  }, [status]);
+  }, [status, navigate, dispatch]);
 
   const handleClick = (values) => {
-      dispatch(
-        registerUser({
+    dispatch(
+      registerUser({
         email: values.email,
         name: values.name,
         password: values.password,
@@ -54,16 +55,15 @@ const SignUp: React.FC = () => {
     <div>
       <Formik
         initialValues={{
-          email: 'www@we.com',
-          name: 'rr',
-          password: '123456',
-          confirmPassword: '123456',
+          email: '',
+          name: '',
+          password: '',
+          confirmPassword: '',
         }}
         validationSchema={SignUpSchema}
         onSubmit={handleClick}
       >
-        {({ errors, touched, submitForm }) => {
-          // console.log(errors);
+        {({ errors, touched, submitForm, handleChange }) => {
 
           return (
             <Form>
@@ -83,35 +83,43 @@ const SignUp: React.FC = () => {
                         );
                       })}
                   </div>
-                  <S.Div>Name</S.Div>
-                  <Field name='name' placeholder='Name' />
-                  {errors.name && touched.name ? (
-                    <div> {errors.name}</div>
-                  ) : null}
-                  <S.Div>Email</S.Div>
-                  <Field name='email' placeholder='Email' type='email' />
-                  {errors.email && touched.email ? (
-                    <div> {errors.email} </div>
-                  ) : null}
-                  <S.Div>Password</S.Div>
-                  <Field
+                  <CustomInput
+                    label='Name'
+                    type='text'
+                    name='name'
+                    placeholder='Name'
+                    onChange={handleChange}
+                    error={errors.name}
+                  />
+                  <CustomInput
+                    label='Email'
+                    name='email'
+                    placeholder='Email'
+                    type='text'
+                    onChange={handleChange}
+                    error={errors.email}
+                  />
+                  <CustomInput
                     name='password'
                     type='password'
                     placeholder='password'
+                    onChange={handleChange}
+                    label='password'
+                    error={errors.password}
                   />
-                  {errors.password && touched.password ? (
-                    <div>{errors.password}</div>
-                  ) : null}
-                  <S.Div>Confirm Password</S.Div>
-                  <Field
+                  <CustomInput
+                    label='ConfirmPassword'
                     name='confirmPassword'
                     type='password'
                     placeholder='Confirm Password'
+                    onChange={handleChange}
+                    error={errors.confirmPassword}
                   />
-                  {errors.confirmPassword && touched.confirmPassword ? (
-                    <div>{errors.confirmPassword}</div>
-                  ) : null}
-                  <Button type='button' onClick={() => submitForm()} > Submit </Button>
+                  
+                  <Button type='button' onClick={() => submitForm()}>
+                    {' '}
+                    Submit{' '}
+                  </Button>
                 </S.SignInDiv>
               </S.SignIn>
             </Form>
@@ -121,70 +129,6 @@ const SignUp: React.FC = () => {
       ;
     </div>
   );
-
-  // const handleInputChange = ({ e, type }: handleInputChangeProps) => {
-  //   if (type === 'email') {
-  //     setEmail(e.target.value);
-  //   } else if (type === 'password') {
-  //     setPassword1(e.target.value);
-  //   } else if (type === 'confirmPassword') {
-  //     setPassword2(e.target.value);
-  //   } else {
-  //     setName(e.target.value);
-  //   }
-  // };
-
-  // return (
-  //     <S.SignIn>
-  //       <S.SignInDiv>
-  //         <div> {error &&
-  //           error.map((err) => {
-  //             return (
-  //               <div>
-  //                 {err.field}: {err.message}
-  //               </div>
-  //             );
-  //           })}</div>
-  //         <S.MainDiv>
-  //           <h1>Sign In Page</h1>{' '}
-  //         </S.MainDiv>
-  //         <S.Div>Name</S.Div>
-  //         <Input
-  //           type='text'
-  //           placeholder='your name'
-  //           value={name}
-  //           onChange={(e) => handleInputChange({ e, type: 'name' })}
-  //         />
-  //         <S.Div>Email</S.Div>
-  //         <Input
-  //           type='text'
-  //           placeholder='email'
-  //           value={email}
-  //           onChange={(e) => handleInputChange({ e, type: 'email' })}
-  //         />
-  //         <S.Div>Password</S.Div>
-  //         <Input
-  //           type='password'
-  //           placeholder='password'
-  //           value={password1}
-  //           onChange={(e) => handleInputChange({ e, type: 'password' })}
-  //         />
-  //         <S.Div>Confirm Password</S.Div>
-  //         <Input
-  //           type='password'
-  //           placeholder='confirm password'
-  //           value={password2}
-  //           onChange={(e) => handleInputChange({ e, type: 'confirmPassword' })}
-  //         />
-  //         <div>
-  //           <Button type='button' onClick={handleClick}>
-  //             Sign in
-  //           </Button>
-  //         </div>
-
-  //       </S.SignInDiv>
-  //     </S.SignIn>
-  // );
 };
 
 export default SignUp;

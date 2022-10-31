@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import * as S from './Task.style';
 import { ButtonTaskForm } from './components/TaskForm.style';
 import { useDispatch } from 'react-redux';
-import { deleteTask } from '../../../slices/tasksReducer';
+// import { deleteTask } from '../../../slices/tasksReducer';
 import Modal from '../../SharedComponents/Search/modal/Modal';
 import EditTaskForm from './components/editForm/EditTaskForm';
+import { format } from 'date-fns';
 
 export type InputType = 'title' | 'description';
 
@@ -32,10 +33,10 @@ function Task({ title, description, id, date }: handleInputChangeProps) {
     setIsOpen(false);
   };
 
-  const deleteTaskOnClick = () => {
-    dispatch(deleteTask({ id }));
-    setIsOpen(false);
-  };
+  // const deleteTaskOnClick = () => {
+  //   dispatch(deleteTask({ id }));
+  //   setIsOpen(false);
+  // };
 
   return (
     <S.TaskDiv>
@@ -49,7 +50,7 @@ function Task({ title, description, id, date }: handleInputChangeProps) {
         <S.TaskSpan>
           {description} <> </>
         </S.TaskSpan>
-        <S.TaskSpan>{date.toLocaleString()}</S.TaskSpan>
+        <S.TaskSpan>{format(new Date(date), 'dd/MM/yyyy')}</S.TaskSpan>
       </S.TaskItem>
       <S.TaskItemButtons>
         <ButtonTaskForm
@@ -72,7 +73,7 @@ function Task({ title, description, id, date }: handleInputChangeProps) {
         setIsOpen={setIsOpen}
         isOpen={isOpen}
         onCancel={closeModal}
-        onSubmit={deleteTaskOnClick}
+        // onSubmit={deleteTaskOnClick}
         headerTitle='Delete Task'
       >
         Are you sure?
