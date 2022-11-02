@@ -90,6 +90,7 @@ const SignUp: React.FC = () => {
                     placeholder='Name'
                     onChange={handleChange}
                     error={errors.name}
+                    
                   />
                   <CustomInput
                     label='Email'

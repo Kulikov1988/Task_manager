@@ -35,6 +35,17 @@ export const fetchTasks = createAsyncThunk('tasks/get',
  }
 )
 
+export const createTask = createAsyncThunk('tasks/create', 
+async (thunkApi) => {
+  try {
+    const response = await axiosApi.post('/tasks')
+    return response.data
+  } catch (error) {
+    console.log(error.response.data)
+  }
+}
+)
+
 
 const taskSlice = createSlice({
   name: 'task',

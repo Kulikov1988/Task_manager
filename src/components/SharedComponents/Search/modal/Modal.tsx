@@ -53,7 +53,8 @@ function Modal({
                 type='button'
                 category='submit'
                 onClick={onSubmit}
-                disabled={isDisable}
+                // disabled={isDisable}
+                
               >
                 Submit
               </ModalButton>

@@ -27,16 +27,15 @@ const Login: React.FC = () => {
     isAuth,
     login: { error },
     user: { userEmail },
+    register: { status },
   } = useSelector((state: AppState) => state.authReducer);
 
   useEffect(() => {
     if (isAuth) {
       navigate('/tasks');
       dispatch(resetLogin());
-    } 
+    }
   }, [isAuth, navigate, dispatch]);
-
-  console.log(isAuth)
 
   const handleClick = (values) => {
     dispatch(
@@ -51,7 +50,7 @@ const Login: React.FC = () => {
     <>
       <Formik
         initialValues={{
-          email: userEmail,
+          email: 'a@a.com',
           password: '123456',
         }}
         validationSchema={LoginSchema}

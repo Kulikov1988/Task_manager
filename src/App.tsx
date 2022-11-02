@@ -9,19 +9,11 @@ import { AppState } from './store';
 import { HeaderForm, LoginDiv } from './AppStyles.style';
 import MyLogo from './assets/images/logo1.png';
 import { LogoDiv } from './sharedStyles/sharedStyles.style';
-import { useEffect } from 'react';
 
-function App(props) {
+function App() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { isAuth } = useSelector((state: AppState) => state.authReducer);
-
-  useEffect(() => {
-    if (!isAuth) {
-      navigate('/login');
-      dispatch(resetLogin());
-    }
-  }, [isAuth, navigate, dispatch]);
 
   const logoutOnClick = () => {
     dispatch(logout());
