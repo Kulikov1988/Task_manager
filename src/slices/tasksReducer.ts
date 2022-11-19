@@ -39,11 +39,22 @@ export const createTask = createAsyncThunk('tasks/create',
 async (thunkApi) => {
   try {
     const response = await axiosApi.post('/tasks')
-    return response.data
-  } catch (error) {
-    console.log(error.response.data)
+    return response.data;
+    } catch (error) {
+      return console.log(error.response.data)
+    }
   }
-}
+)
+
+export const deleteTask = createAsyncThunk('tasks/delete',
+  async (thunkApi) => {
+    try {
+      const response = await axiosApi.delete('/tasks')
+      return response.data
+    } catch (error) {
+      return console.log(error.response.data)
+    }
+  }
 )
 
 
@@ -66,6 +77,28 @@ const taskSlice = createSlice({
     .addCase(fetchTasks.rejected, (state) => {
       state.status = 'reject';
       console.log('tasks error')
+    })
+    .addCase(createTask.pending, (state) => {
+      state.status = 'loading'
+      console.log('create task loading')
+    })
+    .addCase(createTask.fulfilled, (state, action) => {
+      state.status = 'success';
+      state.tasks = action.payload.tasks;
+      console.log('task created');
+    })
+    .addCase(createTask.rejected, (state) => {
+      state.status = 'reject';
+      console.log('crate error')
+    })
+    .addCase(deleteTask.pending, (state) => {
+      state.status = 'loading';
+      console.log('deleting task');
+    })
+    .addCase(deleteTask.fulfilled, (state, action) => {
+      state.status ='success';
+      state.tasks = action.payload.tasks;
+      console.log('task deleted');
     })
   }
 })
