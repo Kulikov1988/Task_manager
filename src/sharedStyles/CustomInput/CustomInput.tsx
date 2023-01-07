@@ -1,41 +1,35 @@
-import { FormikErrors, FormikTouched } from 'formik';
-import React, { ChangeEvent } from 'react';
+import {useField } from 'formik';
+import React from 'react';
 import { ErrorDiv, Input } from './CustomInput.style';
 import * as S from '../../components/SignUp/SignUp.style';
 
 interface CustomInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   name: string;
-  value?: string;
-  label: string;
-  placeholder: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  error: string | string[] | FormikErrors<any> | FormikErrors<any>[];
-  touched?: FormikTouched<any> | boolean | string
+  label?: string;
+  placeholder?: string;
 }
 
 const CustomInput = ({
-  touched,
-  value,
   label,
   name,
   placeholder,
-  onChange,
-  error,
   ...props
 }: CustomInputProps) => {
+  const [field, meta, ] = useField(name)
+
   return (
     <>
       <div>
-        <S.Div>{label && <label htmlFor='input-field'> {label}</label>}</S.Div>
+        <S.Div>{ <label htmlFor='input-field'> {label || name }</label>}</S.Div>
         <Input
-          // value={value}
-          name={name}
-          placeholder={placeholder}
-          onChange={onChange}
+          value={field.value}
+          name={field.name}
+          placeholder={placeholder || name}
+          onChange={field.onChange}
           {...props}
         />
       </div>
-      {error && <ErrorDiv>{error}</ErrorDiv>}
+      {meta.error && <ErrorDiv>{meta.error}</ErrorDiv>}
     </>
   );
 };

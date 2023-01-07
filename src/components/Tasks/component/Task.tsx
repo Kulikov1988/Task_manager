@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import * as S from './Task.style';
 import { ButtonTaskForm } from './components/TaskForm.style';
 import { useDispatch } from 'react-redux';
-// import { deleteTask } from '../../../slices/tasksReducer';
 import Modal from '../../SharedComponents/Search/modal/Modal';
 import EditTaskForm from './components/editForm/EditTaskForm';
 import { format } from 'date-fns';
+import { deleteTask } from '../../../slices/tasksReducer';
+import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit';
 
 export type InputType = 'title' | 'description';
 
@@ -17,7 +18,7 @@ export interface handleInputChangeProps {
 }
 
 function Task({ title, description, id, date }: handleInputChangeProps) {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<ThunkDispatch<{}, void, AnyAction>>();
   const [isOpen, setIsOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
 
@@ -33,10 +34,10 @@ function Task({ title, description, id, date }: handleInputChangeProps) {
     setIsOpen(false);
   };
 
-  // const deleteTaskOnClick = () => {
-  //   dispatch(deleteTask({ id }));
-  //   setIsOpen(false);
-  // };
+  const deleteTaskOnClick = () => {
+    dispatch(deleteTask());
+    setIsOpen(false);
+  };
 
   return (
     <S.TaskDiv>
@@ -66,14 +67,14 @@ function Task({ title, description, id, date }: handleInputChangeProps) {
           category='delete_task'
         >
           Delete task
-        </ButtonTaskForm>{' '}
+        </ButtonTaskForm>
       </S.TaskItemButtons>
       <Modal
         id={id}
         setIsOpen={setIsOpen}
         isOpen={isOpen}
         onCancel={closeModal}
-        // onSubmit={deleteTaskOnClick}
+        onSubmit={deleteTaskOnClick}
         headerTitle='Delete Task'
       >
         Are you sure?

@@ -56,7 +56,7 @@ const Login: React.FC = () => {
         validationSchema={LoginSchema}
         onSubmit={handleClick}
       >
-        {({ errors, submitForm, handleChange, touched }) => {
+        {({ submitForm, handleChange }) => {
           return (
             <Form>
               <SignDiv>
@@ -78,19 +78,14 @@ const Login: React.FC = () => {
                   <S.mainDiv>
                     <h1>Login Page</h1>
                     <CustomInput
-                      type='text'
                       name='email'
                       label='Email'
-                      placeholder='Email'
-                      error={errors.email}
                       onChange={handleChange}
                     />
                     <CustomInput
                       label='Password'
                       type='password'
                       name='password'
-                      placeholder='Password'
-                      error={errors.password}
                       onChange={handleChange}
                     />
                     <Button type='button' onClick={() => submitForm()}>

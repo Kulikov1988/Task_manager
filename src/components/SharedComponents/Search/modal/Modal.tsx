@@ -54,8 +54,7 @@ function Modal({
                 category='submit'
                 onClick={onSubmit}
                 disabled={isDisable}
-                
-              >
+                >
                 Submit
               </ModalButton>
               <ModalButton type='button' category='cancel' onClick={onCancel}>

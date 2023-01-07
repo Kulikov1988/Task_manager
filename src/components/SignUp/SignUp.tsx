@@ -1,4 +1,4 @@
-import React, { useEffect} from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '../../sharedStyles/buttons.style';
 import * as S from './SignUp.style';
@@ -11,21 +11,20 @@ import { Formik, Form } from 'formik';
 import CustomInput from '../../sharedStyles/CustomInput/CustomInput';
 
 export const SignUpSchema = Yup.object().shape({
-    name: Yup.string()
-      .min(3, 'To short')
-      .max(25, 'Too Long')
-      .required('required'),
-    email: Yup.string()
-      .required('Valid email required')
-      .email('Valid email required'),
-    password: Yup.string()
-      .min(3, 'minimum 3 symbols reqiured')
-      .required('required'),
-    confirmPassword: Yup.string()
-      .required('Please confirm your password')
-      .oneOf([Yup.ref('password')], 'Passwords do not match'),
-  })
-
+  name: Yup.string()
+    .min(3, 'To short')
+    .max(25, 'Too Long')
+    .required('required'),
+  email: Yup.string()
+    .required('Valid email required')
+    .email('Valid email required'),
+  password: Yup.string()
+    .min(3, 'minimum 3 symbols reqiured')
+    .required('required'),
+  confirmPassword: Yup.string()
+    .required('Please confirm your password')
+    .oneOf([Yup.ref('password')], 'Passwords do not match'),
+});
 
 const SignUp: React.FC = () => {
   const navigate = useNavigate();
@@ -63,8 +62,7 @@ const SignUp: React.FC = () => {
         validationSchema={SignUpSchema}
         onSubmit={handleClick}
       >
-        {({ errors, touched, submitForm, handleChange }) => {
-
+        {({ errors, touched, submitForm }) => {
           return (
             <Form>
               <S.SignIn>
@@ -85,41 +83,28 @@ const SignUp: React.FC = () => {
                   </div>
                   <CustomInput
                     label='Name'
-                    type='text'
                     name='name'
-                    placeholder='Name'
-                    onChange={handleChange}
-                    error={errors.name}
-                    
+                    type='text'
                   />
                   <CustomInput
                     label='Email'
                     name='email'
                     placeholder='Email'
-                    type='text'
-                    onChange={handleChange}
-                    error={errors.email}
+                    type='email'
                   />
                   <CustomInput
                     name='password'
                     type='password'
-                    placeholder='password'
-                    onChange={handleChange}
                     label='password'
-                    error={errors.password}
                   />
                   <CustomInput
                     label='ConfirmPassword'
                     name='confirmPassword'
                     type='password'
-                    placeholder='Confirm Password'
-                    onChange={handleChange}
-                    error={errors.confirmPassword}
                   />
-                  
+
                   <Button type='button' onClick={() => submitForm()}>
-                    {' '}
-                    Submit{' '}
+                                      Submit
                   </Button>
                 </S.SignInDiv>
               </S.SignIn>

@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { EditFormStyle } from '../TaskForm.style';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 // import {
 //   editDescription,
 //   createTask,
@@ -8,10 +8,17 @@ import { useDispatch } from 'react-redux';
 import Modal from '../../../../SharedComponents/Search/modal/Modal';
 import DatePicker from 'react-datepicker';
 import * as Yup from 'yup';
-import { Form, Formik, FormikHelpers, useField } from 'formik';
+import { Form, Formik, FormikHelpers } from 'formik';
 
 import 'react-datepicker/dist/react-datepicker.css';
 import CustomInput from '../../../../../sharedStyles/CustomInput/CustomInput';
+import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit';
+import {
+  createTask,
+  resetCreateTask,
+} from './../../../../../slices/tasksReducer';
+import { useNavigate } from 'react-router-dom';
+import { AppState } from '../../../../../store';
 
 export const taskSchema = Yup.object().shape({
   title: Yup.string().required('required field'),
@@ -22,9 +29,10 @@ interface InitialValues {
   title: string;
   description: string;
   date: Date;
+  id?: any;
 }
 
-interface HandleClick {
+interface HandleClickProps {
   values: any;
   formikHelpers: FormikHelpers<any>;
 }
@@ -36,11 +44,6 @@ interface EditTaskFormProps {
   description?: string;
   id?: any;
   date?: Date;
-  
-}
-
-interface UseFieldInput {
-  fieldName: string;
 }
 
 function EditTaskForm({
@@ -51,7 +54,17 @@ function EditTaskForm({
   id,
   date,
 }: EditTaskFormProps) {
-  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const dispatch = useDispatch<ThunkDispatch<{}, void, AnyAction>>();
+
+  const { status } = useSelector((state: AppState) => state.taskReducer);
+
+  useEffect(() => {
+    if (status === 'success') {
+      closeEditModal();
+      dispatch(resetCreateTask());
+    }
+  });
 
   const closeEditModal = () => {
     setIsEditOpen(false);
@@ -61,38 +74,26 @@ function EditTaskForm({
     values: InitialValues,
     formikHelpers: FormikHelpers<InitialValues>
   ) => {
+    dispatch(
+      createTask({
+        title: values.title,
+        description: values.description,
+        shortDescription: values.description,
+        duration: 15,
+        dueDate: values.date,
+        status: 'UPCOMING',
+      })
+    );
     console.log({ values });
     formikHelpers.resetForm();
   };
 
-  // const [meta] = useField();
-
-  // const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-  //   e.preventDefault();
-  //   if (isValidate) {
-  //     dispatch(
-  //       id
-  //         ? editDescription({
-  //             title: localTitle,
-  //             description: localDescription,
-  //             id,
-  //             date: startDate,
-  //           })
-  //         : createTask({
-  //             title: localTitle,
-  //             date: startDate,
-  //             description: localDescription,
-  //           })
-  //     );
-  //     setIsEditOpen(false);
-  //   }
-  // };
-
+ 
   const initialValues = (): InitialValues => {
     if (id)
       return {
         description,
-        date,
+        date: new Date(date),
         title,
       };
     return {
@@ -108,40 +109,23 @@ function EditTaskForm({
       validationSchema={taskSchema}
       onSubmit={handleClick}
     >
-      {({
-        errors,
-        touched,
-        submitForm,
-        handleChange,
-        values,
-        setFieldValue,
-        isValid,
-      }) => {
+      {({ submitForm, handleChange, values, setFieldValue, isValid }) => {
         return (
           <Form>
             <Modal
               isOpen={isEditOpen}
               setIsOpen={setIsEditOpen}
-              // headerTitle={id ? 'Edit Task' : 'Create Task'}
               onCancel={closeEditModal}
               onSubmit={submitForm}
               id={id}
               isDisable={!isValid}
             >
               <EditFormStyle>
-                <CustomInput
-                  name='title'
-                  label='title'
-                  placeholder='Title'
-                  onChange={handleChange}
-                  error={errors.title}
-                />
+                <CustomInput name='title' label='title' placeholder='Title' />
                 <CustomInput
                   name='description'
                   label='descrpition'
                   placeholder='Description'
-                  onChange={handleChange}
-                  error={errors.description}
                 />
               </EditFormStyle>
               <br /> Choose a date

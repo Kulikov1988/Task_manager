@@ -1,107 +1,123 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { v4 as uuid } from 'uuid';
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { axiosApi } from './authReducer';
 
 interface TaskProps {
   title: string;
   description: string;
-  createdAt?: Date;
+  shortDescription: string;
+  dueDate?: Date;
   id?: any;
+  duration: number;
+  status: string;
+}
+
+interface TaskError {
+  field: string;
+  message: string;
 }
 
 interface TaskState {
   tasks:{title: 'string', description: 'string', createdAt: Date, id?: any}[] ;
-  status: 'idle' | 'loading' | 'reject' | 'success'
+  status: 'idle' | 'loading' | 'reject' | 'success';
+  error: null | TaskError[];
 }
 
-interface TaskIdProps {
-  id: any;
-}
+// interface TaskIdProps {
+//   id: any;
+// }
 
 export const initialState: TaskState = {
+  
   tasks: [],
-  status : 'idle'
+  status : 'idle',
+  error: null
 }
 
 export const fetchTasks = createAsyncThunk('tasks/get',
- async (thunkApi) => {
+ async (_, thunkApi) => {
   try {
     const response = await axiosApi.get('/tasks')
     return response.data
+    
   }
   catch (error) {
-    return console.log(error.response.data)
+    return thunkApi.rejectWithValue(error.response.data)
   }
  }
 )
 
 export const createTask = createAsyncThunk('tasks/create', 
-async (thunkApi) => {
+async ({title, description, duration, shortDescription, status, dueDate, } : TaskProps, thunkApi) => {
   try {
-    const response = await axiosApi.post('/tasks')
+    
+    const response = await axiosApi.post('/tasks', {
+      title, description, duration, shortDescription, status, dueDate
+    })
+    
+    thunkApi.dispatch(resetCreateTask())
+    thunkApi.dispatch(fetchTasks())
     return response.data;
     } catch (error) {
-      return console.log(error.response.data)
+      return thunkApi.rejectWithValue(error.response.data)
     }
   }
 )
 
 export const deleteTask = createAsyncThunk('tasks/delete',
-  async (thunkApi) => {
+  async (id , thunkApi) => {
     try {
-      const response = await axiosApi.delete('/tasks')
+      const response = await axiosApi.delete(`tasks/${id}`,  )
       return response.data
     } catch (error) {
-      return console.log(error.response.data)
+      return thunkApi.rejectWithValue(error.response.data)
     }
   }
 )
-
 
 const taskSlice = createSlice({
   name: 'task',
   initialState,
   reducers: {
+    resetCreateTask: (state) => {
+      state.error = null;
+      state.status = 'idle';
+    }
   },
   extraReducers(builder) {
     builder
     .addCase(fetchTasks.pending, (state) => {
       state.status ='loading';
-      console.log('loading tasks')
     })
     .addCase(fetchTasks.fulfilled, (state, action) => {
       state.status = 'success';
-      console.log('fetch tasks');
       state.tasks = action.payload.tasks;
     })
-    .addCase(fetchTasks.rejected, (state) => {
+    .addCase(fetchTasks.rejected, (state, action) => {
       state.status = 'reject';
-      console.log('tasks error')
+      state.error = action.payload as TaskError[];
     })
     .addCase(createTask.pending, (state) => {
       state.status = 'loading'
-      console.log('create task loading')
     })
-    .addCase(createTask.fulfilled, (state, action) => {
+    .addCase(createTask.fulfilled, (state) => {
       state.status = 'success';
-      state.tasks = action.payload.tasks;
-      console.log('task created');
     })
-    .addCase(createTask.rejected, (state) => {
+    .addCase(createTask.rejected, (state, action) => {
       state.status = 'reject';
-      console.log('crate error')
+      state.error = action.payload as TaskError[];
     })
     .addCase(deleteTask.pending, (state) => {
       state.status = 'loading';
-      console.log('deleting task');
     })
-    .addCase(deleteTask.fulfilled, (state, action) => {
+    .addCase(deleteTask.fulfilled, (state) => {
       state.status ='success';
-      state.tasks = action.payload.tasks;
-      console.log('task deleted');
     })
+    .addCase(deleteTask.rejected, (state, action) => {
+      state.status = 'reject';
+      state.error = action.payload as TaskError[];
+    } )
   }
 })
 
-// export const {createTask, editDescription, deleteTask} = taskSlice.actions;
+export const {resetCreateTask} = taskSlice.actions;
   export default taskSlice.reducer;
