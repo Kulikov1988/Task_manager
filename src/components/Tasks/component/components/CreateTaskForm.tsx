@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { AppState } from '../../../../store';
 import { ButtonTaskForm, DivTaskForm } from './TaskForm.style';
 import EditTaskForm from './editForm/EditTaskForm';
 import { ModalButtonsDiv } from '../../../SharedComponents/Search/modal/Modal.style';
-import { login, logout } from '../../../../slices/authReducer';
 import { useNavigate } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
 import Button from '../../../../sharedStyles/Button';
@@ -22,26 +21,6 @@ function CreateTaskForm() {
   const [isEditOpen, setIsEditOpen] = useState(false);
 
   const { userName } = useSelector((state: AppState) => state.authReducer.user);
-
-  // useEffect(() => {
-  //   onAuthStateChanged(auth, (userAuth) => {
-  //     if (userAuth) {
-  //       dispatch(
-  //         login({
-  //           userEmail: userAuth.email,
-  //           // @ts-ignore
-  //           userId: userAuth.uid,
-  //           // @ts-ignore
-  //           tokenId: userAuth.accessToken,
-  //           userName: userAuth.displayName,
-  //         })
-  //       );
-  //     } else {
-  //       dispatch(logout());
-  //       navigate('/login');
-  //     }
-  //   });
-  // });
 
   const openEditModal = () => {
     setIsEditOpen(true);
@@ -102,7 +81,7 @@ function CreateTaskForm() {
         <Button variant='edit' children='edit' />
       </DivTaskForm>
 
-      <EditTaskForm setIsEditOpen={setIsEditOpen} isEditOpen={isEditOpen} />
+      <EditTaskForm setIsEditOpen={setIsEditOpen} isEditOpen={isEditOpen}  />
     </>
   );
 }

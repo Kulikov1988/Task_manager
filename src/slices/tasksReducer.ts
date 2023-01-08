@@ -1,14 +1,14 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { axiosApi } from './authReducer';
 
-interface TaskProps {
+export interface TaskProps {
   title: string;
   description: string;
   shortDescription: string;
   dueDate?: Date;
   id?: any;
   duration: number;
-  status: string;
+  status: 'UPCOMING' | 'DONE' | 'CANCELED';
 }
 
 interface TaskError {
@@ -17,17 +17,12 @@ interface TaskError {
 }
 
 interface TaskState {
-  tasks:{title: 'string', description: 'string', createdAt: Date, id?: any}[] ;
+  tasks:TaskProps[] ;
   status: 'idle' | 'loading' | 'reject' | 'success';
   error: null | TaskError[];
 }
 
-// interface TaskIdProps {
-//   id: any;
-// }
-
 export const initialState: TaskState = {
-  
   tasks: [],
   status : 'idle',
   error: null
@@ -63,10 +58,28 @@ async ({title, description, duration, shortDescription, status, dueDate, } : Tas
   }
 )
 
+export const editTask = createAsyncThunk('tasks/edit', 
+async ({title, description, duration, shortDescription, status, dueDate, id } : TaskProps, thunkApi) => {
+  try {
+    
+    const response = await axiosApi.put(`/tasks/${id}`, {
+      title, description, duration, shortDescription, status, dueDate, id
+    })
+    
+    thunkApi.dispatch(resetCreateTask())
+    thunkApi.dispatch(fetchTasks())
+    return console.log(response.status);
+    } catch (error) {
+      return thunkApi.rejectWithValue(error.response.data)
+    }
+  }
+)
+
 export const deleteTask = createAsyncThunk('tasks/delete',
-  async (id , thunkApi) => {
+  async (id: string, thunkApi) => {
     try {
-      const response = await axiosApi.delete(`tasks/${id}`,  )
+      const response = await axiosApi.delete(`tasks/${id}`)
+      thunkApi.dispatch(fetchTasks())
       return response.data
     } catch (error) {
       return thunkApi.rejectWithValue(error.response.data)
@@ -79,6 +92,10 @@ const taskSlice = createSlice({
   initialState,
   reducers: {
     resetCreateTask: (state) => {
+      state.error = null;
+      state.status = 'idle';
+    },
+    resetEditTask: (state) => {
       state.error = null;
       state.status = 'idle';
     }
@@ -106,6 +123,16 @@ const taskSlice = createSlice({
       state.status = 'reject';
       state.error = action.payload as TaskError[];
     })
+    .addCase(editTask.pending, (state) => {
+      state.status = 'loading';
+    })
+    .addCase(editTask.fulfilled, (state) => {
+      state.status='success';
+    })
+    .addCase(editTask.rejected, (state, action) => {
+      state.status = 'reject';
+      state.error = action.payload as TaskError[];
+    })
     .addCase(deleteTask.pending, (state) => {
       state.status = 'loading';
     })
@@ -119,5 +146,5 @@ const taskSlice = createSlice({
   }
 })
 
-export const {resetCreateTask} = taskSlice.actions;
+export const {resetCreateTask, resetEditTask} = taskSlice.actions;
   export default taskSlice.reducer;

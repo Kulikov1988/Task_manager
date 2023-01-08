@@ -33,13 +33,16 @@ function Tasks(props) {
       <DivTaskForm>
         <Search setSearch={setSearch} search={search} />
       </DivTaskForm>
-      {filteredTasks.map(({ title, description, createdAt, id }, index) => (
+      {filteredTasks.map(({ title, description, dueDate, id, duration, shortDescription, status }, index) => (
         <Task
           key={index}
           title={title}
           description={description}
-          date={createdAt}
+          dueDate={dueDate}
           id={id}
+          duration={duration}
+          shortDescription={shortDescription}
+          status={status}
         />
       ))}
     </S.TaskForm>

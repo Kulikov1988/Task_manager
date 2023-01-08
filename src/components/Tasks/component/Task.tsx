@@ -7,6 +7,7 @@ import EditTaskForm from './components/editForm/EditTaskForm';
 import { format } from 'date-fns';
 import { deleteTask } from '../../../slices/tasksReducer';
 import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit';
+import { TaskProps } from './../../../slices/tasksReducer';
 
 export type InputType = 'title' | 'description';
 
@@ -17,7 +18,15 @@ export interface handleInputChangeProps {
   date: Date;
 }
 
-function Task({ title, description, id, date }: handleInputChangeProps) {
+function Task({
+  title,
+  description,
+  id,
+  dueDate,
+  shortDescription,
+  duration,
+  status,
+}: TaskProps) {
   const dispatch = useDispatch<ThunkDispatch<{}, void, AnyAction>>();
   const [isOpen, setIsOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
@@ -35,7 +44,7 @@ function Task({ title, description, id, date }: handleInputChangeProps) {
   };
 
   const deleteTaskOnClick = () => {
-    dispatch(deleteTask());
+    dispatch(deleteTask(id));
     setIsOpen(false);
   };
 
@@ -45,13 +54,10 @@ function Task({ title, description, id, date }: handleInputChangeProps) {
         <img src='/src/assets/images/logo1.png' alt='' />
       </div>
       <S.TaskItem>
-        <S.TaskSpan>
-          {title} <> </>
-        </S.TaskSpan>
-        <S.TaskSpan>
-          {description} <> </>
-        </S.TaskSpan>
-        <S.TaskSpan>{format(new Date(date), 'dd/MM/yyyy')}</S.TaskSpan>
+        <S.TaskSpan>{title}</S.TaskSpan>
+        <S.TaskSpan>{description}</S.TaskSpan>
+        <S.TaskSpan>{shortDescription}</S.TaskSpan>
+        <S.TaskSpan>{format(new Date(dueDate), 'dd/MM/yyyy')}</S.TaskSpan>
       </S.TaskItem>
       <S.TaskItemButtons>
         <ButtonTaskForm
@@ -84,8 +90,10 @@ function Task({ title, description, id, date }: handleInputChangeProps) {
         isEditOpen={isEditOpen}
         title={title}
         description={description}
+        shortDescription={shortDescription}
+        status={status}
         id={id}
-        date={date}
+        date={dueDate}
       />
     </S.TaskDiv>
   );

@@ -1,10 +1,6 @@
 import React, { useEffect } from 'react';
 import { EditFormStyle } from '../TaskForm.style';
 import { useDispatch, useSelector } from 'react-redux';
-// import {
-//   editDescription,
-//   createTask,
-// } from '../../../../../slices/tasksReducer';
 import Modal from '../../../../SharedComponents/Search/modal/Modal';
 import DatePicker from 'react-datepicker';
 import * as Yup from 'yup';
@@ -15,9 +11,12 @@ import CustomInput from '../../../../../sharedStyles/CustomInput/CustomInput';
 import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit';
 import {
   createTask,
+  editTask,
+  fetchTasks,
   resetCreateTask,
+  resetEditTask,
+  TaskProps,
 } from './../../../../../slices/tasksReducer';
-import { useNavigate } from 'react-router-dom';
 import { AppState } from '../../../../../store';
 
 export const taskSchema = Yup.object().shape({
@@ -28,13 +27,10 @@ export const taskSchema = Yup.object().shape({
 interface InitialValues {
   title: string;
   description: string;
+  shortDescription?: string;
   date: Date;
+  duration: number;
   id?: any;
-}
-
-interface HandleClickProps {
-  values: any;
-  formikHelpers: FormikHelpers<any>;
 }
 
 interface EditTaskFormProps {
@@ -42,8 +38,11 @@ interface EditTaskFormProps {
   isEditOpen: boolean;
   title?: string;
   description?: string;
+  shortDescription?: string;
+  status?: 'UPCOMING' | 'DONE' | 'CANCELED';
   id?: any;
   date?: Date;
+  duration?: any;
 }
 
 function EditTaskForm({
@@ -53,8 +52,10 @@ function EditTaskForm({
   description,
   id,
   date,
+  shortDescription,
+  duration,
+  
 }: EditTaskFormProps) {
-  const navigate = useNavigate();
   const dispatch = useDispatch<ThunkDispatch<{}, void, AnyAction>>();
 
   const { status } = useSelector((state: AppState) => state.taskReducer);
@@ -63,8 +64,9 @@ function EditTaskForm({
     if (status === 'success') {
       closeEditModal();
       dispatch(resetCreateTask());
+      dispatch(resetEditTask());
     }
-  });
+  }, [status]);
 
   const closeEditModal = () => {
     setIsEditOpen(false);
@@ -74,32 +76,51 @@ function EditTaskForm({
     values: InitialValues,
     formikHelpers: FormikHelpers<InitialValues>
   ) => {
-    dispatch(
-      createTask({
-        title: values.title,
-        description: values.description,
-        shortDescription: values.description,
-        duration: 15,
-        dueDate: values.date,
-        status: 'UPCOMING',
-      })
-    );
-    console.log({ values });
-    formikHelpers.resetForm();
+    if (id) {
+      dispatch(
+        editTask({
+          id: id,
+          title: values.title,
+          description: values.description,
+          shortDescription: values.shortDescription,
+          duration: values.duration,
+          dueDate: values.date,
+          status: 'UPCOMING',
+        })
+      );
+      formikHelpers.resetForm();
+    } else {
+      dispatch(
+        createTask({
+          title: values.title,
+          description: values.description,
+          shortDescription: values.shortDescription,
+          duration: values.duration,
+          dueDate: values.date,
+          status: 'UPCOMING',
+        })
+      );
+      console.log({ values });
+      formikHelpers.resetForm();
+    }
   };
 
- 
   const initialValues = (): InitialValues => {
     if (id)
       return {
         description,
+        shortDescription,
         date: new Date(date),
         title,
+        duration,
+        
       };
     return {
       title: '',
       description: '',
+      shortDescription: '',
       date: new Date(),
+      duration,
     };
   };
 
@@ -126,6 +147,16 @@ function EditTaskForm({
                   name='description'
                   label='descrpition'
                   placeholder='Description'
+                />
+                <CustomInput
+                  name='shortDescription'
+                  label='shortDescription'
+                  placeholder='Short Description'
+                />
+                <CustomInput
+                  name='duration'
+                  label='duration'
+                  placeholder='Duration'
                 />
               </EditFormStyle>
               <br /> Choose a date

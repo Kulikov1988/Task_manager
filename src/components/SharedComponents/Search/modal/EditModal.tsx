@@ -25,7 +25,7 @@ function EditModal({
   onCancel,
   onSubmit,
   children,
-  title
+  title,
 }: ModalProps) {
   const closeModal = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -44,10 +44,7 @@ function EditModal({
             </ModalHeader>
             <ModalMain>{children}</ModalMain>
             <ModalButtonsDiv>
-              <ModalButton
-                category='submit'
-                onClick={onSubmit}
-              >
+              <ModalButton category='submit' onClick={onSubmit}>
                 Delete
               </ModalButton>
               <ModalButton category='cancel' onClick={onCancel}>

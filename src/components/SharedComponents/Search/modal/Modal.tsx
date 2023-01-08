@@ -47,14 +47,14 @@ function Modal({
               <ModalHeaderDiv>{headerTitle}</ModalHeaderDiv>
               <ModalButtonX onClick={closeModal}>X</ModalButtonX>
             </ModalHeader>
-            <ModalMain>{children}</ModalMain>
+            <ModalMain>{children} </ModalMain>
             <ModalButtonsDiv>
               <ModalButton
                 type='button'
                 category='submit'
                 onClick={onSubmit}
                 disabled={isDisable}
-                >
+              >
                 Submit
               </ModalButton>
               <ModalButton type='button' category='cancel' onClick={onCancel}>
