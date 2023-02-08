@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const Login = styled.form`
+export const Login = styled.div`
   display: flex;
   height: 90vh;
   justify-content: center;
@@ -23,6 +23,7 @@ export const mainDiv = styled.div`
 `
 
 export const Div = styled.div`
+  
   margin: 1px;
   padding-left: 1rem ;
   font-size: 20px;

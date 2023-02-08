@@ -10,7 +10,7 @@ import Search from '../SharedComponents/Search/Search';
 import { ThunkDispatch, AnyAction } from '@reduxjs/toolkit';
 import { fetchTasks } from '../../slices/tasksReducer';
 
-function Tasks(props) {
+function Tasks() {
   const dispatch = useDispatch<ThunkDispatch<void, {}, AnyAction>>();
   const [search, setSearch] = useState('');
 

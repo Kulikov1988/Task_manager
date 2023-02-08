@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { AppState } from '../../../../store';
 import { ButtonTaskForm, DivTaskForm } from './TaskForm.style';
 import EditTaskForm from './editForm/EditTaskForm';
 import { ModalButtonsDiv } from '../../../SharedComponents/Search/modal/Modal.style';
-import { useNavigate } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
-import Button from '../../../../sharedStyles/Button';
 
 export type InputType = 'title' | 'description';
 
@@ -16,8 +14,6 @@ export interface handleInputChangeProps {
 }
 
 function CreateTaskForm() {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
   const [isEditOpen, setIsEditOpen] = useState(false);
 
   const { userName } = useSelector((state: AppState) => state.authReducer.user);
@@ -78,10 +74,9 @@ function CreateTaskForm() {
             Create a new task
           </ButtonTaskForm>
         </ModalButtonsDiv>
-        <Button variant='edit' children='edit' />
       </DivTaskForm>
 
-      <EditTaskForm setIsEditOpen={setIsEditOpen} isEditOpen={isEditOpen}  />
+      <EditTaskForm setIsEditOpen={setIsEditOpen} isEditOpen={isEditOpen} />
     </>
   );
 }

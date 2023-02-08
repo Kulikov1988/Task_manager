@@ -40,7 +40,7 @@ font-weight: 700;
 export const ModalButtonX = styled.button`
 
 position: absolute;
-  top: 25%;
+  top: 35%;
   left: 99%;
   transform: translate(-90%, -90%);
 `

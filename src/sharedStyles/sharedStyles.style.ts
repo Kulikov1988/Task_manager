@@ -14,6 +14,12 @@ height: 75px;
 padding: 10px;
 margin-left: 25px;
 border-radius: 50%;
+`
 
+export const ImgDiv = styled.img`
+cursor: pointer;
+height: 25px;
+padding: 10px;
+margin-left: 10px;
 `
 

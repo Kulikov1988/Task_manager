@@ -12,16 +12,19 @@ import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit';
 import {
   createTask,
   editTask,
-  fetchTasks,
   resetCreateTask,
   resetEditTask,
-  TaskProps,
 } from './../../../../../slices/tasksReducer';
 import { AppState } from '../../../../../store';
+import { ButtonTaskForm } from './../TaskForm.style';
 
 export const taskSchema = Yup.object().shape({
   title: Yup.string().required('required field'),
   description: Yup.string().required('required field'),
+  shortDescription: Yup.string().required('required field'),
+  duration: Yup.number()
+    .min(15, 'minimum 15 minut required')
+    .required('required field'),
 });
 
 interface InitialValues {
@@ -31,6 +34,7 @@ interface InitialValues {
   date: Date;
   duration: number;
   id?: any;
+  status?: 'UPCOMING' | 'DONE' | 'CANCELED';
 }
 
 interface EditTaskFormProps {
@@ -54,19 +58,21 @@ function EditTaskForm({
   date,
   shortDescription,
   duration,
-  
+  status,
 }: EditTaskFormProps) {
   const dispatch = useDispatch<ThunkDispatch<{}, void, AnyAction>>();
 
-  const { status } = useSelector((state: AppState) => state.taskReducer);
+  const { status: reducerStatus } = useSelector(
+    (state: AppState) => state.taskReducer
+  );
 
   useEffect(() => {
-    if (status === 'success') {
+    if (reducerStatus === 'success') {
       closeEditModal();
       dispatch(resetCreateTask());
       dispatch(resetEditTask());
     }
-  }, [status]);
+  }, [reducerStatus]);
 
   const closeEditModal = () => {
     setIsEditOpen(false);
@@ -85,9 +91,10 @@ function EditTaskForm({
           shortDescription: values.shortDescription,
           duration: values.duration,
           dueDate: values.date,
-          status: 'UPCOMING',
+          status: values.status,
         })
       );
+      console.log(status);
       formikHelpers.resetForm();
     } else {
       dispatch(
@@ -100,7 +107,6 @@ function EditTaskForm({
           status: 'UPCOMING',
         })
       );
-      console.log({ values });
       formikHelpers.resetForm();
     }
   };
@@ -113,14 +119,15 @@ function EditTaskForm({
         date: new Date(date),
         title,
         duration,
-        
+        status,
       };
     return {
       title: '',
       description: '',
       shortDescription: '',
       date: new Date(),
-      duration,
+      duration: 15,
+      status: 'UPCOMING',
     };
   };
 
@@ -130,7 +137,7 @@ function EditTaskForm({
       validationSchema={taskSchema}
       onSubmit={handleClick}
     >
-      {({ submitForm, handleChange, values, setFieldValue, isValid }) => {
+      {({ submitForm, values, setFieldValue, isValid }) => {
         return (
           <Form>
             <Modal
@@ -157,7 +164,30 @@ function EditTaskForm({
                   name='duration'
                   label='duration'
                   placeholder='Duration'
+                  type='number'
                 />
+                <div>Status of task: {status}</div>
+                <ButtonTaskForm
+                  category='new_task'
+                  type='button'
+                  onClick={() => setFieldValue('status', 'DONE')}
+                >
+                  Done
+                </ButtonTaskForm>
+                <ButtonTaskForm
+                  category='edit_task'
+                  type='button'
+                  onClick={() => setFieldValue('status', 'UPCOMING')}
+                >
+                  Upcoming
+                </ButtonTaskForm>
+                <ButtonTaskForm
+                  category='delete_task'
+                  type='button'
+                  onClick={() => setFieldValue('status', 'CANCELED')}
+                >
+                  Canceled
+                </ButtonTaskForm>
               </EditFormStyle>
               <br /> Choose a date
               <DatePicker

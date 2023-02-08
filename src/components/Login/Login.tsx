@@ -30,6 +30,9 @@ const Login: React.FC = () => {
     register: { status },
   } = useSelector((state: AppState) => state.authReducer);
 
+  console.log(error, 'error');
+  // console.log(typeof error);
+
   useEffect(() => {
     if (isAuth) {
       navigate('/tasks');
@@ -46,6 +49,30 @@ const Login: React.FC = () => {
     );
   };
 
+  // const serverError = () => {
+  //   if (typeof error === 'object') {
+  //     return console.log({error})
+  //   } else { return (
+
+  //     error.map((err, index) => {
+  //       return (
+  //         <div key={index}>
+  //           {err.field} Field: {err.message}
+  //         </div>
+  //       );
+  //     })
+  //   )
+
+  //   }
+  // };
+
+  // console.log(
+  //   error.map((err) => {
+  //     return err.field;
+  //   })
+  // );
+  // console.log(serverError());
+
   return (
     <>
       <Formik
@@ -53,7 +80,7 @@ const Login: React.FC = () => {
           email: 'a@a.com',
           password: '123456',
         }}
-        validationSchema={LoginSchema}
+        // validationSchema={LoginSchema}
         onSubmit={handleClick}
       >
         {({ submitForm, handleChange }) => {
@@ -65,16 +92,6 @@ const Login: React.FC = () => {
               </SignDiv>
               <S.Login>
                 <S.loginDiv>
-                  <S.Div>
-                    {error &&
-                      error.map((err) => {
-                        return (
-                          <div>
-                            {err.field} Field: {err.message}
-                          </div>
-                        );
-                      })}
-                  </S.Div>
                   <S.mainDiv>
                     <h1>Login Page</h1>
                     <CustomInput
@@ -82,12 +99,33 @@ const Login: React.FC = () => {
                       label='Email'
                       onChange={handleChange}
                     />
+
+                    <S.Div>
+                      {error &&
+                        error.map((err, index) => {
+                          if (err.field === 'email') {
+                            return <div key={index}>{err.message}</div>;
+                          } else {
+                            return null;
+                          }
+                        })}
+                    </S.Div>
                     <CustomInput
                       label='Password'
                       type='password'
                       name='password'
                       onChange={handleChange}
                     />
+                    <S.Div>
+                      {error &&
+                        error.map((err, index) => {
+                          if (err.field === 'password') {
+                            return <div key={index}>{err.message}</div>;
+                          } else {
+                            return null;
+                          }
+                        })}
+                    </S.Div>
                     <Button type='button' onClick={() => submitForm()}>
                       Submit
                     </Button>

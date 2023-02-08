@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const EditFormStyle = styled.div`
-display: flex;
+display: block;
 justify-content: end;
 `
 
