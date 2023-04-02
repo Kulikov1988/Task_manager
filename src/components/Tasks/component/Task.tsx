@@ -63,22 +63,22 @@ function Task({
         <S.TaskSpan>Short description: {shortDescription}</S.TaskSpan>
         <S.TaskSpan>Duration: {duration}</S.TaskSpan>
         <S.TaskSpan>Status of Task: {status}</S.TaskSpan>
-        <S.TaskSpan>{format(new Date(dueDate), 'dd/MM/yyyy')}</S.TaskSpan>
+        <S.TaskSpan>{format(new Date(dueDate), 'dd-MM-yyyy')}</S.TaskSpan>
       </S.TaskItem>
       <S.TaskSpan>
         <ImgDiv src={ReactLogo} alt='' onClick={openEditModal} />
         <ImgDiv src={MyLogo} alt='' onClick={openModal} />
       </S.TaskSpan>
-        <Modal
-          id={id}
-          setIsOpen={setIsOpen}
-          isOpen={isOpen}
-          onCancel={closeModal}
-          onSubmit={deleteTaskOnClick}
-          headerTitle='Delete Task'
-        >
-          Are you sure?
-        </Modal>
+      <Modal
+        id={id}
+        setIsOpen={setIsOpen}
+        isOpen={isOpen}
+        onCancel={closeModal}
+        onSubmit={deleteTaskOnClick}
+        headerTitle='Delete Task'
+      >
+        Are you sure?
+      </Modal>
       <EditTaskForm
         setIsEditOpen={setIsEditOpen}
         isEditOpen={isEditOpen}

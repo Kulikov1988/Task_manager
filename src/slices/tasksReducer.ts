@@ -16,16 +16,28 @@ interface TaskError {
   message: string;
 }
 
+interface TaskDates {
+  dates: []
+}
+
+interface TheTaskDay {
+  dateWithTasks: string;
+  offset: number;
+}
+
 interface TaskState {
   tasks:TaskProps[] ;
   status: 'idle' | 'loading' | 'reject' | 'success';
   error: null | TaskError[];
+  dates: TaskDates[];
 }
+
 
 export const initialState: TaskState = {
   tasks: [],
   status : 'idle',
-  error: null
+  error: null,
+  dates: []
 }
 
 export const fetchTasks = createAsyncThunk('tasks/get',
@@ -33,7 +45,6 @@ export const fetchTasks = createAsyncThunk('tasks/get',
   try {
     const response = await axiosApi.get('/tasks')
     return response.data
-    
   }
   catch (error) {
     return thunkApi.rejectWithValue(error.response.data)
@@ -86,6 +97,34 @@ export const deleteTask = createAsyncThunk('tasks/delete',
     }
   }
 )
+
+export const getDatesTask = createAsyncThunk('tasks/getdates', 
+  async (_, thunkApi) => {
+    try {
+      const response = await axiosApi.get('tasks/dates/')
+      return response.data
+    } catch (error) {
+      return thunkApi.rejectWithValue(error.response.data)
+    }
+  } 
+) 
+
+export const getDayTasks = createAsyncThunk('tasks/getday',
+async ({dateWithTasks, offset}:TheTaskDay, thunkApi) => {
+  try {
+    const response = await axiosApi.get(`/tasks/tasks-by-day`,{
+      params: {
+        date: dateWithTasks,
+        TZOffset: offset
+      }
+    })
+    return console.log(response.data);
+  } catch (error) {
+    return thunkApi.rejectWithValue(console.log(error.response.data))
+  }
+}
+)
+
 
 const taskSlice = createSlice({
   name: 'task',
@@ -142,7 +181,29 @@ const taskSlice = createSlice({
     .addCase(deleteTask.rejected, (state, action) => {
       state.status = 'reject';
       state.error = action.payload as TaskError[];
-    } )
+    })
+    .addCase(getDatesTask.fulfilled, (state, action) => {
+      state.status = 'success';
+      state.dates = action.payload.dates;
+    })
+    .addCase(getDatesTask.pending, (state) => {
+      state.status = 'loading';
+    })
+    .addCase(getDatesTask.rejected, (state, action) => {
+      state.status = 'reject';
+      state.error = action.payload as TaskError[];
+    })
+    .addCase(getDayTasks.fulfilled, (state, action) => {
+      state.status = 'success';
+      // state.tasks = action.payload.tasks;
+    })
+    .addCase(getDayTasks.pending, (state) => {
+      state.status = 'loading';
+    })
+    .addCase(getDayTasks.rejected, (state, action) => {
+      state.status = 'reject';
+      state.error = action.payload as TaskError[];
+    })
   }
 })
 

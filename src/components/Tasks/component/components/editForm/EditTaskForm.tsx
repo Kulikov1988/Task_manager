@@ -16,7 +16,7 @@ import {
   resetEditTask,
 } from './../../../../../slices/tasksReducer';
 import { AppState } from '../../../../../store';
-import { ButtonTaskForm } from './../TaskForm.style';
+import { MantineProvider, Group, Button } from '@mantine/core';
 
 export const taskSchema = Yup.object().shape({
   title: Yup.string().required('required field'),
@@ -132,74 +132,85 @@ function EditTaskForm({
   };
 
   return (
-    <Formik
-      initialValues={initialValues()}
-      validationSchema={taskSchema}
-      onSubmit={handleClick}
-    >
-      {({ submitForm, values, setFieldValue, isValid }) => {
-        return (
-          <Form>
-            <Modal
-              isOpen={isEditOpen}
-              setIsOpen={setIsEditOpen}
-              onCancel={closeEditModal}
-              onSubmit={submitForm}
-              id={id}
-              isDisable={!isValid}
-            >
-              <EditFormStyle>
-                <CustomInput name='title' label='title' placeholder='Title' />
-                <CustomInput
-                  name='description'
-                  label='descrpition'
-                  placeholder='Description'
-                />
-                <CustomInput
-                  name='shortDescription'
-                  label='shortDescription'
-                  placeholder='Short Description'
-                />
-                <CustomInput
-                  name='duration'
-                  label='duration'
-                  placeholder='Duration'
-                  type='number'
-                />
-                <div>Status of task: {status}</div>
-                <ButtonTaskForm
-                  category='new_task'
-                  type='button'
-                  onClick={() => setFieldValue('status', 'DONE')}
-                >
-                  Done
-                </ButtonTaskForm>
-                <ButtonTaskForm
-                  category='edit_task'
-                  type='button'
-                  onClick={() => setFieldValue('status', 'UPCOMING')}
-                >
-                  Upcoming
-                </ButtonTaskForm>
-                <ButtonTaskForm
-                  category='delete_task'
-                  type='button'
-                  onClick={() => setFieldValue('status', 'CANCELED')}
-                >
-                  Canceled
-                </ButtonTaskForm>
-              </EditFormStyle>
-              <br /> Choose a date
-              <DatePicker
-                selected={values.date}
-                locale='es'
-                onChange={(date: Date) => setFieldValue('date', date)}
-              />
-            </Modal>
-          </Form>
-        );
+    <MantineProvider
+      // withGlobalStyles
+      withNormalizeCSS
+      theme={{
+        primaryShade: 9,
+        colorScheme: 'dark',
       }}
-    </Formik>
+    >
+      <Formik
+        initialValues={initialValues()}
+        validationSchema={taskSchema}
+        onSubmit={handleClick}
+      >
+        {({ submitForm, values, setFieldValue, isValid }) => {
+          return (
+            <Form>
+              <Modal
+                isOpen={isEditOpen}
+                setIsOpen={setIsEditOpen}
+                onCancel={closeEditModal}
+                onSubmit={submitForm}
+                id={id}
+                isDisable={!isValid}
+              >
+                <EditFormStyle>
+                  <CustomInput name='title' label='title' placeholder='Title' />
+                  <CustomInput
+                    name='description'
+                    label='descrpition'
+                    placeholder='Description'
+                  />
+                  <CustomInput
+                    name='shortDescription'
+                    label='shortDescription'
+                    placeholder='Short Description'
+                  />
+                  <CustomInput
+                    name='duration'
+                    label='duration'
+                    placeholder='Duration'
+                    type='number'
+                  />
+                  <div>Status of task: {status}</div>
+                  
+                </EditFormStyle>
+                <Group position='center'>
+                  <Button
+                    color='grape'
+                    variant='filled'
+                    onClick={() => setFieldValue('status', 'DONE')}
+                  >
+                    Done
+                  </Button>
+                  <Button
+                    variant='light'
+                    onClick={() => setFieldValue('status', 'UPCOMING')}
+                  >
+                    Upcoming
+                  </Button>
+                  <Button
+                    variant='outline'
+                    onClick={() => setFieldValue('status', 'CANCELED')}
+                  >
+                    Canceled
+                  </Button>
+                </Group>
+                <br /> Choose a date
+                <DatePicker
+                  selected={values.date}
+                  locale='es'
+                  onChange={(date: Date) => setFieldValue('date', date)}
+                />
+                
+              </Modal>
+            </Form>
+          );
+        }}
+      </Formik>
+    </MantineProvider>
   );
 }
 

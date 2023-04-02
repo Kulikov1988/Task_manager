@@ -15,6 +15,7 @@ function Tasks() {
   const [search, setSearch] = useState('');
 
   const { tasks } = useSelector((state: AppState) => state.taskReducer);
+  // console.log(dates);
 
   useEffect(() => {
     dispatch(fetchTasks());
@@ -33,18 +34,31 @@ function Tasks() {
       <DivTaskForm>
         <Search setSearch={setSearch} search={search} />
       </DivTaskForm>
-      {filteredTasks.map(({ title, description, dueDate, id, duration, shortDescription, status }, index) => (
-        <Task
-          key={index}
-          title={title}
-          description={description}
-          dueDate={dueDate}
-          id={id}
-          duration={duration}
-          shortDescription={shortDescription}
-          status={status}
-        />
-      ))}
+      {filteredTasks.map(
+        (
+          {
+            title,
+            description,
+            dueDate,
+            id,
+            duration,
+            shortDescription,
+            status,
+          },
+          index
+        ) => (
+          <Task
+            key={index}
+            title={title}
+            description={description}
+            dueDate={dueDate}
+            id={id}
+            duration={duration}
+            shortDescription={shortDescription}
+            status={status}
+          />
+        )
+      )}
     </S.TaskForm>
   );
 }

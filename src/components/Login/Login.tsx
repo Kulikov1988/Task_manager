@@ -26,12 +26,7 @@ const Login: React.FC = () => {
   const {
     isAuth,
     login: { error },
-    user: { userEmail },
-    register: { status },
   } = useSelector((state: AppState) => state.authReducer);
-
-  console.log(error, 'error');
-  // console.log(typeof error);
 
   useEffect(() => {
     if (isAuth) {
@@ -49,29 +44,19 @@ const Login: React.FC = () => {
     );
   };
 
-  // const serverError = () => {
-  //   if (typeof error === 'object') {
-  //     return console.log({error})
-  //   } else { return (
+  const serverError = (error) => {
+    if (error === null) {
+      return;
+    } else if (Array.isArray(error)) {
+      return Object.fromEntries(error.map((obj) => [obj.field, obj.message]));
+    } else if (!Array.isArray(error)) {
+      return { message: error.message };
+    }
+  };
 
-  //     error.map((err, index) => {
-  //       return (
-  //         <div key={index}>
-  //           {err.field} Field: {err.message}
-  //         </div>
-  //       );
-  //     })
-  //   )
+  const error2 = serverError(error);
 
-  //   }
-  // };
-
-  // console.log(
-  //   error.map((err) => {
-  //     return err.field;
-  //   })
-  // );
-  // console.log(serverError());
+  console.log(error2);
 
   return (
     <>
@@ -99,33 +84,14 @@ const Login: React.FC = () => {
                       label='Email'
                       onChange={handleChange}
                     />
-
-                    <S.Div>
-                      {error &&
-                        error.map((err, index) => {
-                          if (err.field === 'email') {
-                            return <div key={index}>{err.message}</div>;
-                          } else {
-                            return null;
-                          }
-                        })}
-                    </S.Div>
+                    <S.Div>{error2 && error2.email}</S.Div>
                     <CustomInput
                       label='Password'
                       type='password'
                       name='password'
                       onChange={handleChange}
                     />
-                    <S.Div>
-                      {error &&
-                        error.map((err, index) => {
-                          if (err.field === 'password') {
-                            return <div key={index}>{err.message}</div>;
-                          } else {
-                            return null;
-                          }
-                        })}
-                    </S.Div>
+                    <S.Div>{error2 && error2.message}</S.Div>
                     <Button type='button' onClick={() => submitForm()}>
                       Submit
                     </Button>

@@ -41,7 +41,7 @@ function Modal({
     <>
       {isOpen && (
         <>
-          <Overlay></Overlay>
+          {/* <Overlay></Overlay> */}
           <ModalDiv>
             <ModalHeader>
               <ModalHeaderDiv>{headerTitle}</ModalHeaderDiv>

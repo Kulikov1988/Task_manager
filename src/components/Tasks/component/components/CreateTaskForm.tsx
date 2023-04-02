@@ -75,7 +75,6 @@ function CreateTaskForm() {
           </ButtonTaskForm>
         </ModalButtonsDiv>
       </DivTaskForm>
-
       <EditTaskForm setIsEditOpen={setIsEditOpen} isEditOpen={isEditOpen} />
     </>
   );
