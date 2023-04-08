@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { AppState } from '../../../../store';
-import { ButtonTaskForm, DivTaskForm } from './TaskForm.style';
+import { DivTaskForm } from './TaskForm.style';
 import EditTaskForm from './editForm/EditTaskForm';
 import { ModalButtonsDiv } from '../../../SharedComponents/Search/modal/Modal.style';
 import Avatar from '@mui/material/Avatar';
+import { Button } from '@mantine/core';
 
 export type InputType = 'title' | 'description';
 
@@ -63,16 +64,12 @@ function CreateTaskForm() {
   return (
     <>
       <DivTaskForm>
-        <b>Hellow {userName}, it is your tasks:</b>
-        <Avatar {...stringAvatar(userName)} />
+        {/* <b>Hellow {userName}, it is your tasks:</b>
+        <Avatar {...stringAvatar(userName)} /> */}
         <ModalButtonsDiv>
-          <ButtonTaskForm
-            type='button'
-            category='new_task'
-            onClick={openEditModal}
-          >
+          <Button color='indigo' variant={'filled'} onClick={openEditModal}>
             Create a new task
-          </ButtonTaskForm>
+          </Button>
         </ModalButtonsDiv>
       </DivTaskForm>
       <EditTaskForm setIsEditOpen={setIsEditOpen} isEditOpen={isEditOpen} />

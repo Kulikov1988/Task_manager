@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { EditFormStyle } from '../TaskForm.style';
 import { useDispatch, useSelector } from 'react-redux';
 import Modal from '../../../../SharedComponents/Search/modal/Modal';
-import DatePicker from 'react-datepicker';
 import * as Yup from 'yup';
 import { Form, Formik, FormikHelpers } from 'formik';
 
@@ -17,6 +16,7 @@ import {
 } from './../../../../../slices/tasksReducer';
 import { AppState } from '../../../../../store';
 import { MantineProvider, Group, Button } from '@mantine/core';
+import { DateTimePicker } from '@mantine/dates';
 
 export const taskSchema = Yup.object().shape({
   title: Yup.string().required('required field'),
@@ -135,10 +135,6 @@ function EditTaskForm({
     <MantineProvider
       // withGlobalStyles
       withNormalizeCSS
-      theme={{
-        primaryShade: 9,
-        colorScheme: 'dark',
-      }}
     >
       <Formik
         initialValues={initialValues()}
@@ -175,7 +171,6 @@ function EditTaskForm({
                     type='number'
                   />
                   <div>Status of task: {status}</div>
-                  
                 </EditFormStyle>
                 <Group position='center'>
                   <Button
@@ -198,13 +193,20 @@ function EditTaskForm({
                     Canceled
                   </Button>
                 </Group>
-                <br /> Choose a date
-                <DatePicker
+                <br /> Pick date and time
+                {/* <DatePicker
                   selected={values.date}
                   locale='es'
                   onChange={(date: Date) => setFieldValue('date', date)}
+                /> */}
+                <DateTimePicker
+                  dropdownType='modal'
+                  // label='Pick date and time'
+                  placeholder='Pick date and time'
+                  maw={400}
+                  mx='auto'
+                  onChange={(date: Date) => setFieldValue('date', date)}
                 />
-                
               </Modal>
             </Form>
           );

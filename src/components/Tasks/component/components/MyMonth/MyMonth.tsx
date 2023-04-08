@@ -9,11 +9,12 @@ const MyMonth = ({ dayTask, setDayTask, dates }) => {
     const year = date.getFullYear();
     return `${year}-${month}-${theDay}`;
   });
-  
+
   return (
     <>
       <Group position='center'>
         <DatePicker
+          
           firstDayOfWeek={0}
           weekendDays={[5, 6]}
           size='xl'

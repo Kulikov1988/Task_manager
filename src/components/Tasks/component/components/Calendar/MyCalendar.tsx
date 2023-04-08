@@ -2,7 +2,7 @@ import MyDay from '../MyDay/MyDay';
 import MyMonth from '../MyMonth/MyMonth';
 import { CalendarDiv } from './MyCalendar.style';
 import { useState, useEffect } from 'react';
-import { getDatesTask } from './../../../../../slices/tasksReducer';
+import { getDatesTask, fetchTasks } from './../../../../../slices/tasksReducer';
 import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from '../../../../../store';
@@ -16,10 +16,10 @@ const MyCalendar = () => {
 
   useEffect(() => {
     dispatch(getDatesTask());
-  }, []);
+  }, [dispatch]);
 
   const getTasks = () => {
-    dispatch(getDatesTask());
+    dispatch(fetchTasks());
   };
 
   return (

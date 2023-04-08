@@ -22,7 +22,7 @@ position: fixed;
 `
 export const ModalHeader = styled.header`
 background-color: #61c7e7;
-  padding: 10px 20px;
+  padding: 2px 20px;
   display: flex;
   /* justify-content: space-between; */
   position: relative;
@@ -30,7 +30,7 @@ background-color: #61c7e7;
 `
 
 export const ModalHeaderDiv = styled.div`
-padding: 20px;
+padding: 10px;
 position: relative;
 left: 140px;
 font-size: 22px;
@@ -39,10 +39,10 @@ font-weight: 700;
 
 export const ModalButtonX = styled.button`
 
-position: absolute;
-  top: 35%;
-  left: 99%;
-  transform: translate(-90%, -90%);
+position: relative;
+  top: 1%;
+  left: 94%;
+  
 `
 
 export const ModalMain = styled.main`

@@ -3,6 +3,8 @@ import { DateTimePicker } from '@mantine/dates';
 import { useDispatch } from 'react-redux';
 import { ThunkDispatch, AnyAction } from '@reduxjs/toolkit';
 import { getDayTasks } from '../../../../../slices/tasksReducer';
+import TasksDay from './../../../TasksDay';
+import { Formik } from 'formik';
 
 const MyDay = ({ setDayTask, dayTask }) => {
   const dispatch = useDispatch<ThunkDispatch<void, {}, AnyAction>>();
@@ -16,17 +18,31 @@ const MyDay = ({ setDayTask, dayTask }) => {
 
   useEffect(() => {
     dispatch(getDayTasks({ offset, dateWithTasks }));
-  }, [dayTask]);
+  }, [dayTask, dateWithTasks, offset, dispatch]);
+
+  console.log(dayTask);
 
   return (
     <>
-      <DateTimePicker
-        getDayProps={(date) => ({ onClick: () => setDayTask(date) })}
-        label='Pick date and time'
-        placeholder='Pick date and time'
-        maw={400}
-        mx='auto'
-      />
+      <Formik
+        enableReinitialize
+        initialValues={{
+          defaultValue: new Date(dayTask),
+        }}
+        onSubmit={() => {}}
+      >
+        <>
+          <DateTimePicker
+            defaultValue={new Date(dayTask)}
+            getDayProps={(date) => ({ onClick: () => setDayTask(date) })}
+            label='Pick date and time'
+            placeholder='Pick date and time'
+            maw={400}
+            mx='auto'
+          />
+          <TasksDay dayTask={dayTask} />
+        </>
+      </Formik>
     </>
   );
 };

@@ -118,7 +118,7 @@ async ({dateWithTasks, offset}:TheTaskDay, thunkApi) => {
         TZOffset: offset
       }
     })
-    return console.log(response.data);
+    return response.data
   } catch (error) {
     return thunkApi.rejectWithValue(console.log(error.response.data))
   }
@@ -195,7 +195,7 @@ const taskSlice = createSlice({
     })
     .addCase(getDayTasks.fulfilled, (state, action) => {
       state.status = 'success';
-      // state.tasks = action.payload.tasks;
+      state.tasks = action.payload.tasks;
     })
     .addCase(getDayTasks.pending, (state) => {
       state.status = 'loading';
