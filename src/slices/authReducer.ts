@@ -36,7 +36,7 @@ interface InitialState {
 }
 
 export const axiosApi = axios.create({
-  baseURL: "http://142.93.224.186:3000/",
+  baseURL: "",
   withCredentials: true,
 });
 

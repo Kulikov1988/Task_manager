@@ -13,6 +13,7 @@ const MyCalendar = () => {
   const [dayTask, setDayTask] = useState(new Date());
 
   const { dates } = useSelector((state: AppState) => state.taskReducer);
+  const { isAuth } = useSelector((state: AppState) => state.authReducer);
 
   useEffect(() => {
     dispatch(getDatesTask());
@@ -22,7 +23,7 @@ const MyCalendar = () => {
     dispatch(fetchTasks());
   };
 
-  return (
+  return isAuth ? (
     <>
       <CalendarDiv>
         <MyMonth dayTask={dayTask} setDayTask={setDayTask} dates={dates} />
@@ -30,7 +31,9 @@ const MyCalendar = () => {
       </CalendarDiv>
       <button onClick={getTasks}>Get Tasks</button>
     </>
-  );
+  ) : (
+    <></>
+  )
 };
 
 export default MyCalendar;

@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
-import * as S from './Task.style';
+import * as S from '../Task/Task.style';
 import { useDispatch } from 'react-redux';
-import Modal from '../../SharedComponents/Search/modal/Modal';
-import EditTaskForm from './components/editForm/EditTaskForm';
-import { format } from 'date-fns';
-import { deleteTask } from '../../../slices/tasksReducer';
+import Modal from '../../../../../SharedComponents/Search/Modal/Modal';
+import EditTaskForm from '../../EditForm/EditTaskForm';
+import { deleteTask } from '../../../../../../slices/tasksReducer';
 import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit';
-import { TaskProps } from './../../../slices/tasksReducer';
-import MyLogo from '../../../assets/images/delete.png';
-import ReactLogo from '../../../assets/images/edit.png';
-import { ImgDiv } from './../../../sharedStyles/sharedStyles.style';
+import { TaskProps } from '../../../../../../slices/tasksReducer';
+import MyLogo from '../../../../../../assets/images/delete.png';
+import ReactLogo from '../../../../../../assets/images/edit.png';
+import { ImgDiv } from '../../../../../../sharedStyles/sharedStyles.style';
+import { useNavigate } from 'react-router-dom';
 
 export type InputType = 'title' | 'description';
 
@@ -20,7 +20,7 @@ export interface handleInputChangeProps {
   date: Date;
 }
 
-function Task({
+function TaskDescription({
   title,
   description,
   id,
@@ -32,6 +32,7 @@ function Task({
   const dispatch = useDispatch<ThunkDispatch<{}, void, AnyAction>>();
   const [isOpen, setIsOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
+  const navigate = useNavigate();
 
   const openModal = () => {
     setIsOpen(true);
@@ -50,20 +51,18 @@ function Task({
     setIsOpen(false);
   };
 
+  const fullTaskDescription = () => {
+    // navigate()
+  }
+
   return (
-    <S.TaskDiv>
+    <S.TaskDiv >
       <S.TaskItem>
         <S.TaskSpan>
           <b>Title of Task:</b> {title}
         </S.TaskSpan>
-        <S.TaskSpan>
-          <b>Description: </b>
-          {description}
-        </S.TaskSpan>
-        <S.TaskSpan>Short description: {shortDescription}</S.TaskSpan>
-        <S.TaskSpan>Duration: {duration}</S.TaskSpan>
-        <S.TaskSpan>Status of Task: {status}</S.TaskSpan>
-        <S.TaskSpan>{format(new Date(dueDate), 'dd-MM-yyyy')}</S.TaskSpan>
+
+        <div>Short description: {shortDescription}</div>
       </S.TaskItem>
       <S.TaskSpan>
         <ImgDiv src={ReactLogo} alt='' onClick={openEditModal} />
@@ -94,4 +93,4 @@ function Task({
   );
 }
 
-export default Task;
+export default TaskDescription;

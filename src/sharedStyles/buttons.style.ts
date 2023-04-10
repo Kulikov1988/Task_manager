@@ -33,7 +33,6 @@ export const ButtonLogOut = styled.button<{isHidden:boolean}>`
   border-radius: .4em;
   border: 3px solid black;
   box-shadow: .1em .1em;
-  display: ${({isHidden}) => isHidden ? 'block' : 'none'};
   
    &:hover {
   transform: translate(-0.05em, -0.05em);

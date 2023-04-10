@@ -2,6 +2,9 @@ import { DatePicker } from '@mantine/dates';
 import { Group, Indicator } from '@mantine/core';
 
 const MyMonth = ({ dayTask, setDayTask, dates }) => {
+
+
+  
   const arrDates = dates.map((day) => {
     const date = new Date(day);
     const theDay = date.getDate();
@@ -14,7 +17,6 @@ const MyMonth = ({ dayTask, setDayTask, dates }) => {
     <>
       <Group position='center'>
         <DatePicker
-          
           firstDayOfWeek={0}
           weekendDays={[5, 6]}
           size='xl'

@@ -50,7 +50,7 @@ const Login: React.FC = () => {
     } else if (Array.isArray(error)) {
       return Object.fromEntries(error.map((obj) => [obj.field, obj.message]));
     } else if (!Array.isArray(error)) {
-      return { message: error.message };
+      return { message: error?.message };
     }
   };
 

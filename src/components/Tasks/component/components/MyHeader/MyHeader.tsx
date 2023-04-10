@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { HeaderForm } from '../../../../../AppStyles.style';
 import { LogoDiv } from '../../../../../sharedStyles/sharedStyles.style';
 import { LoginDiv } from './../../../../../AppStyles.style';
@@ -40,7 +41,7 @@ const MyHeader = () => {
     return color;
   }
 
-  function stringAvatar(name: string) {
+  const stringAvatar = (name: string) => {
     const nameLenght = name.split(' ').length;
     if (nameLenght === 2) {
       return {
@@ -56,24 +57,21 @@ const MyHeader = () => {
       },
       children: name.split(' ')[0][0],
     };
-  }
+  };
 
-  return (
-    <>
-      <HeaderForm>
-        <LogoDiv src={MyLogo} alt='' />
-        <div>
-          <b>Hellow {userName}, it is your tasks:</b>
-          <Avatar {...stringAvatar(userName)} />
-          <LoginDiv isHidden={isAuth}>
-            <NavLink to='/login'>Login</NavLink>
-          </LoginDiv>
-          <ButtonLogOut isHidden={isAuth} onClick={logoutOnClick}>
-            Log Out
-          </ButtonLogOut>
-        </div>
-      </HeaderForm>
-    </>
+  return isAuth ? (
+    <HeaderForm>
+      <LogoDiv src={MyLogo} alt='' />
+      <b>Hello {userName}, it is your tasks:</b>
+      <Avatar {...stringAvatar(userName)} />
+      <ButtonLogOut onClick={logoutOnClick}>Log Out</ButtonLogOut>
+    </HeaderForm>
+  ) : (
+    <HeaderForm>
+      <LoginDiv isHidden={isAuth}>
+        <NavLink to='/login'>Login</NavLink>
+      </LoginDiv>
+    </HeaderForm>
   );
 };
 

@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
-import { EditFormStyle } from '../TaskForm.style';
+import React, { useEffect, useState } from 'react';
+import { EditFormStyle } from '../Tasks/Task/TaskForm.style';
 import { useDispatch, useSelector } from 'react-redux';
-import Modal from '../../../../SharedComponents/Search/modal/Modal';
+import Modal from '../../../../SharedComponents/Search/Modal/Modal';
 import * as Yup from 'yup';
 import { Form, Formik, FormikHelpers } from 'formik';
 
@@ -13,7 +13,7 @@ import {
   editTask,
   resetCreateTask,
   resetEditTask,
-} from './../../../../../slices/tasksReducer';
+} from '../../../../../slices/tasksReducer';
 import { AppState } from '../../../../../store';
 import { MantineProvider, Group, Button } from '@mantine/core';
 import { DateTimePicker } from '@mantine/dates';
@@ -47,6 +47,7 @@ interface EditTaskFormProps {
   id?: any;
   date?: Date;
   duration?: any;
+  dayTask?: Date;
 }
 
 function EditTaskForm({
@@ -59,6 +60,7 @@ function EditTaskForm({
   shortDescription,
   duration,
   status,
+  dayTask,
 }: EditTaskFormProps) {
   const dispatch = useDispatch<ThunkDispatch<{}, void, AnyAction>>();
 
@@ -66,17 +68,17 @@ function EditTaskForm({
     (state: AppState) => state.taskReducer
   );
 
+  const closeEditModal = () => {
+    setIsEditOpen(false);
+  };
+
   useEffect(() => {
     if (reducerStatus === 'success') {
       closeEditModal();
       dispatch(resetCreateTask());
       dispatch(resetEditTask());
     }
-  }, [reducerStatus]);
-
-  const closeEditModal = () => {
-    setIsEditOpen(false);
-  };
+  }, [reducerStatus, dispatch]);
 
   const handleClick = (
     values: InitialValues,
@@ -94,8 +96,8 @@ function EditTaskForm({
           status: values.status,
         })
       );
-      console.log(status);
       formikHelpers.resetForm();
+      console.log(values.date, 'edit');
     } else {
       dispatch(
         createTask({
@@ -108,40 +110,40 @@ function EditTaskForm({
         })
       );
       formikHelpers.resetForm();
+      console.log(values.date, 'create');
     }
   };
 
   const initialValues = (): InitialValues => {
-    if (id)
-      return {
-        description,
-        shortDescription,
-        date: new Date(date),
-        title,
-        duration,
-        status,
-      };
-    return {
-      title: '',
-      description: '',
-      shortDescription: '',
-      date: new Date(),
-      duration: 15,
-      status: 'UPCOMING',
-    };
+    return id
+      ? {
+          description,
+          shortDescription,
+          date: new Date(date),
+          title,
+          duration,
+          status,
+        }
+      : {
+          title: '',
+          description: '',
+          shortDescription: '',
+          date: new Date(dayTask),
+          duration: 15,
+          status: 'UPCOMING',
+        };
   };
 
   return (
-    <MantineProvider
-      // withGlobalStyles
-      withNormalizeCSS
-    >
+    <MantineProvider withNormalizeCSS>
       <Formik
         initialValues={initialValues()}
         validationSchema={taskSchema}
         onSubmit={handleClick}
       >
         {({ submitForm, values, setFieldValue, isValid }) => {
+          console.log(values.date);
+          console.log(initialValues());
           return (
             <Form>
               <Modal
@@ -194,14 +196,9 @@ function EditTaskForm({
                   </Button>
                 </Group>
                 <br /> Pick date and time
-                {/* <DatePicker
-                  selected={values.date}
-                  locale='es'
-                  onChange={(date: Date) => setFieldValue('date', date)}
-                /> */}
                 <DateTimePicker
                   dropdownType='modal'
-                  // label='Pick date and time'
+                  defaultValue={dayTask ? dayTask : new Date()}
                   placeholder='Pick date and time'
                   maw={400}
                   mx='auto'

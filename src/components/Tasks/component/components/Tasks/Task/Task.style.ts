@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const TaskForm = styled.div`
-margin: 2rem 20rem;
+margin: 2rem 2rem;
 padding: 1rem;
 background-color: aliceblue;
 height: fit-content;

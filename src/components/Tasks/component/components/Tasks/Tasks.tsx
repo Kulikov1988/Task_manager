@@ -1,24 +1,15 @@
-import { useEffect, useState } from 'react';
-import Task from './component/Task';
-import { useSelector, useDispatch } from 'react-redux';
-import { AppState } from '../../store';
-import * as S from './component/Task.style';
-import CreateTaskForm from './component/components/CreateTaskForm';
-import { DivTaskForm } from './component/components/TaskForm.style';
-import Search from '../SharedComponents/Search/Search';
-// import Avatar from '@mui/material/Avatar';
-import { ThunkDispatch, AnyAction } from '@reduxjs/toolkit';
-import { fetchTasks } from '../../slices/tasksReducer';
+import { useState } from 'react';
+import Task from './Task/Task';
+import { useSelector } from 'react-redux';
+import { AppState } from '../../../../../store';
+import * as S from './Task/Task.style';
+import { DivTaskForm } from './Task/TaskForm.style';
+import Search from '../../../../SharedComponents/Search/Search';
 
 function Tasks() {
-  const dispatch = useDispatch<ThunkDispatch<void, {}, AnyAction>>();
   const [search, setSearch] = useState('');
 
   const { tasks } = useSelector((state: AppState) => state.taskReducer);
-
-  useEffect(() => {
-    dispatch(fetchTasks());
-  }, []);
 
   const filteredTasks = tasks.filter((task) => {
     return (
@@ -29,7 +20,6 @@ function Tasks() {
 
   return (
     <S.TaskForm>
-      <CreateTaskForm />
       <DivTaskForm>
         <Search setSearch={setSearch} search={search} />
       </DivTaskForm>
