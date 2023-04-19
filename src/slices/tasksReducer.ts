@@ -9,6 +9,8 @@ export interface TaskProps {
   id?: any;
   duration: number;
   status: 'UPCOMING' | 'DONE' | 'CANCELED';
+  offset?: number;
+  dateWithTasks?: string;
 }
 
 interface TaskError {
@@ -53,7 +55,7 @@ export const fetchTasks = createAsyncThunk('tasks/get',
 )
 
 export const createTask = createAsyncThunk('tasks/create', 
-async ({title, description, duration, shortDescription, status, dueDate, } : TaskProps, thunkApi) => {
+async ({title, description, duration, shortDescription, status, dueDate, dateWithTasks, offset} : TaskProps, thunkApi) => {
   try {
     
     const response = await axiosApi.post('/tasks', {
@@ -61,7 +63,7 @@ async ({title, description, duration, shortDescription, status, dueDate, } : Tas
     })
     
     thunkApi.dispatch(resetCreateTask())
-    thunkApi.dispatch(fetchTasks())
+    thunkApi.dispatch(getDayTasks({dateWithTasks, offset}))
     return response.data;
     } catch (error) {
       return thunkApi.rejectWithValue(error.response.data)
@@ -70,7 +72,7 @@ async ({title, description, duration, shortDescription, status, dueDate, } : Tas
 )
 
 export const editTask = createAsyncThunk('tasks/edit', 
-async ({title, description, duration, shortDescription, status, dueDate, id } : TaskProps, thunkApi) => {
+async ({title, description, duration, shortDescription, status, dueDate, id, dateWithTasks, offset} : TaskProps, thunkApi) => {
   try {
     
     const response = await axiosApi.put(`/tasks/${id}`, {
@@ -78,8 +80,8 @@ async ({title, description, duration, shortDescription, status, dueDate, id } : 
     })
     
     thunkApi.dispatch(resetCreateTask())
-    thunkApi.dispatch(fetchTasks())
-    return console.log(response.status);
+    thunkApi.dispatch(getDayTasks({dateWithTasks, offset}))
+    return response.status
     } catch (error) {
       return thunkApi.rejectWithValue(error.response.data)
     }
@@ -87,10 +89,11 @@ async ({title, description, duration, shortDescription, status, dueDate, id } : 
 )
 
 export const deleteTask = createAsyncThunk('tasks/delete',
-  async (id: string, thunkApi) => {
+  async (id : string, thunkApi) => {
     try {
       const response = await axiosApi.delete(`tasks/${id}`)
-      thunkApi.dispatch(fetchTasks())
+      thunkApi.dispatch(getDatesTask())
+      
       return response.data
     } catch (error) {
       return thunkApi.rejectWithValue(error.response.data)
@@ -122,9 +125,7 @@ async ({dateWithTasks, offset}:TheTaskDay, thunkApi) => {
   } catch (error) {
     return thunkApi.rejectWithValue(console.log(error.response.data))
   }
-}
-)
-
+})
 
 const taskSlice = createSlice({
   name: 'task',

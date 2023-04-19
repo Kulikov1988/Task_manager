@@ -11,6 +11,8 @@ import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit';
 import {
   createTask,
   editTask,
+  getDatesTask,
+  getDayTasks,
   resetCreateTask,
   resetEditTask,
 } from '../../../../../slices/tasksReducer';
@@ -48,6 +50,8 @@ interface EditTaskFormProps {
   date?: Date;
   duration?: any;
   dayTask?: Date;
+  offset?: number;
+  dateWithTasks?: string;
 }
 
 function EditTaskForm({
@@ -61,6 +65,8 @@ function EditTaskForm({
   duration,
   status,
   dayTask,
+  dateWithTasks,
+  offset,
 }: EditTaskFormProps) {
   const dispatch = useDispatch<ThunkDispatch<{}, void, AnyAction>>();
 
@@ -79,6 +85,10 @@ function EditTaskForm({
       dispatch(resetEditTask());
     }
   }, [reducerStatus, dispatch]);
+
+  useEffect(() => {
+    dispatch(getDayTasks({ offset, dateWithTasks }));
+  }, [dispatch, title, description, shortDescription, date]);
 
   const handleClick = (
     values: InitialValues,
@@ -142,8 +152,6 @@ function EditTaskForm({
         onSubmit={handleClick}
       >
         {({ submitForm, values, setFieldValue, isValid }) => {
-          console.log(values.date);
-          console.log(initialValues());
           return (
             <Form>
               <Modal
@@ -155,24 +163,32 @@ function EditTaskForm({
                 isDisable={!isValid}
               >
                 <EditFormStyle>
-                  <CustomInput name='title' label='title' placeholder='Title' />
                   <CustomInput
+                    value={values.title}
+                    name='title'
+                    label='title'
+                    placeholder='Title'
+                  />
+                  <CustomInput
+                    value={values.description}
                     name='description'
                     label='descrpition'
                     placeholder='Description'
                   />
                   <CustomInput
+                    value={values.shortDescription}
                     name='shortDescription'
                     label='shortDescription'
                     placeholder='Short Description'
                   />
                   <CustomInput
+                    value={values.duration}
                     name='duration'
                     label='duration'
                     placeholder='Duration'
                     type='number'
                   />
-                  <div>Status of task: {status}</div>
+                  <div>Status of task: {values.status}</div>
                 </EditFormStyle>
                 <Group position='center'>
                   <Button
@@ -198,7 +214,7 @@ function EditTaskForm({
                 <br /> Pick date and time
                 <DateTimePicker
                   dropdownType='modal'
-                  defaultValue={dayTask ? dayTask : new Date()}
+                  defaultValue={dayTask ? dayTask : new Date(date)}
                   placeholder='Pick date and time'
                   maw={400}
                   mx='auto'

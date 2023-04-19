@@ -31,8 +31,8 @@ function Modal({
   onSubmit,
   children,
   headerTitle,
-  headerTitle1,
 }: ModalProps) {
+
   const closeModal = () => {
     setIsOpen(false);
   };

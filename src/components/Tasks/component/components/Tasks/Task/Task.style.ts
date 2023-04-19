@@ -6,7 +6,7 @@ padding: 1rem;
 background-color: aliceblue;
 height: fit-content;
 border-radius: 3%;
-width: 50vw;
+width: 20vw;
 `
 
 export const TaskDiv = styled.div`
@@ -28,7 +28,7 @@ padding-right: 20px;
 `
 export const TaskItem = styled.span`
 color: green;
-width: 70vw;
+width: 60vw;
 
 `
 

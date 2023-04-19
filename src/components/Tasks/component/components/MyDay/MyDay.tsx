@@ -1,17 +1,13 @@
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { ThunkDispatch, AnyAction } from '@reduxjs/toolkit';
 import { getDayTasks } from '../../../../../slices/tasksReducer';
 import TasksDay from '../Tasks/Task/TasksDay';
 import { Formik } from 'formik';
 import { Button } from '@mantine/core';
-import TaskDescription from '../Tasks/TaskDescription/TaskDescription';
-import { AppState } from '../../../../../store';
 
 const MyDay = ({ setDayTask, dayTask }) => {
   const dispatch = useDispatch<ThunkDispatch<void, {}, AnyAction>>();
-  const { tasks } = useSelector((state: AppState) => state.taskReducer);
-
 
   const dayWithTasks = String(dayTask.getDate()).padStart(2, '0');
   const monthWithTasks = String(dayTask.getMonth() + 1).padStart(2, '0');
@@ -43,36 +39,13 @@ const MyDay = ({ setDayTask, dayTask }) => {
           <Button color='indigo' variant={'filled'} onClick={openEditModal}>
             Create a new task
           </Button>
-          {tasks.map(
-        (
-          {
-            title,
-            description,
-            dueDate,
-            id,
-            duration,
-            shortDescription,
-            status,
-          },
-          index
-        ) => (
-          <TaskDescription
-            key={index}
-            title={title}
-            description={description}
-            dueDate={dueDate}
-            id={id}
-            duration={duration}
-            shortDescription={shortDescription}
-            status={status}
-          />
-        )
-      )}
-          {/* <TasksDay
-            dayTask={dayTask}
-            isEditOpen={isEditOpen}
-            setIsEditOpen={setIsEditOpen}
-          /> */}
+       <TasksDay
+          dayTask={dayTask}
+          isEditOpen={isEditOpen}
+          setIsEditOpen={setIsEditOpen}
+          offset={offset}
+          dateWithTasks={dateWithTasks}
+       />
         </>
       </Formik>
     </>

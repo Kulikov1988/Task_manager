@@ -9,7 +9,6 @@ import { TaskProps } from '../../../../../../slices/tasksReducer';
 import MyLogo from '../../../../../../assets/images/delete.png';
 import ReactLogo from '../../../../../../assets/images/edit.png';
 import { ImgDiv } from '../../../../../../sharedStyles/sharedStyles.style';
-import { useNavigate } from 'react-router-dom';
 
 export type InputType = 'title' | 'description';
 
@@ -20,7 +19,11 @@ export interface handleInputChangeProps {
   date: Date;
 }
 
-function TaskDescription({
+interface TaskDescriptionProps extends TaskProps {
+  setTask: React.Dispatch<React.SetStateAction<TaskProps>> 
+}
+
+const TaskDescription = ( {
   title,
   description,
   id,
@@ -28,11 +31,11 @@ function TaskDescription({
   shortDescription,
   duration,
   status,
-}: TaskProps) {
+  setTask
+}: TaskDescriptionProps)  => {
   const dispatch = useDispatch<ThunkDispatch<{}, void, AnyAction>>();
   const [isOpen, setIsOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
-  const navigate = useNavigate();
 
   const openModal = () => {
     setIsOpen(true);
@@ -51,18 +54,23 @@ function TaskDescription({
     setIsOpen(false);
   };
 
-  const fullTaskDescription = () => {
-    // navigate()
-  }
-
   return (
-    <S.TaskDiv >
+    <S.TaskDiv onClick={() => setTask({title,
+      description,
+      id,
+      dueDate,
+      shortDescription,
+      duration,
+      status,})} >
       <S.TaskItem>
-        <S.TaskSpan>
-          <b>Title of Task:</b> {title}
-        </S.TaskSpan>
+        <div>
+          <b>Title of Task:</b>
+          <S.TaskSpan> {title}</S.TaskSpan>
+        </div>
 
-        <div>Short description: {shortDescription}</div>
+        <div>
+          Short description: <S.TaskSpan>{shortDescription}</S.TaskSpan>{' '}
+        </div>
       </S.TaskItem>
       <S.TaskSpan>
         <ImgDiv src={ReactLogo} alt='' onClick={openEditModal} />
